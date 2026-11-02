@@ -2,7 +2,7 @@
 export const CONTACT = {
   phone: '', // e.g. '050-000-0000'
   whatsapp: '', // international format, digits only, e.g. '972500000000'
-  email: '', // e.g. 'info@shuretech.co.il'
+  email: '', // e.g. 'info@tech-shure.co.il'
   location: 'בית שמש, ישראל · שירות בכל הארץ ובחו״ל',
   businessId: '[מס׳ עוסק]',
 };

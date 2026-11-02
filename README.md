@@ -20,8 +20,14 @@ Once `whatsapp` is set, a floating WhatsApp button appears on every page.
 
 ### Contact form
 
-- Set `VITE_FORM_ENDPOINT` (Vercel → Project → Settings → Environment Variables) to any URL that accepts a JSON POST (Formspree, Make, n8n, Zapier webhook…).
-- Without it, submitting the form opens WhatsApp (or email) with the details pre-filled.
+The form posts to `/api/contact`. That Vercel function emails the submission with Resend.
+
+Set these in Vercel → Project → Settings → Environment Variables (do not commit them):
+
+- `RESEND_API_KEY`
+- `CONTACT_TO_EMAIL` — address that receives each lead
+
+The sender is `onboarding@resend.dev` until a domain is verified. Resend’s sandbox only delivers to the account email.
 
 ## Deploy on Vercel
 
@@ -29,4 +35,4 @@ Once `whatsapp` is set, a floating WhatsApp button appears on every page.
 2. Framework preset **Vite** is detected automatically (`vercel.json` is included, with SPA rewrites so `/ivr` etc. work on refresh).
 3. Deploy. Every push to `main` redeploys.
 
-`ShureTech-site.html` is the original static demo, kept for reference.
+`tech-shure-site.html` is the original static demo, kept for reference.

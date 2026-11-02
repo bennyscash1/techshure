@@ -34,7 +34,7 @@ export function Header({ page }: { page: PageKey }) {
       <div className="container header-row">
         <div className="brand">
           <Link to="/" aria-label="Tech-Shure טק-שור – עמוד ראשי">
-            <img src="/logo.png" alt="Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה" className="brand-logo" width={381} height={130} />
+            <img src="/logo.png?v=2" alt="Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה" className="brand-logo" width={381} height={130} />
           </Link>
           <span className="brand-badge">
             <Icon name={badge.icon} size={14} strokeWidth={2.2} />

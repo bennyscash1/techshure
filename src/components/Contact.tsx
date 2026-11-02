@@ -4,8 +4,6 @@ import { Icon } from './Icon';
 
 type Props = { title: string; sub: string; defaultService?: string };
 
-const ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT as string | undefined;
-
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export function Contact({ title, sub, defaultService }: Props) {
@@ -16,31 +14,19 @@ export function Contact({ title, sub, defaultService }: Props) {
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
 
-    if (ENDPOINT) {
-      setStatus('sending');
-      try {
-        const res = await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ ...data, page: window.location.pathname }),
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        setStatus('sent');
-        form.reset();
-      } catch {
-        setStatus('error');
-      }
-      return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ ...data, page: window.location.pathname }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setStatus('sent');
+      form.reset();
+    } catch {
+      setStatus('error');
     }
-
-    // No endpoint configured: hand the details over to WhatsApp or email.
-    const text = `שלום, אשמח לשיחת ייעוץ.\nשם: ${data.name}\nטלפון: ${data.phone}\nמייל: ${data.email}\nתחום: ${data.service}\n${data.message}`;
-    if (CONTACT.whatsapp) {
-      window.open(`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-    } else if (CONTACT.email) {
-      window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent('פנייה מהאתר')}&body=${encodeURIComponent(text)}`;
-    }
-    setStatus('sent');
   }
 
   return (

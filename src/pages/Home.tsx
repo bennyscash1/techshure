@@ -183,23 +183,6 @@ export default function Home() {
         </Reveal>
       </Section>
 
-      <Section>
-        <SectionHead kicker="SELECTED WORK" title="פרויקטים נבחרים" />
-        <div className="grid grid--projects">
-          {[1, 2, 3].map((n) => (
-            <Reveal key={n} delay={(n - 1) * 80}>
-              <article className="card card--project">
-                <div className="project-shot mono">[צילום מסך פרויקט]</div>
-                <div className="project-body">
-                  <h3>[שם הפרויקט {n}]</h3>
-                  <p>[תיאור קצר: האתגר, הפתרון והתוצאה]</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
       <Faq items={FAQ} />
       <Contact title="בואו נדבר על העסק שלכם" sub="Tell us what slows you down – we'll fix it." />
     </>
