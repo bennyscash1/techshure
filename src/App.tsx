@@ -10,10 +10,10 @@ import Automation from './pages/Automation';
 import Ivr from './pages/Ivr';
 
 const TITLES: Record<PageKey, string> = {
-  home: 'ShureTech טק-שור – מערכות טכנולוגיה וייעוץ תוכנה',
-  web: 'אתרים, CRM ומערכות מורכבות | ShureTech טק-שור',
-  automation: 'אוטומציה עסקית ובוטים | ShureTech טק-שור',
-  ivr: 'מרכזייה חכמה IVR + CRM + AI | ShureTech טק-שור',
+  home: 'Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה',
+  web: 'אתרים, CRM ומערכות מורכבות | Tech-Shure טק-שור',
+  automation: 'אוטומציה עסקית ובוטים | Tech-Shure טק-שור',
+  ivr: 'מרכזייה חכמה IVR + CRM + AI | Tech-Shure טק-שור',
 };
 
 function pageFromPath(pathname: string): PageKey {

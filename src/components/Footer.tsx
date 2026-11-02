@@ -9,11 +9,11 @@ export function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <span className="footer-logo">
-              <img src="/logo.png" alt="ShureTech טק-שור" width={381} height={130} loading="lazy" />
+              <img src="/logo.png" alt="Tech-Shure טק-שור" width={381} height={130} loading="lazy" />
             </span>
             <span className="brand-badge brand-badge--dark">
               <Icon name="grid" size={14} strokeWidth={2.2} />
-              <span dir="ltr" className="mono">ShureTech GROUP</span>
+              <span dir="ltr" className="mono">Tech-Shure GROUP</span>
               <span aria-hidden="true" className="brand-sep">|</span>
               <span>Web · Flow · Voice</span>
             </span>

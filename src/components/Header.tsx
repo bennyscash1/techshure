@@ -4,10 +4,10 @@ import { NAV, type PageKey } from '../data/site';
 import { Icon, type IconName } from './Icon';
 
 const BADGES: Record<PageKey, { icon: IconName; tag: string; label: string }> = {
-  home: { icon: 'grid', tag: 'ShureTech GROUP', label: 'Web · Flow · Voice' },
-  web: { icon: 'code', tag: 'ShureTech WEB', label: 'אתרים, CRM ומערכות' },
-  automation: { icon: 'bot', tag: 'ShureTech FLOW', label: 'אוטומציה עסקית' },
-  ivr: { icon: 'phone', tag: 'ShureTech VOICE', label: 'מרכזייה חכמה' },
+  home: { icon: 'grid', tag: 'Tech-Shure GROUP', label: 'Web · Flow · Voice' },
+  web: { icon: 'code', tag: 'Tech-Shure WEB', label: 'אתרים, CRM ומערכות' },
+  automation: { icon: 'bot', tag: 'Tech-Shure FLOW', label: 'אוטומציה עסקית' },
+  ivr: { icon: 'phone', tag: 'Tech-Shure VOICE', label: 'מרכזייה חכמה' },
 };
 
 export function Header({ page }: { page: PageKey }) {
@@ -33,8 +33,8 @@ export function Header({ page }: { page: PageKey }) {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="container header-row">
         <div className="brand">
-          <Link to="/" aria-label="ShureTech טק-שור – עמוד ראשי">
-            <img src="/logo.png" alt="ShureTech טק-שור – מערכות טכנולוגיה וייעוץ תוכנה" className="brand-logo" width={381} height={130} />
+          <Link to="/" aria-label="Tech-Shure טק-שור – עמוד ראשי">
+            <img src="/logo.png" alt="Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה" className="brand-logo" width={381} height={130} />
           </Link>
           <span className="brand-badge">
             <Icon name={badge.icon} size={14} strokeWidth={2.2} />

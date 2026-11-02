@@ -14,7 +14,7 @@ const SERVICES = [
     to: '/ivr',
     hue: 'voice',
     icon: 'phone' as IconName,
-    tag: 'ShureTech VOICE',
+    tag: 'Tech-Shure VOICE',
     title: 'מרכזייה חכמה – IVR',
     text: 'מערכת טלפונית עם AI שמחוברת ל-CRM – לקהל שמעדיף את הטלפון.',
     bullets: ['מענה קולי מבוסס AI', 'הודעות קוליות ותשלומים בטלפון', 'שעות פעילות וחגים אוטומטיים'],
@@ -23,7 +23,7 @@ const SERVICES = [
     to: '/automation',
     hue: 'flow',
     icon: 'bot' as IconName,
-    tag: 'ShureTech FLOW',
+    tag: 'Tech-Shure FLOW',
     title: 'אוטומציה עסקית ובוטים',
     text: 'בוטים ל-WhatsApp ולמייל, וזרימות שמחליפות עבודה ידנית.',
     bullets: ['בוטים ל-WhatsApp Business', 'אוטומציית מיילים', 'סנכרון בין מערכות'],
@@ -32,7 +32,7 @@ const SERVICES = [
     to: '/web',
     hue: 'web',
     icon: 'code' as IconName,
-    tag: 'ShureTech WEB',
+    tag: 'Tech-Shure WEB',
     title: 'אתרים, CRM ומערכות מורכבות',
     text: 'כל עולם האינטרנט – מדף נחיתה ועד מערכת ליבה.',
     bullets: ['מערכות CRM מותאמות', 'אתרים ודפי נחיתה', 'מערכות ופורטלים מורכבים'],
@@ -84,7 +84,7 @@ export default function Home() {
   return (
     <>
       <Hero
-        tag="Tek-Shur · Technology Systems & Software"
+        tag="Tech-Shure · Technology Systems & Software"
         title="טכנולוגיה שעובדת בשבילכם."
         accent="במחיר שלא תמצאו בשוק."
         sub="Small team. Big solutions. Full warranty."
@@ -93,7 +93,7 @@ export default function Home() {
         checks={['10+ שנות ניסיון', 'צוות קטן, מענה רחב', 'העלויות המשתלמות בשוק', 'אחריות מלאה']}
         visual={
           <div className="panel">
-            <span className="mono panel-label" dir="ltr">tek-shur / what we deliver</span>
+            <span className="mono panel-label" dir="ltr">Tech-Shure / what we deliver</span>
             <div className="domain-list">
               {DOMAINS.map((d, i) => (
                 <Link key={d.to} to={d.to} className={`domain domain--${d.hue}`} style={{ animationDelay: `${200 + i * 140}ms` }}>
@@ -128,7 +128,7 @@ export default function Home() {
           kicker="ABOUT US"
           title="מי אנחנו"
           sub="Engineering-grade software, without the agency overhead."
-          lead="טק-שור (Tek-Shur) נוסדה על ידי מפתחים עם ניסיון של מעל עשור בפיתוח תוכנה, מערכות תשלומים, בדיקות אוטומטיות ומערכות IVR. צוות קטן בכוונה: בלי שכבות ניהול ובלי תקורה של חברה גדולה – אתם מדברים ישירות עם מי שבונה, מקבלים תוצאות מהר ומשלמים פחות."
+          lead="טק-שור (Tech-Shure) נוסדה על ידי מפתחים עם ניסיון של מעל עשור בפיתוח תוכנה, מערכות תשלומים, בדיקות אוטומטיות ומערכות IVR. צוות קטן בכוונה: בלי שכבות ניהול ובלי תקורה של חברה גדולה – אתם מדברים ישירות עם מי שבונה, מקבלים תוצאות מהר ומשלמים פחות."
         />
         <Features items={ABOUT} />
       </Section>

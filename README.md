@@ -1,6 +1,6 @@
-# ShureTech טק-שור – אתר
+# Tech-Shure טק-שור – אתר
 
-Landing site for ShureTech (Tek-Shur): React + TypeScript + Vite, RTL Hebrew, responsive for desktop and mobile.
+Landing site for Tech-Shure: React + TypeScript + Vite, RTL Hebrew, responsive for desktop and mobile.
 
 Pages: `/` (home), `/web`, `/automation`, `/ivr`.
 

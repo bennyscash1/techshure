@@ -114,7 +114,7 @@ export default function Ivr() {
       </Section>
 
       <Section>
-        <SectionHead kicker="WHY TEK-SHUR" title="למה לבחור בנו למרכזייה" />
+        <SectionHead kicker="WHY Tech-Shure" title="למה לבחור בנו למרכזייה" />
         <Features items={WHY} />
       </Section>
 
