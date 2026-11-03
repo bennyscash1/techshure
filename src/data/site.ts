@@ -14,7 +14,7 @@ export const NAV: { key: PageKey; path: string; label: string }[] = [
   { key: 'web', path: '/web', label: 'אתרים, CRM ומערכות' },
   { key: 'automation', path: '/automation', label: 'אוטומציה עסקית' },
   { key: 'ivr', path: '/ivr', label: 'מרכזייה חכמה – IVR' },
-  { key: 'consulting', path: '/consulting', label: 'ייעוץ' },
+  { key: 'consulting', path: '/consulting', label: 'ייעוץ ו-QA' },
 ];
 
 export const SERVICE_OPTIONS = [

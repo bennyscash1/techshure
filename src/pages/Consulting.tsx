@@ -54,7 +54,7 @@ export default function Consulting() {
     <>
       <Hero
         tag="Cloud · Scale · Production"
-        title="מאב-טיפוס AI"
+        title="ייעוץ ו-QA"
         accent="לענן שעובד."
         sub="Built fast with AI. Made to survive production."
         lead="הרבה מערכות נבנות היום עם Base44, Claude, Lovable, Cursor וכלים דומים. הן רצות יפה בדמו, ואז מגיעות לענן: הרבה משתמשים, עלויות, אבטחה ועומס. Tech-Shure נכנסת כאן. ייעוץ, או ביצוע, עד שהמערכת יציבה בפרודקשן."

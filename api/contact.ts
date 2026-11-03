@@ -113,11 +113,16 @@ export async function POST(request: Request): Promise<Response> {
       { idempotencyKey },
     );
     if (error) {
-      console.error('Resend rejected the contact email:', error.message);
+      console.error('Resend rejected the contact email', {
+        status: error.statusCode,
+        message: error.message,
+      });
       return json({ ok: false }, 502);
     }
   } catch (err) {
-    console.error('Resend request failed:', err instanceof Error ? err.message : 'unknown');
+    const status = typeof err === 'object' && err !== null && 'statusCode' in err ? err.statusCode : null;
+    const message = err instanceof Error ? err.message : 'unknown';
+    console.error('Resend request failed', { status, message });
     return json({ ok: false }, 502);
   }
 

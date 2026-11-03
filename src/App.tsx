@@ -15,7 +15,7 @@ const TITLES: Record<PageKey, string> = {
   web: 'אתרים, CRM ומערכות מורכבות | Tech-Shure טק-שור',
   automation: 'אוטומציה עסקית ובוטים | Tech-Shure טק-שור',
   ivr: 'מרכזייה חכמה IVR + CRM + AI | Tech-Shure טק-שור',
-  consulting: 'ייעוץ ענן ומעבר לפרודקשן | Tech-Shure טק-שור',
+  consulting: 'ייעוץ ו-QA | Tech-Shure טק-שור',
 };
 
 function pageFromPath(pathname: string): PageKey {

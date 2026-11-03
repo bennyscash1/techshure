@@ -8,7 +8,7 @@ const BADGES: Record<PageKey, { icon: IconName; tag: string; label: string }> = 
   web: { icon: 'code', tag: 'Tech-Shure WEB', label: 'אתרים, CRM ומערכות' },
   automation: { icon: 'bot', tag: 'Tech-Shure FLOW', label: 'אוטומציה עסקית' },
   ivr: { icon: 'phone', tag: 'Tech-Shure VOICE', label: 'מרכזייה חכמה' },
-  consulting: { icon: 'shield', tag: 'Tech-Shure CLOUD', label: 'ייעוץ וביצוע' },
+  consulting: { icon: 'shield', tag: 'Tech-Shure CLOUD', label: 'ייעוץ ו-QA' },
 };
 
 export function Header({ page }: { page: PageKey }) {
