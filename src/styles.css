@@ -39,6 +39,7 @@
 .theme--web { --accent: var(--blue-dark); }
 .theme--automation { --accent: var(--teal); --accent-tint: var(--teal-tint); --accent-ink: #0b6b5e; }
 .theme--ivr { --accent: var(--amber); --accent-tint: var(--amber-tint); --accent-ink: #9a4a0c; }
+.theme--consulting { --accent: var(--blue-dark); }
 
 *,
 *::before,

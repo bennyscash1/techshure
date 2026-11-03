@@ -7,13 +7,14 @@ export const CONTACT = {
   businessId: '[מס׳ עוסק]',
 };
 
-export type PageKey = 'home' | 'web' | 'automation' | 'ivr';
+export type PageKey = 'home' | 'web' | 'automation' | 'ivr' | 'consulting';
 
 export const NAV: { key: PageKey; path: string; label: string }[] = [
   { key: 'home', path: '/', label: 'ראשי' },
   { key: 'web', path: '/web', label: 'אתרים, CRM ומערכות' },
   { key: 'automation', path: '/automation', label: 'אוטומציה עסקית' },
   { key: 'ivr', path: '/ivr', label: 'מרכזייה חכמה – IVR' },
+  { key: 'consulting', path: '/consulting', label: 'ייעוץ' },
 ];
 
 export const SERVICE_OPTIONS = [
@@ -23,5 +24,6 @@ export const SERVICE_OPTIONS = [
   'אתר או דף נחיתה',
   'מערכת / אפליקציה מותאמת',
   'שילוב בינה מלאכותית',
+  'ייעוץ ענן / מעבר לפרודקשן',
   'אחר',
 ];

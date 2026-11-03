@@ -2,7 +2,7 @@
 
 Landing site for Tech-Shure: React + TypeScript + Vite, RTL Hebrew, responsive for desktop and mobile.
 
-Pages: `/` (home), `/web`, `/automation`, `/ivr`.
+Pages: `/` (home), `/web`, `/automation`, `/ivr`, `/consulting`.
 
 ## Local development
 

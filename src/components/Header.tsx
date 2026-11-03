@@ -8,6 +8,7 @@ const BADGES: Record<PageKey, { icon: IconName; tag: string; label: string }> = 
   web: { icon: 'code', tag: 'Tech-Shure WEB', label: 'אתרים, CRM ומערכות' },
   automation: { icon: 'bot', tag: 'Tech-Shure FLOW', label: 'אוטומציה עסקית' },
   ivr: { icon: 'phone', tag: 'Tech-Shure VOICE', label: 'מרכזייה חכמה' },
+  consulting: { icon: 'shield', tag: 'Tech-Shure CLOUD', label: 'ייעוץ וביצוע' },
 };
 
 export function Header({ page }: { page: PageKey }) {
@@ -51,13 +52,13 @@ export function Header({ page }: { page: PageKey }) {
             </NavLink>
           ))}
           <Link to={{ pathname, hash: '#contact' }} className="btn btn-dark nav-cta-mobile">
-            לשיחת ייעוץ
+            צור קשר
           </Link>
         </nav>
 
         <div className="header-actions">
           <Link to={{ pathname, hash: '#contact' }} className="btn btn-dark btn-sm header-cta">
-            לשיחת ייעוץ
+            צור קשר
           </Link>
           <button
             type="button"

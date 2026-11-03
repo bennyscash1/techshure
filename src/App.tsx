@@ -8,17 +8,19 @@ import Home from './pages/Home';
 import Web from './pages/Web';
 import Automation from './pages/Automation';
 import Ivr from './pages/Ivr';
+import Consulting from './pages/Consulting';
 
 const TITLES: Record<PageKey, string> = {
   home: 'Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה',
   web: 'אתרים, CRM ומערכות מורכבות | Tech-Shure טק-שור',
   automation: 'אוטומציה עסקית ובוטים | Tech-Shure טק-שור',
   ivr: 'מרכזייה חכמה IVR + CRM + AI | Tech-Shure טק-שור',
+  consulting: 'ייעוץ ענן ומעבר לפרודקשן | Tech-Shure טק-שור',
 };
 
 function pageFromPath(pathname: string): PageKey {
   const seg = pathname.split('/')[1];
-  return seg === 'web' || seg === 'automation' || seg === 'ivr' ? seg : 'home';
+  return seg === 'web' || seg === 'automation' || seg === 'ivr' || seg === 'consulting' ? seg : 'home';
 }
 
 /** Scrolls to the hash target on navigation, or to the top on a page change. */
@@ -67,6 +69,7 @@ export default function App() {
           <Route path="/web" element={<Web />} />
           <Route path="/automation" element={<Automation />} />
           <Route path="/ivr" element={<Ivr />} />
+          <Route path="/consulting" element={<Consulting />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
