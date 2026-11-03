@@ -1,7 +1,7 @@
-import { randomUUID } from 'node:crypto';
-import { Resend } from 'resend';
+import { createTransport } from 'nodemailer';
 
-const FROM = 'onboarding@resend.dev';
+const SMTP_HOST = 'smtp.gmail.com';
+const SMTP_PORT = 465;
 
 const LIMITS: Record<string, number> = {
   name: 120,
@@ -88,41 +88,46 @@ export async function POST(request: Request): Promise<Response> {
   if ('error' in parsed) return json({ ok: false }, 400);
   const { fields } = parsed;
 
-  const apiKey = process.env.RESEND_API_KEY;
+  const user = process.env.GMAIL_USER?.trim() ?? '';
+  // Google shows App Passwords in groups of four; strip the spaces.
+  const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, '') ?? '';
   const to = process.env.CONTACT_TO_EMAIL?.trim() ?? '';
-  if (!apiKey || !isEmail(to)) {
-    console.error('Contact form is missing RESEND_API_KEY or a valid CONTACT_TO_EMAIL');
+  if (!isEmail(user) || !pass || !isEmail(to)) {
+    console.error(
+      'Contact form is missing GMAIL_USER, GMAIL_APP_PASSWORD or a valid CONTACT_TO_EMAIL',
+    );
     return json({ ok: false }, 500);
   }
 
   const { text, html } = emailBodies(fields);
   const subject = `פנייה מהאתר – ${oneLine(fields.name).slice(0, 80)}`;
-  const idempotencyKey = `contact-form/${randomUUID()}`;
 
   try {
-    const resend = new Resend(apiKey);
-    const { error } = await resend.emails.send(
-      {
-        from: FROM,
-        to: [to],
-        subject,
-        text,
-        html,
-        ...(fields.email ? { replyTo: fields.email } : {}),
-      },
-      { idempotencyKey },
-    );
-    if (error) {
-      console.error('Resend rejected the contact email', {
-        status: error.statusCode,
-        message: error.message,
-      });
-      return json({ ok: false }, 502);
-    }
+    const transporter = createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: true,
+      auth: { user, pass },
+    });
+    // Gmail only sends as the signed-in account, so "from" is GMAIL_USER.
+    await transporter.sendMail({
+      from: { name: 'Tech-Shure – טופס יצירת קשר', address: user },
+      to,
+      subject,
+      text,
+      html,
+      ...(fields.email ? { replyTo: fields.email } : {}),
+    });
   } catch (err) {
-    const status = typeof err === 'object' && err !== null && 'statusCode' in err ? err.statusCode : null;
-    const message = err instanceof Error ? err.message : 'unknown';
-    console.error('Resend request failed', { status, message });
+    const info = (typeof err === 'object' && err !== null ? err : {}) as {
+      code?: unknown;
+      responseCode?: unknown;
+    };
+    console.error('Gmail SMTP rejected the contact email', {
+      code: info.code ?? null,
+      responseCode: info.responseCode ?? null,
+      message: err instanceof Error ? err.message : 'unknown',
+    });
     return json({ ok: false }, 502);
   }
 
