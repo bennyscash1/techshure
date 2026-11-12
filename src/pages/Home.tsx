@@ -5,7 +5,7 @@ import { Icon, type IconName } from '../components/Icon';
 
 const DOMAINS: { to: string; icon: IconName; title: string; text: string; hue: string }[] = [
   { to: '/ivr', icon: 'phone', title: 'מרכזייה חכמה – IVR', text: 'IVR + CRM + AI · נגיש מכל טלפון', hue: 'voice' },
-  { to: '/automation', icon: 'bot', title: 'אוטומציה עסקית ובוטים', text: 'WhatsApp · מייל · סנכרון מערכות', hue: 'flow' },
+  { to: '/automation', icon: 'bot', title: 'אוטומציה וסוכני AI', text: 'סוכני AI למייל ול-WhatsApp · בוטים · סנכרון', hue: 'flow' },
   { to: '/web', icon: 'code', title: 'אתרים, CRM ומערכות מורכבות', text: 'דפי נחיתה · פורטלים · Web Apps', hue: 'web' },
 ];
 
@@ -23,10 +23,10 @@ const SERVICES = [
     to: '/automation',
     hue: 'flow',
     icon: 'bot' as IconName,
-    tag: 'Tech-Shure FLOW',
-    title: 'אוטומציה עסקית ובוטים',
-    text: 'בוטים ל-WhatsApp ולמייל, וזרימות שמחליפות עבודה ידנית.',
-    bullets: ['בוטים ל-WhatsApp Business', 'אוטומציית מיילים', 'סנכרון בין מערכות'],
+    tag: 'Tech-Shure FLOW · AI',
+    title: 'אוטומציה וסוכני AI',
+    text: 'סוכני AI שמחוברים למייל ול-WhatsApp, וזרימות שמחליפות עבודה ידנית.',
+    bullets: ['סוכני AI למייל ול-WhatsApp', 'בוטים ל-WhatsApp Business', 'סנכרון בין מערכות'],
   },
   {
     to: '/web',
@@ -88,7 +88,7 @@ export default function Home() {
         title="טכנולוגיה שעובדת בשבילכם."
         accent="במחיר שלא תמצאו בשוק."
         sub="Small team. Big solutions. Full warranty."
-        lead="טק-שור היא צוות פיתוח קטן ומנוסה שנותן מענה רחב לכל הצרכים הטכנולוגיים של העסק: מרכזיות חכמות, אוטומציה עסקית ובוטים, אתרים, מערכות CRM ומערכות מורכבות – עם העלויות המשתלמות ביותר בשוק ואחריות מלאה."
+        lead="טק-שור היא צוות פיתוח קטן ומנוסה שנותן מענה רחב לכל הצרכים הטכנולוגיים של העסק: מרכזיות חכמות, אוטומציה עסקית וסוכני AI, אתרים, מערכות CRM ומערכות מורכבות – עם העלויות המשתלמות ביותר בשוק ואחריות מלאה."
         cta="קבעו שיחת אפיון חינם"
         checks={['10+ שנות ניסיון', 'צוות קטן, מענה רחב', 'העלויות המשתלמות בשוק', 'אחריות מלאה']}
         visual={
