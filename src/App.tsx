@@ -13,7 +13,7 @@ import Consulting from './pages/Consulting';
 const TITLES: Record<PageKey, string> = {
   home: 'Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה',
   web: 'אתרים, CRM ומערכות מורכבות | Tech-Shure טק-שור',
-  automation: 'אוטומציה עסקית ובוטים | Tech-Shure טק-שור',
+  automation: 'אוטומציה וסוכני AI למייל ול-WhatsApp | Tech-Shure טק-שור',
   ivr: 'מרכזייה חכמה IVR + CRM + AI | Tech-Shure טק-שור',
   consulting: 'ייעוץ ו-QA | Tech-Shure טק-שור',
 };
