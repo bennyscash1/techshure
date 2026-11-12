@@ -56,10 +56,6 @@ export function Contact({ title, sub, defaultService }: Props) {
               <Icon name="mail" size={22} />
               {CONTACT.email ? <a href={`mailto:${CONTACT.email}`} dir="ltr">{CONTACT.email}</a> : <span>[כתובת מייל]</span>}
             </li>
-            <li>
-              <Icon name="route" size={22} />
-              <span>{CONTACT.location}</span>
-            </li>
           </ul>
         </div>
 
