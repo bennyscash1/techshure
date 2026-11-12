@@ -12,7 +12,7 @@ export type PageKey = 'home' | 'web' | 'automation' | 'ivr' | 'consulting';
 export const NAV: { key: PageKey; path: string; label: string }[] = [
   { key: 'home', path: '/', label: 'ראשי' },
   { key: 'web', path: '/web', label: 'אתרים, CRM ומערכות' },
-  { key: 'automation', path: '/automation', label: 'אוטומציה עסקית' },
+  { key: 'automation', path: '/automation', label: 'אוטומציה וסוכני AI' },
   { key: 'ivr', path: '/ivr', label: 'מרכזייה חכמה – IVR' },
   { key: 'consulting', path: '/consulting', label: 'ייעוץ ו-QA' },
 ];
@@ -20,6 +20,7 @@ export const NAV: { key: PageKey; path: string; label: string }[] = [
 export const SERVICE_OPTIONS = [
   'מרכזייה חכמה / IVR + CRM + AI',
   'אוטומציית WhatsApp / מייל / בוטים',
+  'סוכני AI למייל ול-WhatsApp',
   'CRM ואינטגרציות',
   'אתר או דף נחיתה',
   'מערכת / אפליקציה מותאמת',
