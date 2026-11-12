@@ -1,8 +1,8 @@
 // Business details – replace the placeholders before going live.
 export const CONTACT = {
-  phone: '', // e.g. '050-000-0000'
-  whatsapp: '', // international format, digits only, e.g. '972500000000'
-  email: '', // e.g. 'info@tech-shure.co.il'
+  phone: '074-727-0313',
+  whatsapp: '972526565024',
+  email: 'hq360auto@gmail.com',
   location: 'בית שמש, ישראל · שירות בכל הארץ ובחו״ל',
   businessId: '[מס׳ עוסק]',
 };
