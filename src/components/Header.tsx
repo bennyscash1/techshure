@@ -6,7 +6,7 @@ import { Icon, type IconName } from './Icon';
 const BADGES: Record<PageKey, { icon: IconName; tag: string; label: string }> = {
   home: { icon: 'grid', tag: 'Tech-Shure GROUP', label: 'Web · Flow · Voice' },
   web: { icon: 'code', tag: 'Tech-Shure WEB', label: 'אתרים, CRM ומערכות' },
-  automation: { icon: 'bot', tag: 'Tech-Shure FLOW', label: 'אוטומציה עסקית' },
+  automation: { icon: 'bot', tag: 'Tech-Shure FLOW · AI', label: 'אוטומציה וסוכני AI' },
   ivr: { icon: 'phone', tag: 'Tech-Shure VOICE', label: 'מרכזייה חכמה' },
   consulting: { icon: 'shield', tag: 'Tech-Shure CLOUD', label: 'ייעוץ ו-QA' },
 };
