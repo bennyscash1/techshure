@@ -56,6 +56,14 @@ export function Contact({ title, sub, defaultService }: Props) {
               <Icon name="mail" size={22} />
               {CONTACT.email ? <a href={`mailto:${CONTACT.email}`} dir="ltr">{CONTACT.email}</a> : <span>[כתובת מייל]</span>}
             </li>
+            <li>
+              <Icon name="pin" size={22} />
+              <a href={CONTACT.mapsUrl} target="_blank" rel="noopener noreferrer">{CONTACT.address}</a>
+            </li>
+            <li>
+              <Icon name="clock" size={22} />
+              <span>{CONTACT.hours}</span>
+            </li>
           </ul>
         </div>
 

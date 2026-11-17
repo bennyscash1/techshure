@@ -136,6 +136,18 @@ const PATHS = {
   close: <path d="M18 6 6 18M6 6l12 12" />,
   check: <path d="M20 6 9 17l-5-5" />,
   signal: <path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 4v16" />,
+  pin: (
+    <>
+      <path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof PATHS;
