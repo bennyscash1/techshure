@@ -4,6 +4,9 @@ export const CONTACT = {
   whatsapp: '972526565024',
   email: 'info@tech-shure.dev',
   location: 'בית שמש, ישראל · שירות בכל הארץ ובחו״ל',
+  address: 'מגדל הכשרת היישוב, ז׳בוטינסקי 9, בני ברק',
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('ז׳בוטינסקי 9 בני ברק מגדל הכשרת היישוב'),
+  hours: 'שעות פעילות: 9:00 עד 17:00',
   businessId: '[מס׳ עוסק]',
 };
 
