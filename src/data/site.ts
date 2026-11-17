@@ -2,7 +2,7 @@
 export const CONTACT = {
   phone: '074-727-0313',
   whatsapp: '972526565024',
-  email: 'hq360auto@gmail.com',
+  email: 'info@tech-shure.dev',
   location: 'בית שמש, ישראל · שירות בכל הארץ ובחו״ל',
   businessId: '[מס׳ עוסק]',
 };
