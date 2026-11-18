@@ -9,7 +9,7 @@ export function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <Brand />
-            <p>מעטפת כלים שלמה לעסק קטן ובינוני. מקום אחד, מנוי חודשי, שקט מלא.</p>
+            <p>מערכות מלאות ומורכבות לניהול העסק, לכל עסק ובכל גודל. מקום אחד, מנוי חודשי, שקט מלא.</p>
           </div>
           <nav aria-label="ניווט תחתון" className="footer-nav">
             {NAV.map((item) => (

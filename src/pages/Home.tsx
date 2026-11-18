@@ -32,7 +32,7 @@ export default function Home() {
               <SplitWords text="על בטוח." start={7} className="hl" />
             </h1>
             <p className="hero-lead">
-              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, CRM ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
+              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
             </p>
             <div className="hero-actions">
               <Link to={{ hash: '#contact' }} className="btn btn-accent btn-lg">
@@ -50,7 +50,7 @@ export default function Home() {
             <img src={emblem} alt="" width={360} height={360} />
             <span className="chip chip--a"><Icon name="phone" size={18} /> מענה טלפוני</span>
             <span className="chip chip--b"><Icon name="chat" size={18} /> וואטסאפ</span>
-            <span className="chip chip--c"><Icon name="db" size={18} /> CRM</span>
+            <span className="chip chip--c"><Icon name="db" size={18} /> CRM / ERP</span>
             <span className="chip chip--d"><Icon name="layout" size={18} /> דף נחיתה</span>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default function Home() {
             <span className="card-icon card-icon--gold"><Icon name="bolt" size={24} /></span>
             <h2>למה זה מהיר וזול?</h2>
             <p>
-              הבינה המלאכותית שינתה את כללי המשחק. אנחנו צוות קטן שעובד עם כלי ה-AI החכמים ביותר בשוק, ולכן בונים מהר ובעלות נמוכה.
+              הבינה המלאכותית שינתה את כללי המשחק. אנחנו צוות מקצועי שעובד עם כלי ה-AI החכמים ביותר בשוק, ולכן בונים מערכות מלאות ומורכבות, מהר ובעלות נמוכה.
             </p>
             <p>זו הדרך החדשנית ביותר לבנות תוכנה בעידן ה-AI: אתה משלם פחות, ואנחנו נשארים כאן לטווח ארוך.</p>
           </article>
@@ -126,7 +126,7 @@ export default function Home() {
           <span className="kicker">פיתוח בהתאמה אישית</span>
           <h2>כל מערכת. כל פלטפורמה. בנויה בשבילך.</h2>
           <p className="lead">
-            אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, CRM, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.
+            אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, מערכות CRM / ERP לניהול העסק, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.
           </p>
           <div className="custom-links">
             <Link to="/solutions" className="btn btn-primary">לפתרונות התוכנה <Icon name="arrow" size={18} /></Link>

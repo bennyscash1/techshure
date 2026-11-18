@@ -12,12 +12,12 @@ export default function Solutions() {
       <section className="page-hero page-hero--solutions">
         <div className="container container--narrow">
           <span className="kicker">פתרונות תוכנה</span>
-          <h1 aria-label="ארבעה כלים שעושים לעסק סדר">
-            <SplitWords text="ארבעה כלים שעושים לעסק" />{' '}
+          <h1 aria-label="מערכות מלאות שעושות לעסק סדר">
+            <SplitWords text="מערכות מלאות שעושות לעסק" />{' '}
             <SplitWords text="סדר" start={4} className="hl" />
           </h1>
           <p className="hero-lead">
-            כל כלי נבנה אישית לעסק שלך, מתוחזק על ידינו, ומשולם במנוי חודשי קבוע. בוחרים אחד, או מחברים כמה למעטפת אחת.
+            כל מערכת נבנית אישית לעסק שלך, מלאה ומקצועית, בהיקף שמתאים לעסק ולתקציב. מתוחזקת על ידינו, ובמנוי חודשי קבוע. בוחרים מערכת אחת, או מחברים כמה למעטפת אחת.
           </p>
           <p className="callout">
             <Icon name="gear" size={20} />

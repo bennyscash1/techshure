@@ -26,7 +26,7 @@ export const NAV: { key: PageKey; path: string; label: string }[] = [
 export const SERVICE_OPTIONS = [
   'מענה טלפוני חכם',
   'בוט וואטסאפ',
-  'CRM בסיסי + סליקה',
+  'מערכת CRM / ERP לניהול העסק + סליקה',
   'דף נחיתה',
   'אוטומציית מיילים',
   'חבילה של כמה מוצרים',
