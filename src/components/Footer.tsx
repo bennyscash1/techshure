@@ -22,7 +22,7 @@ export function Footer() {
           </nav>
           <div className="footer-contact">
             <a href={`mailto:${CONTACT.email}`} dir="ltr">{CONTACT.email}</a>
-            <a href={`tel:${CONTACT.phone}`} dir="ltr">{CONTACT.phone}</a>
+            <a href={`tel:${CONTACT.phoneTel}`} dir="ltr">{CONTACT.phone}</a>
             <span>{CONTACT.hours}</span>
           </div>
         </div>

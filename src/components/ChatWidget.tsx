@@ -169,7 +169,7 @@ export function ChatWidget() {
       <a className="btn btn-accent btn-sm" href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noopener noreferrer">
         <Icon name="chat" size={16} /> וואטסאפ
       </a>
-      <a className="btn btn-ghost btn-sm" href={`tel:${CONTACT.phone.replace(/\D/g, '')}`}>
+      <a className="btn btn-ghost btn-sm" href={`tel:${CONTACT.phoneTel}`}>
         <Icon name="phone" size={16} /> <span dir="ltr">{CONTACT.phone}</span>
       </a>
       <Link className="btn btn-ghost btn-sm" to={{ pathname, hash: '#contact' }} onClick={() => setOpen(false)}>

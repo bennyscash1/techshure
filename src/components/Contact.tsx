@@ -49,7 +49,7 @@ export function Contact({
             </li>
             <li>
               <Icon name="phone" size={22} />
-              <a href={`tel:${CONTACT.phone}`} dir="ltr">{CONTACT.phone}</a>
+              <a href={`tel:${CONTACT.phoneTel}`} dir="ltr">{CONTACT.phone}</a>
             </li>
             <li>
               <Icon name="chat" size={22} />

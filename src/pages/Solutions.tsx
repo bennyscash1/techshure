@@ -93,7 +93,7 @@ export default function Solutions() {
                   לתיאום שיחת אפיון <Icon name="arrow" size={18} />
                 </a>
                 {CONTACT.phone && (
-                  <a href={`tel:${CONTACT.phone.replace(/\D/g, '')}`} className="text-link" dir="ltr">
+                  <a href={`tel:${CONTACT.phoneTel}`} className="text-link" dir="ltr">
                     {CONTACT.phone}
                   </a>
                 )}

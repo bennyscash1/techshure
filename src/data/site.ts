@@ -1,6 +1,7 @@
 // Business details. Keep in sync with rebrand/business-model.md.
 export const CONTACT = {
-  phone: '074-727-0313',
+  phone: '074-7054942',
+  phoneTel: '+972747054942',
   whatsapp: '972526565024',
   email: 'info@tech-shure.dev',
   address: 'מגדל הכשרת היישוב, ז׳בוטינסקי 9, בני ברק',
