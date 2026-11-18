@@ -1,190 +1,161 @@
 import { Link } from 'react-router-dom';
+import emblem from '../assets/emblem.webp';
+import hezki from '../assets/hezki.webp';
 import { Contact } from '../components/Contact';
-import { Faq, Features, Hero, Reveal, Section, SectionHead } from '../components/Blocks';
+import { SectionHead } from '../components/Blocks';
 import { Icon, type IconName } from '../components/Icon';
+import { CountUp, SplitWords, useParallax } from '../components/Motion';
 
-const DOMAINS: { to: string; icon: IconName; title: string; text: string; hue: string }[] = [
-  { to: '/ivr', icon: 'phone', title: 'מרכזייה חכמה – IVR', text: 'IVR + CRM + AI · נגיש מכל טלפון', hue: 'voice' },
-  { to: '/automation', icon: 'bot', title: 'אוטומציה וסוכני AI', text: 'סוכני AI למייל ול-WhatsApp · בוטים · סנכרון', hue: 'flow' },
-  { to: '/web', icon: 'code', title: 'אתרים, CRM ומערכות מורכבות', text: 'דפי נחיתה · פורטלים · Web Apps', hue: 'web' },
+const PAINS: { icon: IconName; who: string; text: string }[] = [
+  { icon: 'chat', who: 'ספק לוואטסאפ', text: 'עוד חשבונית בכל חודש' },
+  { icon: 'layout', who: 'ספק לאתר', text: 'עוד מספר שצריך לרדוף אחריו' },
+  { icon: 'phone', who: 'ספק לטלפון', text: 'עוד מערכת שלא מדברת עם האחרות' },
 ];
 
-const SERVICES = [
-  {
-    to: '/ivr',
-    hue: 'voice',
-    icon: 'phone' as IconName,
-    tag: 'Tech-Shure VOICE',
-    title: 'מרכזייה חכמה – IVR',
-    text: 'מערכת טלפונית עם AI שמחוברת ל-CRM – לקהל שמעדיף את הטלפון.',
-    bullets: ['מענה קולי מבוסס AI', 'הודעות קוליות ותשלומים בטלפון', 'שעות פעילות וחגים אוטומטיים'],
-  },
-  {
-    to: '/automation',
-    hue: 'flow',
-    icon: 'bot' as IconName,
-    tag: 'Tech-Shure FLOW · AI',
-    title: 'אוטומציה וסוכני AI',
-    text: 'סוכני AI שמחוברים למייל ול-WhatsApp, וזרימות שמחליפות עבודה ידנית.',
-    bullets: ['סוכני AI למייל ול-WhatsApp', 'בוטים ל-WhatsApp Business', 'סנכרון בין מערכות'],
-  },
-  {
-    to: '/web',
-    hue: 'web',
-    icon: 'code' as IconName,
-    tag: 'Tech-Shure WEB',
-    title: 'אתרים, CRM ומערכות מורכבות',
-    text: 'כל עולם האינטרנט – מדף נחיתה ועד מערכת ליבה.',
-    bullets: ['מערכות CRM מותאמות', 'אתרים ודפי נחיתה', 'מערכות ופורטלים מורכבים'],
-  },
-];
-
-const STATS = [
-  { big: '+10', text: 'שנות ניסיון רב בפיתוח, אוטומציה וטלפוניה' },
-  { big: 'צוות קטן', text: 'מענה רחב – מכתובת אחת לכל הצרכים הטכנולוגיים' },
-  { big: 'המחיר המשתלם', text: 'העלויות המשתלמות ביותר שתמצאו בשוק' },
-  { big: 'אחריות מלאה', text: 'על כל מערכת שאנחנו בונים – גם אחרי ההשקה' },
-];
-
-const ABOUT = [
-  { title: 'צוות קטן, מענה רחב', text: 'כתובת אחת לטלפוניה, AI, אוטומציה, אתרים ומערכות – בלי לרדוף אחרי כמה ספקים.' },
-  { title: 'העלויות המשתלמות ביותר', text: 'בלי תקורה של חברה גדולה – הצעות מחיר הוגנות ושקופות, מהמשתלמות שתמצאו בשוק.' },
-  { title: 'ניסיון רב', text: 'מעל עשור בפיתוח מערכות קריטיות, כולל מערכות תשלומים ומרכזיות טלפוניות.' },
-  { title: 'אחריות מלאה', text: 'אחריות מלאה על כל מערכת שאנחנו מספקים, עם תמיכה ותחזוקה גם אחרי ההשקה.' },
-  { title: 'איכות שנבדקת', text: 'רקע עמוק בבדיקות אוטומטיות – כל תהליך נבדק לפני שהוא פוגש לקוחות.' },
-  { title: 'נגיש לכל קהל', text: 'מערכות שעובדות גם עבור מי שלא מחובר לאינטרנט – מכל טלפון, בשפה פשוטה וברורה.' },
-];
-
-const STEPS = [
-  { title: 'אפיון', text: 'שיחה קצרה להבנת העסק והתהליכים, ומיפוי מה כדאי לבנות קודם.' },
-  { title: 'הצעה שקופה', text: 'מסמך אפיון, לוח זמנים והצעת מחיר ברורה ומשתלמת – בלי הפתעות.' },
-  { title: 'פיתוח ובדיקות', text: 'פיתוח באבני דרך ובדיקות אוטומטיות לפני שזה פוגש לקוחות.' },
-  { title: 'השקה ואחריות', text: 'עלייה לאוויר, הדרכה, ואחריות מלאה עם תמיכה שוטפת.' },
-];
-
-const INDUSTRIES = [
-  'קהילות וארגונים',
-  'מוסדות חינוך',
-  'גמ״חים ועמותות',
-  'עורכי דין ונדל״ן',
-  'קמעונאות ורשתות',
-  'פיננסים ותשלומים',
-  'קליניקות ונותני שירות',
-  'סטארטאפים וצוותי פיתוח',
-];
-
-const FAQ = [
-  { q: 'כמה זה עולה?', a: 'לאחר שיחת האפיון מקבלים הצעת מחיר מפורטת ושקופה. כצוות קטן בלי תקורה, העלויות שלנו הן מהמשתלמות בשוק.' },
-  { q: 'יש אחריות?', a: 'כן – אחריות מלאה על כל מה שאנחנו בונים, כולל תיקון תקלות ותמיכה לאחר ההשקה.' },
-  { q: 'צוות קטן יכול להתמודד עם פרויקט גדול?', a: 'כן. אנחנו בונים באבני דרך, עם ארכיטקטורה מסודרת ובדיקות אוטומטיות – וכשצריך, מצרפים מומחים נוספים.' },
-  { q: 'Do you work with clients outside Israel?', a: 'Yes. We work in English and Hebrew, remotely, with businesses in Israel and abroad.' },
+const PROMISE: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'users', title: 'כתובת אחת', text: 'יש שאלה, תקלה או שינוי? פונים אלינו. לא מחפשים מי אחראי על מה.' },
+  { icon: 'calendar', title: 'מנוי חודשי קבוע', text: 'הקמה פעם אחת, ואחר כך תשלום חודשי ידוע מראש. בלי הפתעות.' },
+  { icon: 'shield', title: 'שקט מלא', text: 'תפעול, תקלות ותחזוקה עלינו. אתה מתעסק בעסק שלך.' },
 ];
 
 export default function Home() {
+  const art = useParallax<HTMLDivElement>();
   return (
     <>
-      <Hero
-        tag="Tech-Shure · Technology Systems & Software"
-        title="טכנולוגיה שעובדת בשבילכם."
-        accent="במחיר שלא תמצאו בשוק."
-        sub="Small team. Big solutions. Full warranty."
-        lead="טק-שור היא צוות פיתוח קטן ומנוסה שנותן מענה רחב לכל הצרכים הטכנולוגיים של העסק: מרכזיות חכמות, אוטומציה עסקית וסוכני AI, אתרים, מערכות CRM ומערכות מורכבות – עם העלויות המשתלמות ביותר בשוק ואחריות מלאה."
-        cta="קבעו שיחת אפיון חינם"
-        checks={['10+ שנות ניסיון', 'צוות קטן, מענה רחב', 'העלויות המשתלמות בשוק', 'אחריות מלאה']}
-        visual={
-          <div className="panel">
-            <span className="mono panel-label" dir="ltr">Tech-Shure / what we deliver</span>
-            <div className="domain-list">
-              {DOMAINS.map((d, i) => (
-                <Link key={d.to} to={d.to} className={`domain domain--${d.hue}`} style={{ animationDelay: `${200 + i * 140}ms` }}>
-                  <span className="icon-box icon-box--solid">
-                    <Icon name={d.icon} size={22} />
-                  </span>
-                  <span className="domain-copy">
-                    <span className="domain-title">{d.title}</span>
-                    <span className="domain-text">{d.text}</span>
-                  </span>
-                  <Icon name="arrow" size={18} className="domain-arrow" />
-                </Link>
-              ))}
+      {/* 1. Hero */}
+      <section className="hero">
+        <div className="hero-mesh" aria-hidden="true"><span /><span /><span /></div>
+        <div className="container hero-grid">
+          <div className="hero-copy">
+            <h1 className="split-title" aria-label="כל הטכנולוגיה של העסק, במקום אחד. על בטוח.">
+              <SplitWords text="כל הטכנולוגיה של העסק, במקום אחד." />{' '}
+              <SplitWords text="על בטוח." start={7} className="hl" />
+            </h1>
+            <p className="hero-lead">
+              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, CRM ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
+            </p>
+            <div className="hero-actions">
+              <Link to={{ hash: '#contact' }} className="btn btn-accent btn-lg">
+                בואו נדבר
+                <Icon name="arrow" size={20} />
+              </Link>
+              <Link to="/solutions" className="btn btn-ghost btn-lg">פתרונות ומחירים</Link>
             </div>
           </div>
-        }
-      />
-
-      <section className="stats">
-        <div className="container stats-grid">
-          {STATS.map((s) => (
-            <div key={s.big} className="stat">
-              <div className="stat-big">{s.big}</div>
-              <div className="stat-text">{s.text}</div>
-            </div>
-          ))}
+          <div className="hero-art" aria-hidden="true" ref={art}>
+            <span className="hero-aura" />
+            <span className="orbit orbit--1"><i className="orbit-dot" /></span>
+            <span className="orbit orbit--2"><i className="orbit-dot orbit-dot--gold" /></span>
+            <span className="orbit orbit--3" />
+            <img src={emblem} alt="" width={360} height={360} />
+            <span className="chip chip--a"><Icon name="phone" size={18} /> מענה טלפוני</span>
+            <span className="chip chip--b"><Icon name="chat" size={18} /> וואטסאפ</span>
+            <span className="chip chip--c"><Icon name="db" size={18} /> CRM</span>
+            <span className="chip chip--d"><Icon name="layout" size={18} /> דף נחיתה</span>
+          </div>
         </div>
       </section>
 
-      <Section id="about">
-        <SectionHead
-          kicker="ABOUT US"
-          title="מי אנחנו"
-          sub="Engineering-grade software, without the agency overhead."
-          lead="טק-שור (Tech-Shure) נוסדה על ידי מפתחים עם ניסיון של מעל עשור בפיתוח תוכנה, מערכות תשלומים, בדיקות אוטומטיות ומערכות IVR. צוות קטן בכוונה: בלי שכבות ניהול ובלי תקורה של חברה גדולה – אתם מדברים ישירות עם מי שבונה, מקבלים תוצאות מהר ומשלמים פחות."
-        />
-        <Features items={ABOUT} />
-      </Section>
-
-      <Section id="services" tone="white">
-        <SectionHead kicker="WHAT WE DO" title="שלושה תחומים. צוות אחד." lead="בחרו את התחום שמעניין אתכם – בכל עמוד תמצאו פירוט מלא, דוגמאות ושאלות נפוצות." />
-        <div className="grid grid--cards">
-          {SERVICES.map((s, i) => (
-            <Reveal key={s.to} delay={i * 90}>
-              <Link to={s.to} className={`card card--domain hue--${s.hue}`}>
-                <span className="icon-box icon-box--hue">
-                  <Icon name={s.icon} size={28} />
-                </span>
-                <span className="mono card-tag" dir="ltr">{s.tag}</span>
-                <span className="card-title">{s.title}</span>
-                <span className="card-text">{s.text}</span>
-                <ul className="bullets">
-                  {s.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-                <span className="more">
-                  לפרטים נוספים <Icon name="arrow" size={18} />
-                </span>
-              </Link>
-            </Reveal>
-          ))}
+      {/* 2. The pain */}
+      <section className="section">
+        <div className="container">
+          <SectionHead kicker="מכירים את זה?" title="ספק לכל דבר. בלאגן בכל מקום.">
+            המערכות שהיו אמורות לעשות סדר, עושות בלאגן. כל אחד גובה בנפרד, ואף אחד לא רואה את התמונה המלאה.
+          </SectionHead>
+          <ul className="pain-grid">
+            {PAINS.map((p) => (
+              <li key={p.who} className="pain">
+                <span className="pain-icon"><Icon name={p.icon} size={24} /></span>
+                <h3>{p.who}</h3>
+                <p>{p.text}</p>
+                <span className="pain-bill">חשבון נפרד</span>
+              </li>
+            ))}
+          </ul>
         </div>
-      </Section>
+      </section>
 
-      <Section id="process">
-        <SectionHead kicker="HOW WE WORK" title="מהרעיון למערכת עובדת – בארבעה שלבים" />
-        <ol className="grid grid--steps">
-          {STEPS.map((s, i) => (
-            <li key={s.title}>
-              <Reveal delay={i * 90} className="step">
-                <span className="step-num mono">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-      </Section>
+      {/* 3. The solution */}
+      <section className="section section--sand">
+        <div className="container">
+          <SectionHead kicker="הפתרון" title="מקום אחד שתופס הכל">
+            Tech-shure בונה, מחברת ומתחזקת את כל הכלים של העסק. מנוי חודשי אחד, אחריות אחת.
+          </SectionHead>
+          <ul className="promise-grid">
+            {PROMISE.map((p) => (
+              <li key={p.title} className="card">
+                <span className="card-icon"><Icon name={p.icon} size={24} /></span>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="big-quote">"<CountUp value={250} /> ₪ בחודש, ויש לך מערכת שמכסה אותך מכל הכיוונים."</p>
+        </div>
+      </section>
 
-      <Section tone="dark">
-        <SectionHead kicker="INDUSTRIES" title="עובדים עם עסקים ומוסדות מכל התחומים" />
-        <Reveal className="chips">
-          {INDUSTRIES.map((x) => (
-            <span key={x} className="chip chip--dark">{x}</span>
-          ))}
-        </Reveal>
-      </Section>
+      {/* 4 + 5. Why fast and cheap, built for you */}
+      <section className="section">
+        <div className="container split">
+          <article className="feature">
+            <span className="card-icon card-icon--gold"><Icon name="bolt" size={24} /></span>
+            <h2>למה זה מהיר וזול?</h2>
+            <p>
+              הבינה המלאכותית שינתה את כללי המשחק. אנחנו צוות קטן שעובד עם כלי ה-AI החכמים ביותר בשוק, ולכן בונים מהר ובעלות נמוכה.
+            </p>
+            <p>זו הדרך החדשנית ביותר לבנות תוכנה בעידן ה-AI: אתה משלם פחות, ואנחנו נשארים כאן לטווח ארוך.</p>
+          </article>
+          <article className="feature">
+            <span className="card-icon"><Icon name="lock" size={24} /></span>
+            <h2>נבנה אישית בשבילך</h2>
+            <p>
+              לא תבנית גנרית. קוד שנכתב במיוחד לעסק שלך, לפי איך שאתה עובד, ורץ על שרת מאובטח.
+            </p>
+            <ul className="ticks">
+              <li><Icon name="check" size={18} strokeWidth={3} /> קוד מותאם לעסק שלך</li>
+              <li><Icon name="check" size={18} strokeWidth={3} /> שרת מאובטח</li>
+              <li><Icon name="check" size={18} strokeWidth={3} /> מתחזקים ומשפרים לאורך הדרך</li>
+            </ul>
+          </article>
+        </div>
+      </section>
 
-      <Faq items={FAQ} />
-      <Contact title="בואו נדבר על העסק שלכם" sub="Tell us what slows you down – we'll fix it." />
+      {/* 6. Custom build */}
+      <section className="section section--sand">
+        <div className="container container--narrow custom">
+          <span className="kicker">פיתוח בהתאמה אישית</span>
+          <h2>כל מערכת. כל פלטפורמה. בנויה בשבילך.</h2>
+          <p className="lead">
+            אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, CRM, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.
+          </p>
+          <div className="custom-links">
+            <Link to="/solutions" className="btn btn-primary">לפתרונות התוכנה <Icon name="arrow" size={18} /></Link>
+            <Link to="/modules" className="btn btn-ghost">למודולים ולתנאים</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Refer a friend */}
+      <section className="section">
+        <div className="container">
+          <div className="refer">
+            <img src={hezki} alt="רובוט מנופף לשלום" className="refer-bot" loading="lazy" />
+            <div className="refer-copy">
+              <span className="kicker">חבר מביא חבר</span>
+              <h2>ממליץ עלינו? מקבל מתנה.</h2>
+              <p>אחרי שהחבר שלך חתם על חוזה ושילם הקמה, אתה בוחר אחת:</p>
+              <ul className="refer-gifts">
+                <li><Icon name="layout" size={20} /> דף נחיתה לעסק שלך <small>(אחסון ושימוש עליך)</small></li>
+                <li><Icon name="users" size={20} /> שעת ייעוץ</li>
+                <li><Icon name="coins" size={20} /> זיכוי של 250 ₪</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Contact */}
+      <Contact />
     </>
   );
 }

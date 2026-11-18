@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CONTACT, NAV } from '../data/site';
-import { Icon } from './Icon';
+import { Brand } from './Blocks';
 
 export function Footer() {
   return (
@@ -8,16 +8,8 @@ export function Footer() {
       <div className="container footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <span className="footer-logo">
-              <img src="/logo.png?v=2" alt="Tech-Shure טק-שור" width={381} height={130} loading="lazy" />
-            </span>
-            <span className="brand-badge brand-badge--dark">
-              <Icon name="grid" size={14} strokeWidth={2.2} />
-              <span dir="ltr" className="mono">Tech-Shure GROUP</span>
-              <span aria-hidden="true" className="brand-sep">|</span>
-              <span>Web · Flow · Voice</span>
-            </span>
-            <p>מערכות טכנולוגיה וייעוץ תוכנה · Technology Systems &amp; Software Consulting</p>
+            <Brand />
+            <p>מעטפת כלים שלמה לעסק קטן ובינוני. מקום אחד, מנוי חודשי, שקט מלא.</p>
           </div>
           <nav aria-label="ניווט תחתון" className="footer-nav">
             {NAV.map((item) => (
@@ -25,7 +17,14 @@ export function Footer() {
                 {item.label}
               </Link>
             ))}
+            <Link to="/modules#terms">תנאים מסחריים</Link>
+            <Link to={{ hash: '#contact' }}>צור קשר</Link>
           </nav>
+          <div className="footer-contact">
+            <a href={`mailto:${CONTACT.email}`} dir="ltr">{CONTACT.email}</a>
+            <a href={`tel:${CONTACT.phone}`} dir="ltr">{CONTACT.phone}</a>
+            <span>{CONTACT.hours}</span>
+          </div>
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} טק-שור · שור בנימין חיים · עוסק פטור {CONTACT.businessId}</span>
