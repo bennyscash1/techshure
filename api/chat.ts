@@ -3,7 +3,8 @@
 // GEMINI_MODEL (optional, defaults to DEFAULT_MODEL below),
 // plus GMAIL_USER, GMAIL_APP_PASSWORD and CONTACT_TO_EMAIL for lead emails (same as /api/contact).
 import { SYSTEM_PROMPT } from './_chat-prompt.js';
-import { isEmail, oneLine, rtlBodies, sendToOwner } from './_mail.js';
+import { buildLead, LEAD_LIMITS, looksLikeJson, parseModelOutput, type ChatMessage, type Lead } from './_chat-lead.js';
+import { oneLine, rtlBodies, sendToOwner, type MailResult } from './_mail.js';
 
 // gemini-2.5-flash now returns 404 "no longer available to new users", so default to 3.5 Flash Lite.
 const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
@@ -17,21 +18,19 @@ const MAX_BODY_CHARS = 60_000;
 const RATE_WINDOW_MS = 10 * 60_000;
 const RATE_MAX_REQUESTS = 40;
 
-type Role = 'user' | 'bot';
-type ChatMessage = { role: Role; text: string };
-type Lead = {
-  name: string;
-  phone: string;
-  email: string;
-  need: string;
-  summary: string;
-  // Discovery notes so the rep arrives prepared. Optional: the model fills what came up.
-  businessType: string;
-  size: string;
-  currentTools: string;
-  pains: string;
-  recommended: string;
-};
+// Friendly fixed replies for when the model's reply cannot be recovered. The visitor never sees raw JSON.
+const REPLY_LEAD_THANKS = 'תודה! קיבלתי את הפרטים, נציג מ-Tech-shure יחזור אליך בהקדם.';
+const REPLY_RETRY = 'סליחה, משהו השתבש אצלי. אפשר לכתוב שוב?';
+const REPLY_MAIL_FAILED = 'אופס, לא הצלחתי להעביר את הפרטים כרגע. אפשר להתקשר אלינו או לכתוב בוואטסאפ, ונחזור אליך.';
+
+// Same visitor resending after a lost response: don't email the same phone twice from a warm instance.
+const LEAD_DEDUPE_MS = 30 * 60_000;
+const recentLeads = new Map<string, number>();
+function alreadyEmailed(phone: string): boolean {
+  const now = Date.now();
+  for (const [key, at] of recentLeads) if (now - at > LEAD_DEDUPE_MS) recentLeads.delete(key);
+  return recentLeads.has(phone);
+}
 
 type ChatReply = {
   ok: boolean;
@@ -85,29 +84,36 @@ function readMessages(body: unknown): { messages: ChatMessage[]; leadSent: boole
   return { messages, leadSent: record.leadSent === true };
 }
 
+const short = (description: string, max: number) => ({ type: 'STRING', description: `${description} Max ${max} chars.` });
+
+// reply comes first so a cut-off answer still carries it; the long summary comes last.
+const LEAD_ORDER = ['name', 'phone', 'email', 'need', 'businessType', 'size', 'currentTools', 'pains', 'recommended', 'summary'];
 const RESPONSE_SCHEMA = {
   type: 'OBJECT',
   properties: {
-    reply: { type: 'STRING' },
+    reply: short('Text shown to the visitor, 2 to 4 short sentences.', 700),
     lead: {
       type: 'OBJECT',
       nullable: true,
+      description: 'Only when the visitor wrote a name and a phone number. Otherwise null.',
       properties: {
-        name: { type: 'STRING' },
-        phone: { type: 'STRING' },
-        email: { type: 'STRING' },
-        need: { type: 'STRING' },
-        businessType: { type: 'STRING' },
-        size: { type: 'STRING' },
-        currentTools: { type: 'STRING' },
-        pains: { type: 'STRING' },
-        recommended: { type: 'STRING' },
-        summary: { type: 'STRING' },
+        name: short('Visitor name as written.', LEAD_LIMITS.name),
+        phone: short('Phone digits as written, 9 to 10 digits.', LEAD_LIMITS.phone),
+        email: short('Email or empty string.', LEAD_LIMITS.email),
+        need: short('The need in one line.', LEAD_LIMITS.need),
+        businessType: short('Business type, or לא צוין.', LEAD_LIMITS.businessType),
+        size: short('Size: branches or employees, or לא צוין. A few words only.', LEAD_LIMITS.size),
+        currentTools: short('Tools used today, or לא צוין.', LEAD_LIMITS.currentTools),
+        pains: short('Pains that came up.', LEAD_LIMITS.pains),
+        recommended: short('Products recommended with launch prices.', LEAD_LIMITS.recommended),
+        summary: short('Summary for the rep, 3 to 5 sentences.', LEAD_LIMITS.summary),
       },
       required: ['name', 'phone', 'need', 'summary'],
+      propertyOrdering: LEAD_ORDER,
     },
   },
   required: ['reply'],
+  propertyOrdering: ['reply', 'lead'],
 };
 
 class GeminiError extends Error {
@@ -149,7 +155,11 @@ function logGeminiFailure(err: unknown): void {
   console.error(`[chat] Gemini HTTP ${err.status}, ${kind}. Model: ${err.model}. Google says: ${err.googleMessage}`);
 }
 
-async function askGemini(key: string, messages: ChatMessage[], leadSent: boolean): Promise<{ reply: string; lead: Lead | null }> {
+async function askGemini(
+  key: string,
+  messages: ChatMessage[],
+  leadSent: boolean,
+): Promise<{ reply: string; lead: Record<string, unknown> | null }> {
   const model = process.env.GEMINI_MODEL?.trim() || DEFAULT_MODEL;
   // Gemini wants the conversation to open with the user and alternate roles, so the site greeting
   // is dropped and back to back messages from the same side (after a failed send) are merged.
@@ -164,8 +174,8 @@ async function askGemini(key: string, messages: ChatMessage[], leadSent: boolean
   const system = leadSent ? `${SYSTEM_PROMPT}\n\nהערה: הפרטים של הפונה כבר הועברו לבעל העסק. אל תמלא lead שוב.` : SYSTEM_PROMPT;
 
   const generationConfig: Record<string, unknown> = {
-    temperature: 0.6,
-    maxOutputTokens: 800,
+    temperature: 0.4,
+    maxOutputTokens: 1024,
     responseMimeType: 'application/json',
     responseSchema: RESPONSE_SCHEMA,
   };
@@ -185,49 +195,26 @@ async function askGemini(key: string, messages: ChatMessage[], leadSent: boolean
   }
 
   const data = (await res.json()) as {
-    candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[];
+    candidates?: { finishReason?: string; content?: { parts?: { text?: string; thought?: boolean }[] } }[];
   };
-  const raw = (data.candidates?.[0]?.content?.parts ?? [])
+  const candidate = data.candidates?.[0];
+  const raw = (candidate?.content?.parts ?? [])
     .filter((p) => !p.thought && typeof p.text === 'string')
     .map((p) => p.text)
     .join('');
 
-  let parsed: { reply?: unknown; lead?: unknown };
-  try {
-    parsed = JSON.parse(raw) as typeof parsed;
-  } catch {
-    // Fall back to plain text if the model ignored the JSON format.
-    return { reply: raw, lead: null };
+  const parsed = parseModelOutput(raw);
+  if (parsed.mode !== 'json' || (candidate?.finishReason && candidate.finishReason !== 'STOP')) {
+    console.warn(
+      `[chat] Model output needed recovery: parse=${parsed.mode}, finishReason=${candidate?.finishReason ?? 'none'}, ` +
+        `length=${raw.length}, reply recovered=${Boolean(parsed.reply)}, lead fields=${parsed.lead ? Object.keys(parsed.lead).length : 0}`,
+    );
   }
-
-  const reply = typeof parsed.reply === 'string' ? parsed.reply : '';
-  return { reply, lead: readLead(parsed.lead) };
-}
-
-function readLead(value: unknown): Lead | null {
-  if (!value || typeof value !== 'object') return null;
-  const v = value as Record<string, unknown>;
-  const str = (k: string, max: number) => (typeof v[k] === 'string' ? oneLine(v[k] as string).slice(0, max) : '');
-  const lead: Lead = {
-    name: str('name', 120),
-    phone: str('phone', 40),
-    email: str('email', 200),
-    need: str('need', 600),
-    summary: typeof v.summary === 'string' ? (v.summary as string).trim().slice(0, 2_000) : '',
-    businessType: str('businessType', 200),
-    size: str('size', 200),
-    currentTools: str('currentTools', 400),
-    pains: str('pains', 600),
-    recommended: str('recommended', 800),
-  };
-  const digits = lead.phone.replace(/\D/g, '');
-  if (!lead.name || digits.length < 9 || digits.length > 15 || !lead.need) return null;
-  if (lead.email && !isEmail(lead.email)) lead.email = '';
-  return lead;
+  return { reply: parsed.reply, lead: parsed.lead };
 }
 
 /** Emails the lead to CONTACT_TO_EMAIL through the same Gmail pipeline as the contact form. */
-async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string): Promise<boolean> {
+async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string): Promise<MailResult> {
   const transcript = messages.map((m) => `${m.role === 'user' ? 'פונה' : 'חזקי'}: ${oneLine(m.text)}`);
   const { text, html } = rtlBodies([
     `שם: ${lead.name}`,
@@ -249,14 +236,13 @@ async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string):
     'השיחה המלאה:',
     ...transcript,
   ]);
-  const result = await sendToOwner({
-    fromName: 'Tech-Shure, צ׳אט באתר',
+  return sendToOwner({
+    fromName: 'Tech-shure, צ׳אט באתר',
     subject: `ליד מהצ׳אט: ${lead.name.slice(0, 80)}`,
     text,
     html,
     replyTo: lead.email || undefined,
   });
-  return result === 'sent';
 }
 
 /*
@@ -305,7 +291,7 @@ export async function POST(request: Request): Promise<Response> {
   const { messages, leadSent } = parsed;
   const page = typeof (body as { page?: unknown }).page === 'string' ? oneLine((body as { page: string }).page).slice(0, 200) : '';
 
-  let answer: { reply: string; lead: Lead | null };
+  let answer: { reply: string; lead: Record<string, unknown> | null };
   try {
     answer = await askGemini(key, messages, leadSent);
   } catch (err) {
@@ -314,15 +300,32 @@ export async function POST(request: Request): Promise<Response> {
     return json({ ok: false, error: 'upstream' }, 502);
   }
 
+  // The lead comes from the model when it is usable, otherwise from the name and phone in the transcript.
+  const built = leadSent ? null : buildLead(answer.lead, messages);
+
+  let reply = answer.reply.trim();
+  if (!reply || looksLikeJson(reply)) reply = built ? REPLY_LEAD_THANKS : REPLY_RETRY;
+
+  // Exactly one email per conversation: the client's leadSent flag, plus a per-instance phone check.
   let sentNow = false;
-  if (answer.lead && !leadSent) {
-    sentNow = await sendLeadEmail(answer.lead, messages, page);
-    // await sendLeadToWhatsApp(answer.lead);
-    if (!sentNow) {
-      answer.reply = `${answer.reply}\n\nאופס, לא הצלחתי להעביר את הפרטים כרגע. אפשר להתקשר אלינו או לכתוב בוואטסאפ, ונחזור אליך.`;
+  if (built) {
+    if (alreadyEmailed(built.lead.phone)) {
+      console.info(`[chat] Lead mail: skipped, already sent for this phone (source: ${built.source})`);
+      sentNow = true;
+    } else {
+      const result = await sendLeadEmail(built.lead, messages, page);
+      // await sendLeadToWhatsApp(built.lead);
+      console.info(`[chat] Lead mail: ${result} (source: ${built.source})`);
+      if (result === 'sent') {
+        recentLeads.set(built.lead.phone, Date.now());
+        sentNow = true;
+      } else {
+        reply = `${reply}\n\n${REPLY_MAIL_FAILED}`;
+      }
     }
   }
 
-  const reply = noDashes(answer.reply) || 'סליחה, לא הבנתי. אפשר לנסח שוב?';
+  reply = noDashes(reply);
+  if (!reply || looksLikeJson(reply)) reply = REPLY_RETRY;
   return json({ ok: true, reply, leadSent: leadSent || sentNow });
 }
