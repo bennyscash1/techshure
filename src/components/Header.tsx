@@ -1,21 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { NAV, type PageKey } from '../data/site';
-import { Icon, type IconName } from './Icon';
+import { NAV } from '../data/site';
+import { Brand } from './Blocks';
+import { Icon } from './Icon';
+import { useScrollProgress } from './Motion';
 
-const BADGES: Record<PageKey, { icon: IconName; tag: string; label: string }> = {
-  home: { icon: 'grid', tag: 'Tech-Shure GROUP', label: 'Web · Flow · Voice' },
-  web: { icon: 'code', tag: 'Tech-Shure WEB', label: 'אתרים, CRM ומערכות' },
-  automation: { icon: 'bot', tag: 'Tech-Shure FLOW · AI', label: 'אוטומציה וסוכני AI' },
-  ivr: { icon: 'phone', tag: 'Tech-Shure VOICE', label: 'מרכזייה חכמה' },
-  consulting: { icon: 'shield', tag: 'Tech-Shure CLOUD', label: 'ייעוץ ו-QA' },
-};
-
-export function Header({ page }: { page: PageKey }) {
+export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
-  const badge = BADGES[page];
+  const progress = useScrollProgress<HTMLSpanElement>();
 
   useEffect(() => setOpen(false), [pathname]);
 
@@ -33,17 +27,9 @@ export function Header({ page }: { page: PageKey }) {
   return (
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="container header-row">
-        <div className="brand">
-          <Link to="/" aria-label="Tech-Shure טק-שור – עמוד ראשי">
-            <img src="/logo.png?v=2" alt="Tech-Shure טק-שור – מערכות טכנולוגיה וייעוץ תוכנה" className="brand-logo" width={381} height={130} />
-          </Link>
-          <span className="brand-badge">
-            <Icon name={badge.icon} size={14} strokeWidth={2.2} />
-            <span dir="ltr" className="mono">{badge.tag}</span>
-            <span aria-hidden="true" className="brand-sep">|</span>
-            <span>{badge.label}</span>
-          </span>
-        </div>
+        <Link to="/" className="brand-link" aria-label="Tech-shure טק-שור, דף הבית">
+          <Brand />
+        </Link>
 
         <nav aria-label="ניווט ראשי" className={`main-nav${open ? ' is-open' : ''}`} id="main-nav">
           {NAV.map((item) => (
@@ -51,13 +37,13 @@ export function Header({ page }: { page: PageKey }) {
               {item.label}
             </NavLink>
           ))}
-          <Link to={{ pathname, hash: '#contact' }} className="btn btn-dark nav-cta-mobile">
+          <Link to={{ pathname, hash: '#contact' }} className="btn btn-primary nav-cta-mobile">
             צור קשר
           </Link>
         </nav>
 
         <div className="header-actions">
-          <Link to={{ pathname, hash: '#contact' }} className="btn btn-dark btn-sm header-cta">
+          <Link to={{ pathname, hash: '#contact' }} className="btn btn-primary btn-sm header-cta">
             צור קשר
           </Link>
           <button
@@ -72,6 +58,7 @@ export function Header({ page }: { page: PageKey }) {
           </button>
         </div>
       </div>
+      <span className="scroll-progress" ref={progress} aria-hidden="true" />
     </header>
   );
 }
