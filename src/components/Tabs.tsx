@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useLang } from '../i18n';
 import { Icon, type IconName } from './Icon';
 
 export type TabDef = { id: string; label: string; icon: IconName; content: ReactNode };
@@ -10,6 +11,7 @@ export type TabDef = { id: string; label: string; icon: IconName; content: React
  * All panels stay in the DOM (hidden), so the scroll reveal can pick up their content.
  */
 export function Tabs({ tabs, label }: { tabs: TabDef[]; label: string }) {
+  const { t: dict } = useLang();
   const [params, setParams] = useSearchParams();
   const requested = params.get('tab');
   const active = tabs.some((t) => t.id === requested) ? (requested as string) : tabs[0].id;
@@ -48,7 +50,7 @@ export function Tabs({ tabs, label }: { tabs: TabDef[]; label: string }) {
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLButtonElement>, i: number) {
-    // In RTL the next tab sits to the left.
+    // In RTL (Hebrew) the next tab sits to the left, in LTR (English) to the right.
     const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
     const forward = rtl ? 'ArrowLeft' : 'ArrowRight';
     const back = rtl ? 'ArrowRight' : 'ArrowLeft';
@@ -105,7 +107,7 @@ export function Tabs({ tabs, label }: { tabs: TabDef[]; label: string }) {
           {i < tabs.length - 1 && (
             <p className="tab-next">
               <button type="button" className="text-link" onClick={() => select(tabs[i + 1].id, true, true)}>
-                הנושא הבא: {tabs[i + 1].label} <Icon name="arrow" size={16} />
+                {dict.blocks.nextTopic} {tabs[i + 1].label} <Icon name="arrow" size={16} />
               </button>
             </p>
           )}

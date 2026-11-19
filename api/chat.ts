@@ -2,9 +2,10 @@
 // Env: GEMINI_API_KEY (required for the chat; any format Google issues, sent in the x-goog-api-key header),
 // GEMINI_MODEL (optional, defaults to DEFAULT_MODEL below),
 // plus GMAIL_USER, GMAIL_APP_PASSWORD and CONTACT_TO_EMAIL for lead emails (same as /api/contact).
-import { SYSTEM_PROMPT } from './_chat-prompt.js';
-import { buildLead, LEAD_LIMITS, looksLikeJson, parseModelOutput, type ChatMessage, type Lead } from './_chat-lead.js';
-import { oneLine, rtlBodies, sendToOwner, type MailResult } from './_mail.js';
+// The site sends lang: "en" from English pages; a missing lang means Hebrew (older clients keep working).
+import { buildSystemPrompt, chatLang, type ChatLang } from './_chat-prompt.js';
+import { buildLead, LEAD_LIMITS, looksLikeJson, NOT_GIVEN_BY_LANG, parseModelOutput, type ChatMessage, type Lead } from './_chat-lead.js';
+import { ltrBodies, oneLine, rtlBodies, sendToOwner, type MailResult } from './_mail.js';
 
 // gemini-2.5-flash now returns 404 "no longer available to new users", so default to 3.5 Flash Lite.
 const DEFAULT_MODEL = 'gemini-3.5-flash-lite';
@@ -19,9 +20,18 @@ const RATE_WINDOW_MS = 10 * 60_000;
 const RATE_MAX_REQUESTS = 40;
 
 // Friendly fixed replies for when the model's reply cannot be recovered. The visitor never sees raw JSON.
-const REPLY_LEAD_THANKS = 'תודה! קיבלתי את הפרטים, נציג מ-Tech-shure יחזור אליך בהקדם.';
-const REPLY_RETRY = 'סליחה, משהו השתבש אצלי. אפשר לכתוב שוב?';
-const REPLY_MAIL_FAILED = 'אופס, לא הצלחתי להעביר את הפרטים כרגע. אפשר להתקשר אלינו או לכתוב בוואטסאפ, ונחזור אליך.';
+const FIXED_REPLIES: Record<ChatLang, { leadThanks: string; retry: string; mailFailed: string }> = {
+  he: {
+    leadThanks: 'תודה! קיבלתי את הפרטים, נציג מ-Tech-shure יחזור אליך בהקדם.',
+    retry: 'סליחה, משהו השתבש אצלי. אפשר לכתוב שוב?',
+    mailFailed: 'אופס, לא הצלחתי להעביר את הפרטים כרגע. אפשר להתקשר אלינו או לכתוב בוואטסאפ, ונחזור אליך.',
+  },
+  en: {
+    leadThanks: 'Thank you! I have your details, and a representative from Tech-shure will get back to you soon.',
+    retry: 'Sorry, something went wrong on my side. Could you write that again?',
+    mailFailed: "Oops, I couldn't pass on your details right now. You can call us or message us on WhatsApp, and we'll get back to you.",
+  },
+};
 
 // Same visitor resending after a lost response: don't email the same phone twice from a warm instance.
 const LEAD_DEDUPE_MS = 30 * 60_000;
@@ -101,32 +111,36 @@ const short = (description: string, max: number) => ({ type: 'STRING', descripti
 
 // reply comes first so a cut-off answer still carries it; the long summary comes last.
 const LEAD_ORDER = ['name', 'phone', 'email', 'need', 'businessType', 'size', 'currentTools', 'pains', 'recommended', 'summary'];
-const RESPONSE_SCHEMA = {
-  type: 'OBJECT',
-  properties: {
-    reply: short('Text shown to the visitor, 2 to 4 short sentences.', 700),
-    lead: {
-      type: 'OBJECT',
-      nullable: true,
-      description: 'Only when the visitor wrote a name and a phone number. Otherwise null.',
-      properties: {
-        name: short('Visitor name as written.', LEAD_LIMITS.name),
-        phone: short('Phone digits as written, 9 to 10 digits.', LEAD_LIMITS.phone),
-        email: short('Email or empty string.', LEAD_LIMITS.email),
-        need: short('The need in one line.', LEAD_LIMITS.need),
-        businessType: short('Business type, or לא צוין.', LEAD_LIMITS.businessType),
-        size: short('Size: branches or employees, or לא צוין. A few words only.', LEAD_LIMITS.size),
-        currentTools: short('Tools used today, or לא צוין.', LEAD_LIMITS.currentTools),
-        pains: short('Pains that came up.', LEAD_LIMITS.pains),
-        recommended: short('Products recommended with launch prices.', LEAD_LIMITS.recommended),
-        summary: short('Summary for the rep, 3 to 5 sentences.', LEAD_LIMITS.summary),
+/** Response schema; the "unknown" word and the recommended hint follow the conversation language. */
+const responseSchema = (lang: ChatLang) => {
+  const none = NOT_GIVEN_BY_LANG[lang];
+  return {
+    type: 'OBJECT',
+    properties: {
+      reply: short('Text shown to the visitor, 2 to 4 short sentences.', 700),
+      lead: {
+        type: 'OBJECT',
+        nullable: true,
+        description: 'Only when the visitor wrote a name and a phone number. Otherwise null.',
+        properties: {
+          name: short('Visitor name as written.', LEAD_LIMITS.name),
+          phone: short('Phone digits as written, 9 to 10 digits.', LEAD_LIMITS.phone),
+          email: short('Email or empty string.', LEAD_LIMITS.email),
+          need: short('The need in one line.', LEAD_LIMITS.need),
+          businessType: short(`Business type, or ${none}.`, LEAD_LIMITS.businessType),
+          size: short(`Size: branches or employees, or ${none}. A few words only.`, LEAD_LIMITS.size),
+          currentTools: short(`Tools used today, or ${none}.`, LEAD_LIMITS.currentTools),
+          pains: short('Pains that came up.', LEAD_LIMITS.pains),
+          recommended: short(lang === 'en' ? 'Products recommended, with any package or add-ons.' : 'Products recommended with launch prices.', LEAD_LIMITS.recommended),
+          summary: short('Summary for the rep, 3 to 5 sentences.', LEAD_LIMITS.summary),
+        },
+        required: ['name', 'phone', 'need', 'summary'],
+        propertyOrdering: LEAD_ORDER,
       },
-      required: ['name', 'phone', 'need', 'summary'],
-      propertyOrdering: LEAD_ORDER,
     },
-  },
-  required: ['reply'],
-  propertyOrdering: ['reply', 'lead'],
+    required: ['reply'],
+    propertyOrdering: ['reply', 'lead'],
+  };
 };
 
 class GeminiError extends Error {
@@ -172,6 +186,7 @@ async function askGemini(
   key: string,
   messages: ChatMessage[],
   leadSent: boolean,
+  lang: ChatLang,
 ): Promise<{ reply: string; lead: Record<string, unknown> | null }> {
   const model = process.env.GEMINI_MODEL?.trim() || DEFAULT_MODEL;
   // Gemini wants the conversation to open with the user and alternate roles, so the site greeting
@@ -184,13 +199,13 @@ async function askGemini(
     if (last?.role === role) last.parts[0].text += `\n${m.text}`;
     else contents.push({ role, parts: [{ text: m.text }] });
   }
-  const system = leadSent ? `${SYSTEM_PROMPT}\n\nהערה: הפרטים של הפונה כבר הועברו לבעל העסק. אל תמלא lead שוב.` : SYSTEM_PROMPT;
+  const system = buildSystemPrompt(lang, leadSent);
 
   const generationConfig: Record<string, unknown> = {
     temperature: 0.4,
     maxOutputTokens: 1024,
     responseMimeType: 'application/json',
-    responseSchema: RESPONSE_SCHEMA,
+    responseSchema: responseSchema(lang),
   };
   // 2.5 Flash models think by default; a short chat reply does not need it.
   if (/2\.5-flash/.test(model)) generationConfig.thinkingConfig = { thinkingBudget: 0 };
@@ -227,7 +242,8 @@ async function askGemini(
 }
 
 /** Emails the lead to CONTACT_TO_EMAIL through the same Gmail pipeline as the contact form. */
-async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string): Promise<MailResult> {
+async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string, lang: ChatLang): Promise<MailResult> {
+  if (lang === 'en') return sendLeadEmailEn(lead, messages, page);
   const transcript = messages.map((m) => `${m.role === 'user' ? 'פונה' : 'חזקי'}: ${oneLine(m.text)}`);
   const { text, html } = rtlBodies([
     `שם: ${lead.name}`,
@@ -235,6 +251,7 @@ async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string):
     `אימייל: ${lead.email || 'לא צוין'}`,
     `צורך: ${lead.need}`,
     `עמוד: ${page || 'לא ידוע'}`,
+    'שפה: עברית',
     '',
     'פרופיל העסק:',
     `סוג העסק: ${lead.businessType || 'לא צוין'}`,
@@ -252,6 +269,40 @@ async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string):
   return sendToOwner({
     fromName: 'Tech-shure, צ׳אט באתר',
     subject: `ליד מהצ׳אט: ${lead.name.slice(0, 80)}`,
+    text,
+    html,
+    replyTo: lead.email || undefined,
+  });
+}
+
+/** The same lead email for a conversation on the English site: English labels, left to right. */
+async function sendLeadEmailEn(lead: Lead, messages: ChatMessage[], page: string): Promise<MailResult> {
+  const none = NOT_GIVEN_BY_LANG.en;
+  const transcript = messages.map((m) => `${m.role === 'user' ? 'Visitor' : 'Hezki'}: ${oneLine(m.text)}`);
+  const { text, html } = ltrBodies([
+    `Name: ${lead.name}`,
+    `Phone: ${lead.phone}`,
+    `Email: ${lead.email || none}`,
+    `Need: ${lead.need}`,
+    `Page: ${page || 'Unknown'}`,
+    'Language: English',
+    '',
+    'Business profile:',
+    `Type of business: ${lead.businessType || none}`,
+    `Size: ${lead.size || none}`,
+    `Tools today: ${lead.currentTools || none}`,
+    `Pains: ${lead.pains || none}`,
+    `Recommendations and ideas: ${lead.recommended || none}`,
+    '',
+    'Conversation summary:',
+    lead.summary || 'No summary',
+    '',
+    'Full conversation:',
+    ...transcript,
+  ].map(brandName));
+  return sendToOwner({
+    fromName: 'Tech-shure, website chat',
+    subject: `Chat lead (English site): ${lead.name.slice(0, 80)}`,
     text,
     html,
     replyTo: lead.email || undefined,
@@ -303,10 +354,12 @@ export async function POST(request: Request): Promise<Response> {
   if ('error' in parsed) return json({ ok: false, error: parsed.error }, parsed.error === 'turn-limit' ? 429 : 400);
   const { messages, leadSent } = parsed;
   const page = typeof (body as { page?: unknown }).page === 'string' ? oneLine((body as { page: string }).page).slice(0, 200) : '';
+  const lang = chatLang((body as { lang?: unknown }).lang);
+  const fixed = FIXED_REPLIES[lang];
 
   let answer: { reply: string; lead: Record<string, unknown> | null };
   try {
-    answer = await askGemini(key, messages, leadSent);
+    answer = await askGemini(key, messages, leadSent, lang);
   } catch (err) {
     logGeminiFailure(err);
     // Model, quota and server errors (404, 429, 5xx) are upstream failures, never reported as a key problem.
@@ -314,10 +367,10 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   // The lead comes from the model when it is usable, otherwise from the name and phone in the transcript.
-  const built = leadSent ? null : buildLead(answer.lead, messages);
+  const built = leadSent ? null : buildLead(answer.lead, messages, lang);
 
   let reply = answer.reply.trim();
-  if (!reply || looksLikeJson(reply)) reply = built ? REPLY_LEAD_THANKS : REPLY_RETRY;
+  if (!reply || looksLikeJson(reply)) reply = built ? fixed.leadThanks : fixed.retry;
 
   // Exactly one email per conversation: the client's leadSent flag, plus a per-instance phone check.
   let sentNow = false;
@@ -326,19 +379,19 @@ export async function POST(request: Request): Promise<Response> {
       console.info(`[chat] Lead mail: skipped, already sent for this phone (source: ${built.source})`);
       sentNow = true;
     } else {
-      const result = await sendLeadEmail(built.lead, messages, page);
+      const result = await sendLeadEmail(built.lead, messages, page, lang);
       // await sendLeadToWhatsApp(built.lead);
       console.info(`[chat] Lead mail: ${result} (source: ${built.source})`);
       if (result === 'sent') {
         recentLeads.set(built.lead.phone, Date.now());
         sentNow = true;
       } else {
-        reply = `${reply}\n\n${REPLY_MAIL_FAILED}`;
+        reply = `${reply}\n\n${fixed.mailFailed}`;
       }
     }
   }
 
   reply = brandName(noDashes(reply));
-  if (!reply || looksLikeJson(reply)) reply = REPLY_RETRY;
+  if (!reply || looksLikeJson(reply)) reply = fixed.retry;
   return json({ ok: true, reply, leadSent: leadSent || sentNow });
 }

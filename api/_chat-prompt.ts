@@ -1,7 +1,15 @@
 // System prompt for Hezki, the website chat bot.
 // Source: rebrand/business-model.md and src/data/site.ts. Update here when prices or terms change.
 // The underscore prefix keeps Vercel from deploying this file as its own function.
-import { BRAND, CONTACT } from '../src/data/site.js';
+import { BRAND, CONTACT, CONTACT_TEXT } from '../src/data/site.js';
+import { SYSTEM_PROMPT_EN } from './_chat-prompt-en.js';
+
+/** Language of the conversation: "en" on English pages, "he" otherwise (a missing lang means Hebrew). */
+export type ChatLang = 'he' | 'en';
+
+export function chatLang(value: unknown): ChatLang {
+  return value === 'en' ? 'en' : 'he';
+}
 
 // The forbidden Hebrew-letter forms of the brand, quoted to the model only so it knows what to avoid.
 // Written as escapes so the forms never appear as text in the source.
@@ -85,8 +93,8 @@ export const SYSTEM_PROMPT = `
 - טלפון: ${CONTACT.phone}
 - וואטסאפ: https://wa.me/${CONTACT.whatsapp}
 - אימייל: ${CONTACT.email}
-- כתובת: ${CONTACT.address}
-- ${CONTACT.hours}. המערכות שלנו, ואתה, זמינים 24/7.
+- כתובת: ${CONTACT_TEXT.he.address}
+- ${CONTACT_TEXT.he.hours}. המערכות שלנו, ואתה, זמינים 24/7.
 - באתר: עמוד "טכנולוגיות לעסק שלך" (/solutions) עם המחירים, ועמוד "מודולים ותנאים" (/modules) עם הגבולות והתנאים.
 - לכל טכנולוגיה יש עמוד מלא משלה, שאפשר לשלוח כקישור: מענה טלפוני חכם (/solutions/phone-answering), בוט וואטסאפ (/solutions/whatsapp-bot), מערכת CRM / ERP לניהול העסק (/solutions/crm-erp), דף נחיתה ואוטומציית מיילים (/solutions/landing-page), מערכת מותאמת אישית (/solutions/custom-system), הטמעת AI בעסק, ייעוץ לעסקים (/solutions/ai-consulting).
 
@@ -150,3 +158,14 @@ export const SYSTEM_PROMPT = `
   - recommended: המוצרים שהמלצת עליהם, כולל חבילה או תוספות ומחירי ההשקה שנאמרו (400).
   - summary: סיכום לנציג, 3 עד 5 משפטים קצרים: מי הפונה, מה העסק, מה מציק לו, אילו רעיונות עלו ומה הצעד הבא (600).
 `.trim();
+
+const LEAD_SENT_NOTE: Record<ChatLang, string> = {
+  he: 'הערה: הפרטים של הפונה כבר הועברו לבעל העסק. אל תמלא lead שוב.',
+  en: "Note: the visitor's details were already sent to the business owner. Do not fill lead again.",
+};
+
+/** The system prompt for the conversation language, with the note that stops a second lead once one was sent. */
+export function buildSystemPrompt(lang: ChatLang, leadSent = false): string {
+  const base = lang === 'en' ? SYSTEM_PROMPT_EN : SYSTEM_PROMPT;
+  return leadSent ? `${base}\n\n${LEAD_SENT_NOTE[lang]}` : base;
+}

@@ -2,6 +2,10 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="utf-8" />
+    <script>
+      // English pages live under /en: set the language and direction before first paint (the app keeps them in sync).
+      if (/^\/en(\/|$)/.test(location.pathname)) { document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr'; }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Tech-shure | טכנולוגיה. על בטוח.</title>
     <meta name="description" content="כל הטכנולוגיה של העסק, במקום אחד: מענה טלפוני חכם, בוט וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. מערכות מלאות לכל עסק ובכל גודל, במנוי חודשי. שקט מלא." />
@@ -19,7 +23,14 @@
     <meta property="og:image:alt" content="Tech-shure: טכנולוגיה. על בטוח." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://www.tech-shure.dev/og-tech-shure-2026b.jpg" />
+    <meta name="twitter:title" content="Tech-shure | טכנולוגיה. על בטוח." />
+    <meta name="twitter:description" content="כל הטכנולוגיה של העסק, במקום אחד: מענה טלפוני חכם, בוט וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. מערכות מלאות לכל עסק, במנוי חודשי." />
     <meta property="og:locale" content="he_IL" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <link rel="canonical" href="https://www.tech-shure.dev/" />
+    <link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/" />
+    <link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

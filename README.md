@@ -15,8 +15,19 @@ npm run preview  # serve the build
 
 ## Before going live
 
-Fill in the business details in [`src/data/site.ts`](src/data/site.ts): `phone`, `whatsapp` (digits only, e.g. `972500000000`), `email`, `businessId`.
+Fill in the business details in [`src/data/site.ts`](src/data/site.ts): `phone`, `whatsapp` (digits only, e.g. `972500000000`), `email`, and `businessId` (in `CONTACT_TEXT`, once per language).
 Once `whatsapp` is set, a floating WhatsApp button appears on every page.
+
+## Languages
+
+Hebrew is the default and lives at the existing paths (`/`, `/solutions`, ...). English mirrors every page under `/en`
+(`/en`, `/en/solutions/crm-erp?tab=faq`, ...). There is no browser-language redirect; the header links to the same page in the other language.
+
+- UI strings: [`src/i18n/he.ts`](src/i18n/he.ts) and [`src/i18n/en.ts`](src/i18n/en.ts). TypeScript requires `en` to have every key of `he`.
+- Product content: `src/data/solutions.he.ts` / `solutions.en.ts` and `src/data/offer.he.ts` / `offer.en.ts`.
+- Components read the language with `useLang()` (`t` for strings, `lp()` to localize a path). `useSeo()` sets the title, description, Open Graph, canonical and hreflang tags.
+- The chat sends `lang: "en"` from English pages; the English bot prompt is in `api/_chat-prompt-en.ts`. Test it with `node scripts/test-chat-prompt.mjs`.
+- `public/sitemap.xml` lists both languages; add new pages there too.
 
 ### Contact form
 

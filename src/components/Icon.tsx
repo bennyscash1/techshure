@@ -198,6 +198,13 @@ const PATHS = {
       <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5" />
     </>
   ),
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z" />
+    </>
+  ),
   home: (
     <>
       <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -214,6 +221,7 @@ export function Icon({ name, size = 24, strokeWidth = 2, className }: Props) {
   return (
     <svg
       aria-hidden="true"
+      data-icon={name}
       className={className}
       width={size}
       height={size}

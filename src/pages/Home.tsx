@@ -3,22 +3,20 @@ import emblem from '../assets/emblem.webp';
 import hezki from '../assets/hezki.webp';
 import { Contact } from '../components/Contact';
 import { AiEdge, SectionHead } from '../components/Blocks';
+import { BidiText } from '../components/BidiText';
 import { Icon, type IconName } from '../components/Icon';
 import { CountUp, SplitWords, useParallax } from '../components/Motion';
+import { useLang } from '../i18n';
+import { useSeo } from '../i18n/seo';
 
-const PAINS: { icon: IconName; who: string; text: string }[] = [
-  { icon: 'chat', who: 'ספק לוואטסאפ', text: 'עוד חשבונית בכל חודש' },
-  { icon: 'layout', who: 'ספק לאתר', text: 'עוד מספר שצריך לרדוף אחריו' },
-  { icon: 'phone', who: 'ספק לטלפון', text: 'עוד מערכת שלא מדברת עם האחרות' },
-];
-
-const PROMISE: { icon: IconName; title: string; text: string }[] = [
-  { icon: 'users', title: 'כתובת אחת', text: 'יש שאלה, תקלה או שינוי? פונים אלינו. לא מחפשים מי אחראי על מה.' },
-  { icon: 'calendar', title: 'מנוי חודשי קבוע', text: 'הקמה פעם אחת, ואחר כך תשלום חודשי ידוע מראש. בלי הפתעות.' },
-  { icon: 'shield', title: 'שקט מלא', text: 'תפעול, תקלות ותחזוקה עלינו. אתה מתעסק בעסק שלך.' },
-];
+// Icons for the cards; the text is in t.home, in the same order.
+const PAIN_ICONS: IconName[] = ['chat', 'layout', 'phone'];
+const PROMISE_ICONS: IconName[] = ['users', 'calendar', 'shield'];
 
 export default function Home() {
+  const { t, lp } = useLang();
+  const h = t.home;
+  useSeo(t.meta.homeTitle, t.meta.homeDescription);
   const art = useParallax<HTMLDivElement>();
   return (
     <>
@@ -27,19 +25,19 @@ export default function Home() {
         <div className="hero-mesh" aria-hidden="true"><span /><span /><span /></div>
         <div className="container hero-grid">
           <div className="hero-copy">
-            <h1 className="split-title" aria-label="כל הטכנולוגיה של העסק, במקום אחד. על בטוח.">
-              <SplitWords text="כל הטכנולוגיה של העסק, במקום אחד." />{' '}
-              <SplitWords text="על בטוח." start={7} className="hl" />
+            <h1 className="split-title" aria-label={`${h.heroTitleA} ${h.heroTitleB}`}>
+              <SplitWords text={h.heroTitleA} />{' '}
+              <SplitWords text={h.heroTitleB} start={h.heroTitleBStart} className="hl" />
             </h1>
             <p className="hero-lead">
-              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (<bdi className="ltr-chunk" dir="ltr">CRM / ERP</bdi>) ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
+              <BidiText text={h.heroLead} />
             </p>
             <div className="hero-actions">
               <Link to={{ hash: '#contact' }} className="btn btn-accent btn-lg">
-                בואו נדבר
+                {h.talk}
                 <Icon name="arrow" size={20} />
               </Link>
-              <Link to="/solutions" className="btn btn-ghost btn-lg">טכנולוגיות לעסק שלך</Link>
+              <Link to={lp('/solutions')} className="btn btn-ghost btn-lg">{h.toSolutions}</Link>
             </div>
           </div>
           <div className="hero-art" aria-hidden="true" ref={art}>
@@ -48,10 +46,10 @@ export default function Home() {
             <span className="orbit orbit--2"><i className="orbit-dot orbit-dot--gold" /></span>
             <span className="orbit orbit--3" />
             <img src={emblem} alt="" width={360} height={360} />
-            <span className="chip chip--a"><Icon name="phone" size={18} /> מענה טלפוני</span>
-            <span className="chip chip--b"><Icon name="chat" size={18} /> וואטסאפ</span>
-            <span className="chip chip--c"><Icon name="db" size={18} /> CRM / ERP</span>
-            <span className="chip chip--d"><Icon name="layout" size={18} /> דף נחיתה</span>
+            <span className="chip chip--a"><Icon name="phone" size={18} /> {h.chips.phone}</span>
+            <span className="chip chip--b"><Icon name="chat" size={18} /> {h.chips.whatsapp}</span>
+            <span className="chip chip--c"><Icon name="db" size={18} /> {h.chips.crm}</span>
+            <span className="chip chip--d"><Icon name="layout" size={18} /> {h.chips.landing}</span>
           </div>
         </div>
       </section>
@@ -59,16 +57,16 @@ export default function Home() {
       {/* 2. The pain */}
       <section className="section">
         <div className="container">
-          <SectionHead kicker="מכירים את זה?" title="ספק לכל דבר. בלאגן בכל מקום.">
-            המערכות שהיו אמורות לעשות סדר, עושות בלאגן. כל אחד גובה בנפרד, ואף אחד לא רואה את התמונה המלאה.
+          <SectionHead kicker={h.painKicker} title={h.painTitle}>
+            {h.painLead}
           </SectionHead>
           <ul className="pain-grid">
-            {PAINS.map((p) => (
+            {h.pains.map((p, i) => (
               <li key={p.who} className="pain">
-                <span className="pain-icon"><Icon name={p.icon} size={24} /></span>
+                <span className="pain-icon"><Icon name={PAIN_ICONS[i]} size={24} /></span>
                 <h3>{p.who}</h3>
                 <p>{p.text}</p>
-                <span className="pain-bill">חשבון נפרד</span>
+                <span className="pain-bill">{h.painBill}</span>
               </li>
             ))}
           </ul>
@@ -78,36 +76,38 @@ export default function Home() {
       {/* 3. The solution */}
       <section className="section section--sand">
         <div className="container">
-          <SectionHead kicker="הפתרון" title="מקום אחד שתופס הכל">
-            Tech-shure בונה, מחברת ומתחזקת את כל הכלים של העסק. מנוי חודשי אחד, אחריות אחת.
+          <SectionHead kicker={h.solutionKicker} title={h.solutionTitle}>
+            {h.solutionLead}
           </SectionHead>
           <ul className="promise-grid">
-            {PROMISE.map((p) => (
+            {h.promise.map((p, i) => (
               <li key={p.title} className="card">
-                <span className="card-icon"><Icon name={p.icon} size={24} /></span>
+                <span className="card-icon"><Icon name={PROMISE_ICONS[i]} size={24} /></span>
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>
               </li>
             ))}
           </ul>
-          <p className="big-quote">"<CountUp value={250} /> ₪ בחודש, ויש לך מערכת שמכסה אותך מכל הכיוונים."</p>
+          <p className="big-quote">
+            {h.quoteBefore}
+            {h.quoteNumber !== null && <CountUp value={h.quoteNumber} />}
+            {h.quoteAfter}
+          </p>
         </div>
       </section>
 
       {/* 4 + 5. Why fast and efficient (AI edge), built for you */}
-      <AiEdge title="פיתוח בעוצמה של AI. מהיר, יעיל ומשתלם.">
+      <AiEdge title={h.edgeTitle}>
         <article className="feature feature--wide edge-feature">
           <div className="feature-wide-copy">
             <span className="card-icon"><Icon name="lock" size={24} /></span>
-            <h2>נבנה אישית בשבילך</h2>
-            <p>
-              לא תבנית גנרית. קוד שנכתב במיוחד לעסק שלך, לפי איך שאתה עובד, ורץ על שרת מאובטח.
-            </p>
+            <h2>{h.builtTitle}</h2>
+            <p>{h.builtText}</p>
           </div>
           <ul className="ticks">
-            <li><Icon name="check" size={18} strokeWidth={3} /> קוד מותאם לעסק שלך</li>
-            <li><Icon name="check" size={18} strokeWidth={3} /> שרת מאובטח</li>
-            <li><Icon name="check" size={18} strokeWidth={3} /> מתחזקים ומשפרים לאורך הדרך</li>
+            {h.builtTicks.map((tick) => (
+              <li key={tick}><Icon name="check" size={18} strokeWidth={3} /> {tick}</li>
+            ))}
           </ul>
         </article>
       </AiEdge>
@@ -115,14 +115,12 @@ export default function Home() {
       {/* 6. Custom build */}
       <section className="section section--sand">
         <div className="container container--narrow custom">
-          <span className="kicker">פיתוח בהתאמה אישית</span>
-          <h2>כל מערכת. כל פלטפורמה. בנויה בשבילך.</h2>
-          <p className="lead">
-            אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, מערכות CRM / ERP לניהול העסק, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.
-          </p>
+          <span className="kicker">{h.customKicker}</span>
+          <h2>{h.customTitle}</h2>
+          <p className="lead">{h.customLead}</p>
           <div className="custom-links">
-            <Link to="/solutions" className="btn btn-primary">לכל הטכנולוגיות לעסק שלך <Icon name="arrow" size={18} /></Link>
-            <Link to="/modules" className="btn btn-ghost">למודולים ולתנאים</Link>
+            <Link to={lp('/solutions')} className="btn btn-primary">{h.customToSolutions} <Icon name="arrow" size={18} /></Link>
+            <Link to={lp('/modules')} className="btn btn-ghost">{h.customToModules}</Link>
           </div>
         </div>
       </section>
@@ -131,15 +129,15 @@ export default function Home() {
       <section className="section">
         <div className="container">
           <div className="refer">
-            <img src={hezki} alt="רובוט מנופף לשלום" className="refer-bot" loading="lazy" />
+            <img src={hezki} alt={h.referAlt} className="refer-bot" loading="lazy" />
             <div className="refer-copy">
-              <span className="kicker">חבר מביא חבר</span>
-              <h2>ממליץ עלינו? מקבל מתנה.</h2>
-              <p>אחרי שהחבר שלך חתם על חוזה ושילם הקמה, אתה בוחר אחת:</p>
+              <span className="kicker">{h.referKicker}</span>
+              <h2>{h.referTitle}</h2>
+              <p>{h.referLead}</p>
               <ul className="refer-gifts">
-                <li><Icon name="layout" size={20} /> דף נחיתה לעסק שלך <small>(אחסון ושימוש עליך)</small></li>
-                <li><Icon name="users" size={20} /> שעת ייעוץ</li>
-                <li><Icon name="coins" size={20} /> זיכוי של 250 ₪</li>
+                <li><Icon name="layout" size={20} /> {h.referLanding} <small>{h.referLandingNote}</small></li>
+                <li><Icon name="users" size={20} /> {h.referHour}</li>
+                <li><Icon name="coins" size={20} /> {h.referCredit}</li>
               </ul>
             </div>
           </div>

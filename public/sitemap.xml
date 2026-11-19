@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Both languages of every page, with hreflang alternates. Hebrew is the default (x-default). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.tech-shure.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/phone-answering</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/phone-answering" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/phone-answering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/phone-answering" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/phone-answering</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/phone-answering" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/phone-answering" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/phone-answering" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/whatsapp-bot</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/whatsapp-bot" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/whatsapp-bot" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/whatsapp-bot" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/whatsapp-bot</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/whatsapp-bot" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/whatsapp-bot" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/whatsapp-bot" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/crm-erp</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/crm-erp" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/crm-erp" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/crm-erp" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/crm-erp</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/crm-erp" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/crm-erp" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/crm-erp" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/landing-page</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/landing-page" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/landing-page" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/landing-page" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/landing-page</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/landing-page" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/landing-page" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/landing-page" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/custom-system</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/custom-system" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/custom-system" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/custom-system" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/custom-system</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/custom-system" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/custom-system" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/custom-system" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/solutions/ai-consulting</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/ai-consulting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/ai-consulting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/ai-consulting" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/solutions/ai-consulting</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/solutions/ai-consulting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/solutions/ai-consulting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/solutions/ai-consulting" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/modules</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/modules" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/modules" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/modules" />
+  </url>
+  <url>
+    <loc>https://www.tech-shure.dev/en/modules</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.tech-shure.dev/modules" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.tech-shure.dev/en/modules" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.tech-shure.dev/modules" />
+  </url>
+</urlset>

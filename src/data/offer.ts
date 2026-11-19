@@ -1,138 +1,18 @@
-// Limits, add-ons and terms. Source: rebrand/business-model.md (sections 4 to 8).
+// Limits, add-ons and terms, per language. Source: rebrand/business-model.md (sections 4 to 8).
+// The text lives in ./offer.he.ts and ./offer.en.ts. The products themselves live in ./solutions.ts.
 import type { IconName } from '../components/Icon';
+import type { Lang } from '../i18n';
+import { OFFER_HE } from './offer.he';
+import { OFFER_EN } from './offer.en';
 
-// The products themselves (names, pitch, launch prices) live in ./solutions.ts.
-
+/** `id` is also the anchor on /modules (for example /modules#crm), the same in both languages. */
 export type Module = { id: string; icon: IconName; name: string; limits: string[] };
-
-export const MODULES: Module[] = [
-  {
-    id: 'phone',
-    icon: 'phone',
-    name: 'מענה טלפוני',
-    limits: [
-      'מספר טלפון אחד',
-      'עד 5 ענפים (תפריט הקשות או נושאים שהבוט מזהה)',
-      'תסריט ומידע לבוט: עד עמוד אחד',
-      'ניתוב לפי שעות פעילות',
-      'סיכום שיחה במייל לכתובת אחת',
-      'ללא חיבור למערכת חיצונית (חיבור הוא תוספת)',
-    ],
-  },
-  {
-    id: 'whatsapp',
-    icon: 'chat',
-    name: 'וואטסאפ',
-    limits: [
-      'מספר אחד, לא רשמי',
-      'עד 5 זרימות או אפשרויות בתפריט',
-      'עד 20 שאלות ותשובות נפוצות',
-      'העברת ליד למייל או לוואטסאפ של בעל העסק',
-    ],
-  },
-  {
-    id: 'crm',
-    icon: 'db',
-    name: 'מערכת CRM / ERP לניהול העסק',
-    limits: [
-      'עד 3 ישויות (למשל: לקוחות, לידים, תורים או הזמנות)',
-      'עד 15 שדות לכל ישות',
-      'עד 5 מסכים, עד 3 משתמשים, דשבורד אחד',
-      'סליקה דרך ספק מהרשימה המאושרת של Tech-shure',
-      'ספק אחר שהלקוח בוחר, עם אינטגרציה מורכבת, כרוך בתוספת תשלום',
-    ],
-  },
-  {
-    id: 'landing',
-    icon: 'layout',
-    name: 'דף נחיתה',
-    limits: ['עמוד אחד', 'עד 6 אזורי תוכן', 'טופס יצירת קשר', 'מותאם למובייל'],
-  },
-  {
-    id: 'email',
-    icon: 'mail',
-    name: 'אוטומציית מיילים',
-    limits: ['עד 3 טריגרים או תבניות'],
-  },
-];
-
 export type Addon = { icon: IconName; title: string; text: string; example?: string; note?: string };
+export type Term = { icon: IconName; title: string; text: string };
+export type Offer = { modules: Module[]; addons: Addon[]; terms: Term[]; priceNote: string };
 
-export const ADDONS: Addon[] = [
-  {
-    icon: 'grid',
-    title: 'מחירים מיוחדים בבחירת כמה חבילות',
-    text: 'בוחרים יותר מטכנולוגיה אחת? נבנה לך הצעה משתלמת לכל החבילה, בשיחת האפיון.',
-  },
-  {
-    icon: 'sync',
-    title: 'חיבור בין מערכות',
-    text: 'תוספת של 50% מערך המוצר היקר מביניהם, בהקמה ובחודשי.',
-    example: 'מענה טלפוני + חיבור ל-CRM קיים = 3,750 ₪ הקמה, 375 ₪ בחודש',
-    note: 'תנאי: למערכת הקיימת יש API מתועד. בלי API מתועד, המחיר נקבע לפי אפיון.',
-  },
-  {
-    icon: 'shield',
-    title: 'וואטסאפ רשמי (API של Meta)',
-    text: 'הלקוח מספק API דרך חברה מורשית, או משלם תוספת של 2,000 ₪.',
-    note: 'Tech-shure אינה אחראית לחסימת מספר על ידי Meta, מכל סיבה שהיא.',
-  },
-];
+const OFFERS: Record<Lang, Offer> = { he: OFFER_HE, en: OFFER_EN };
 
-export const TERMS: { icon: IconName; title: string; text: string }[] = [
-  {
-    icon: 'clock',
-    title: 'שעת שינוי בכל חודש',
-    text: 'התשלום החודשי כולל שעת שינוי אחת בחודש. השעה לא נצברת לחודש הבא.',
-  },
-  { icon: 'gear', title: 'שעת עבודה נוספת', text: '250 ₪ לשעה.' },
-  {
-    icon: 'check',
-    title: 'מה כולל התשלום החודשי',
-    text: 'תפעול, טיפול בתקלות, תחזוקת שרתים ואינטגרציות, ושעת שינוי אחת.',
-  },
-  {
-    icon: 'bell',
-    title: 'מחיר השקה לזמן מוגבל',
-    text: 'המחירים המוצגים באתר תקפים לתקופה מוגבלת.',
-  },
-  {
-    icon: 'card',
-    title: 'תשלום',
-    text: '100% מעלות ההקמה משולמים מראש. העבודה לא מתחילה לפני התשלום.',
-  },
-  {
-    icon: 'calendar',
-    title: 'זמן אספקה',
-    text: 'מוצר בהיקף הסטנדרטי: עד 30 יום מהתשלום ומאישור האפיון, ולפעמים מוקדם יותר. מוצר מורחב: לפי האפיון.',
-  },
-  {
-    icon: 'file',
-    title: 'התחייבות',
-    text: 'מינימום 12 חודשים. ביציאה מוקדמת אין החזר על ההקמה.',
-  },
-  {
-    icon: 'chip',
-    title: 'עלויות צד שלישי',
-    text: 'שרתים, כלי AI ודקות שיחה לא כלולים במחיר. הם מחויבים ישירות מכרטיס האשראי שלך, ותקבל הערכה מראש. אם עלויות AI או טוקנים עולות בעולם, העלות עולה בהתאם.',
-  },
-  {
-    icon: 'list',
-    title: 'שינויים מעבר לאפיון',
-    text: 'שינוי שלא היה באפיון יתומחר מחדש.',
-  },
-  {
-    icon: 'signal',
-    title: 'סיום התקשרות',
-    text: 'Tech-shure רשאית לכבות את המערכת בהודעה מוקדמת של 30 יום. המערכת, הקוד והתשתית בבעלות Tech-shure.',
-  },
-  {
-    icon: 'gift',
-    title: 'חבר מביא חבר',
-    text: 'אחרי שהחבר חתם על חוזה ושילם הקמה, אתה בוחר אחת: דף נחיתה (עלויות האחסון והשימוש עליך), שעת ייעוץ, או זיכוי של 250 ₪.',
-  },
-];
-
-export const PRICE_NOTE = 'המחירים לעסק קטן בינוני ובהתאם לאפיון. מוצר רחב יותר יתומחר בהתאם';
+export const getOffer = (lang: Lang): Offer => OFFERS[lang];
 
 export const nis = (n: number) => `${n.toLocaleString('en-US')} ₪`;

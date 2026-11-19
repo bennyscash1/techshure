@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Contact } from '../components/Contact';
 import { OfferBlock, SectionHead, TechCard } from '../components/Blocks';
@@ -8,41 +7,29 @@ import { Icon } from '../components/Icon';
 import { SplitWords, TiltCard, useSpotlight } from '../components/Motion';
 import { Tabs, type TabDef } from '../components/Tabs';
 import { CONTACT } from '../data/site';
-import { SOLUTIONS, getSolution, type Solution } from '../data/solutions';
-
-const SECTION_NAME = 'טכנולוגיות לעסק שלך';
-
-/** Sets the document title and meta description while the page is shown, and restores them on leave. */
-function useDocumentMeta(title: string, description?: string) {
-  useEffect(() => {
-    const prevTitle = document.title;
-    const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    const prevDescription = meta?.getAttribute('content') ?? null;
-    document.title = title;
-    if (meta && description) meta.setAttribute('content', description);
-    return () => {
-      document.title = prevTitle;
-      if (meta && prevDescription !== null) meta.setAttribute('content', prevDescription);
-    };
-  }, [title, description]);
-}
+import { getSolution, getSolutions, type Solution } from '../data/solutions';
+import { useLang } from '../i18n';
+import { useSeo } from '../i18n/seo';
 
 export default function SolutionPage() {
   const { slug } = useParams();
-  const solution = getSolution(slug);
-  useDocumentMeta(
-    solution?.metaTitle ?? `הטכנולוגיה לא נמצאה | ${SECTION_NAME} | Tech-shure`,
-    solution?.metaDescription,
+  const { lang, t } = useLang();
+  const solution = getSolution(lang, slug);
+  useSeo(
+    solution?.metaTitle ?? t.meta.solutionNotFoundTitle,
+    solution?.metaDescription ?? t.meta.notFoundDescription,
+    Boolean(solution),
   );
   return solution ? <SolutionView key={solution.slug} s={solution} /> : <SolutionNotFound />;
 }
 
 function Breadcrumbs({ current }: { current: string }) {
+  const { t, lp } = useLang();
   return (
-    <nav className="crumbs" aria-label="מיקום באתר">
+    <nav className="crumbs" aria-label={t.a11y.breadcrumbs}>
       <ol>
-        <li><Link to="/">דף הבית</Link></li>
-        <li><Link to="/solutions">{SECTION_NAME}</Link></li>
+        <li><Link to={lp('/')}>{t.nav.home}</Link></li>
+        <li><Link to={lp('/solutions')}>{t.solutionPage.sectionName}</Link></li>
         <li aria-current="page">{current}</li>
       </ol>
     </nav>
@@ -50,15 +37,17 @@ function Breadcrumbs({ current }: { current: string }) {
 }
 
 function SolutionView({ s }: { s: Solution }) {
+  const { lang, t, lp } = useLang();
+  const c = t.solutionPage;
   const featuresRef = useSpotlight<HTMLUListElement>();
   const fitRef = useSpotlight<HTMLUListElement>();
   const relatedRef = useSpotlight<HTMLUListElement>();
-  const related = s.related.map((r) => SOLUTIONS.find((x) => x.slug === r)).filter((x): x is Solution => Boolean(x));
+  const related = s.related.map((r) => getSolutions(lang).find((x) => x.slug === r)).filter((x): x is Solution => Boolean(x));
 
   const tabs: TabDef[] = [
     {
       id: 'overview',
-      label: 'סקירה כללית',
+      label: c.tabOverview,
       icon: 'file',
       content: (
         <div className="sol-overview">
@@ -69,7 +58,7 @@ function SolutionView({ s }: { s: Solution }) {
           </div>
           <div className="compare">
             <div className="compare-col compare-col--before">
-              <h3>היום, בלי המערכת</h3>
+              <h3>{c.before}</h3>
               <ul>
                 {s.overview.before.map((b) => (
                   <li key={b}><Icon name="close" size={18} strokeWidth={2.5} /> {b}</li>
@@ -77,7 +66,7 @@ function SolutionView({ s }: { s: Solution }) {
               </ul>
             </div>
             <div className="compare-col compare-col--after">
-              <h3>מחר, עם Tech-shure</h3>
+              <h3>{c.after}</h3>
               <ul>
                 {s.overview.after.map((a) => (
                   <li key={a}><Icon name="check" size={18} strokeWidth={3} /> {a}</li>
@@ -90,7 +79,7 @@ function SolutionView({ s }: { s: Solution }) {
     },
     {
       id: 'features',
-      label: 'מה כלול',
+      label: c.tabFeatures,
       icon: 'check',
       content: (
         <>
@@ -107,12 +96,12 @@ function SolutionView({ s }: { s: Solution }) {
             <Icon name="file" size={18} />
             <span>
               {s.scopeNote ?? (s.price
-                ? 'כל מערכת נבנית מלאה ומקצועית, בהיקף שמתאים לעסק ולתקציב. צריך יותר מההיקף הסטנדרטי? זה מוצר מורחב, שנבנה לפי אפיון.'
-                : 'ההיקף נקבע יחד איתך בשיחת האפיון, לפי מה שהעסק צריך ולפי התקציב.')}
+                ? c.scopeModules
+                : c.scopeCall)}
               {!s.scopeNote && (
                 <>
                   {' '}
-                  <Link to={s.modulesLink}>לפרטים בעמוד המודולים</Link>
+                  <Link to={lp(s.modulesLink)}>{c.scopeLink}</Link>
                 </>
               )}
             </span>
@@ -122,7 +111,7 @@ function SolutionView({ s }: { s: Solution }) {
     },
     {
       id: 'process',
-      label: 'איך זה עובד',
+      label: c.tabProcess,
       icon: 'route',
       content: (
         <ol className="steps">
@@ -140,12 +129,12 @@ function SolutionView({ s }: { s: Solution }) {
     },
     {
       id: 'fit',
-      label: 'למי זה מתאים',
+      label: c.tabFit,
       icon: 'users',
       content: (
         <>
           <p className="lead panel-lead">
-            מתאים לכל עסק קטן ובינוני, ובכל גודל. הנה כמה דוגמאות לשימוש, לפי סוג העסק:
+            {c.fitLead}
           </p>
           <ul className="usecase-grid spot-grid" ref={fitRef}>
             {s.useCases.map((u) => (
@@ -159,7 +148,7 @@ function SolutionView({ s }: { s: Solution }) {
           <p className="callout">
             <Icon name="chat" size={20} />
             <span>
-              העסק שלך לא ברשימה? זה בדיוק המקום לשיחה. כל מערכת נבנית לפי העסק, לא לפי תבנית.
+              {c.fitCallout}
             </span>
           </p>
         </>
@@ -167,18 +156,18 @@ function SolutionView({ s }: { s: Solution }) {
     },
     {
       id: 'integrations',
-      label: 'מודולים וחיבורים',
+      label: c.tabIntegrations,
       icon: 'sync',
       content: (
         <>
           <p className="lead panel-lead">
-            כל טכנולוגיה עובדת מצוין לבד, וחזקה עוד יותר כשהיא מחוברת לשאר המערכות של העסק. כך זה נראה:
+            {c.integrationsLead}
           </p>
           <ul className="integration-grid">
             {s.integrations.map((it) => (
               <li key={it.title}>
                 {it.to ? (
-                  <Link to={it.to} className="integration">
+                  <Link to={lp(it.to)} className="integration">
                     <span className="card-icon"><Icon name={it.icon} size={22} /></span>
                     <span className="integration-copy">
                       <strong>{it.title}</strong>
@@ -199,14 +188,14 @@ function SolutionView({ s }: { s: Solution }) {
             ))}
           </ul>
           <p className="center-link">
-            <Link to="/modules" className="text-link">לכל המודולים, החבילות והתנאים <Icon name="arrow" size={16} /></Link>
+            <Link to={lp('/modules')} className="text-link">{c.allModules} <Icon name="arrow" size={16} /></Link>
           </p>
         </>
       ),
     },
     {
       id: 'faq',
-      label: 'שאלות נפוצות',
+      label: c.tabFaq,
       icon: 'list',
       content: (
         <div className="faq">
@@ -248,22 +237,22 @@ function SolutionView({ s }: { s: Solution }) {
               <div className="sol-hero-foot">
                 {s.offer ? (
                   <a href="#offer" className="launch-badge">
-                    <Icon name="coins" size={18} /> יום ייעוץ אצלכם בעסק: <span dir="ltr">{s.offer.price}</span>
+                    <Icon name="coins" size={18} /> {c.offerBadge} <span dir="ltr">{s.offer.price}</span>
                   </a>
                 ) : (
-                  <span className="launch-badge"><Icon name="bell" size={18} /> מחיר השקה לזמן מוגבל</span>
+                  <span className="launch-badge"><Icon name="bell" size={18} /> {c.launchBadge}</span>
                 )}
                 {s.addonNote && (
                   <p className="sol-addon-note">
-                    {s.addonNote} <Link to="/modules#addons">לפרטים על התוספות</Link>
+                    {s.addonNote} <Link to={lp('/modules#addons')}>{c.addonsLink}</Link>
                   </p>
                 )}
                 <div className="hero-actions">
                   <a href="#contact" className="btn btn-accent btn-lg">
-                    בואו נדבר <Icon name="arrow" size={20} />
+                    {c.talk} <Icon name="arrow" size={20} />
                   </a>
                   <button type="button" className="btn btn-ghost btn-lg" onClick={openChat}>
-                    <Icon name="bot" size={20} /> שאלו את חזקי
+                    <Icon name="bot" size={20} /> {c.askHezki}
                   </button>
                 </div>
               </div>
@@ -294,8 +283,8 @@ function SolutionView({ s }: { s: Solution }) {
       {s.offer && (
         <section className="section section--tight" id="offer">
           <div className="container">
-            <SectionHead kicker="בלי אותיות קטנות" title="מה מקבלים, וכמה זה עולה" center>
-              מחיר אחד וברור ליום הייעוץ. מה שכתוב כאן, זה מה שמקבלים.
+            <SectionHead kicker={c.offerKicker} title={c.offerTitle} center>
+              {c.offerLead}
             </SectionHead>
             <OfferBlock offer={s.offer} />
           </div>
@@ -304,10 +293,10 @@ function SolutionView({ s }: { s: Solution }) {
 
       <section className="section sol-details" id="details">
         <div className="container">
-          <SectionHead kicker={s.shortTitle} title="כל מה שצריך לדעת, במקום אחד" center>
-            בחר נושא, וקרא בדיוק את מה שמעניין אותך.
+          <SectionHead kicker={s.shortTitle} title={c.detailsTitle} center>
+            {c.detailsLead}
           </SectionHead>
-          <Tabs tabs={tabs} label={`מידע על ${s.shortTitle}`} />
+          <Tabs tabs={tabs} label={c.tabsLabel(s.shortTitle)} />
         </div>
       </section>
 
@@ -315,16 +304,16 @@ function SolutionView({ s }: { s: Solution }) {
         <div className="container">
           <div className="cta-band sol-cta">
             <div>
-              <h2>רוצה לראות איך זה ייראה אצלך?</h2>
-              <p>שיחת היכרות בלי עלות ובלי התחייבות. מספרים לנו על העסק, ואנחנו מראים מה אפשר לבנות.</p>
+              <h2>{c.ctaTitle}</h2>
+              <p>{c.ctaText}</p>
             </div>
             <div className="sol-cta-actions">
-              <a href="#contact" className="btn btn-accent">השארת פרטים <Icon name="arrow" size={18} /></a>
+              <a href="#contact" className="btn btn-accent">{c.ctaLeave} <Icon name="arrow" size={18} /></a>
               <button type="button" className="btn btn-light" onClick={openChat}>
-                <Icon name="bot" size={18} /> צ׳אט עם חזקי
+                <Icon name="bot" size={18} /> {c.ctaChat}
               </button>
               <a href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn btn-light">
-                <Icon name="chat" size={18} /> וואטסאפ
+                <Icon name="chat" size={18} /> {c.ctaWhatsapp}
               </a>
             </div>
           </div>
@@ -334,8 +323,8 @@ function SolutionView({ s }: { s: Solution }) {
       {related.length > 0 && (
         <section className="section section--sand">
           <div className="container">
-            <SectionHead kicker="עוד מ-Tech-shure" title="פתרונות נוספים שיכולים להתאים לך">
-              הכוח האמיתי הוא בחיבור. כל טכנולוגיה מתחברת לשאר, למעטפת אחת שמכסה את העסק מכל הכיוונים.
+            <SectionHead kicker={c.relatedKicker} title={c.relatedTitle}>
+              {c.relatedLead}
             </SectionHead>
             <ul className="tech-grid spot-grid" ref={relatedRef}>
               {related.map((r) => (
@@ -343,15 +332,15 @@ function SolutionView({ s }: { s: Solution }) {
               ))}
             </ul>
             <p className="center-link">
-              <Link to="/solutions" className="text-link">לכל הטכנולוגיות לעסק שלך <Icon name="arrow" size={16} /></Link>
+              <Link to={lp('/solutions')} className="text-link">{c.allSolutions} <Icon name="arrow" size={16} /></Link>
             </p>
           </div>
         </section>
       )}
 
       <Contact
-        title={`בואו נדבר על ${s.shortTitle} לעסק שלך`}
-        sub="ספרו לנו בקצרה על העסק ומה מעיק עליכם היום. נחזור אליכם עם הצעה שמתאימה בדיוק."
+        title={c.contactTitle(s.shortTitle)}
+        sub={c.contactSub}
         defaultService={s.service}
       />
     </>
@@ -359,22 +348,24 @@ function SolutionView({ s }: { s: Solution }) {
 }
 
 function SolutionNotFound() {
+  const { lang, t, lp } = useLang();
+  const c = t.solutionPage;
   const gridRef = useSpotlight<HTMLUListElement>();
   return (
     <section className="section">
       <div className="container">
         <div className="container--narrow not-found sol-not-found">
-          <span className="kicker">{SECTION_NAME}</span>
-          <h1>הטכנולוגיה הזו לא נמצאה</h1>
-          <p className="lead">ייתכן שהקישור השתנה. הנה כל הטכנולוגיות לעסק שלך, בחר את מה שמתאים לך:</p>
+          <span className="kicker">{c.sectionName}</span>
+          <h1>{c.notFoundTitle}</h1>
+          <p className="lead">{c.notFoundLead}</p>
         </div>
         <ul className="tech-grid spot-grid" ref={gridRef}>
-          {SOLUTIONS.map((s) => (
+          {getSolutions(lang).map((s) => (
             <TechCard key={s.slug} solution={s} />
           ))}
         </ul>
         <p className="center-link">
-          <Link to="/solutions" className="btn btn-primary btn-lg">חזרה לכל הטכנולוגיות</Link>
+          <Link to={lp('/solutions')} className="btn btn-primary btn-lg">{c.notFoundBack}</Link>
         </p>
       </div>
     </section>

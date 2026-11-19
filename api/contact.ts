@@ -1,4 +1,4 @@
-import { isEmail, oneLine, rtlBodies, sendToOwner } from './_mail.js';
+import { isEmail, ltrBodies, oneLine, rtlBodies, sendToOwner } from './_mail.js';
 
 const LIMITS: Record<string, number> = {
   name: 120,
@@ -9,13 +9,27 @@ const LIMITS: Record<string, number> = {
   page: 200,
 };
 
-const LABELS: Record<string, string> = {
-  name: 'שם',
-  phone: 'טלפון',
-  email: 'אימייל',
-  service: 'תחום',
-  message: 'הודעה',
-  page: 'עמוד',
+type Lang = 'he' | 'en';
+
+// The lead email follows the language of the page the form was sent from. A missing lang means Hebrew.
+const LABELS: Record<Lang, Record<string, string>> = {
+  he: { name: 'שם', phone: 'טלפון', email: 'אימייל', service: 'תחום', message: 'הודעה', page: 'עמוד' },
+  en: { name: 'Name', phone: 'Phone', email: 'Email', service: 'Interested in', message: 'Message', page: 'Page' },
+};
+
+const MAIL: Record<Lang, { notGiven: string; language: string; fromName: string; subject: (name: string) => string }> = {
+  he: {
+    notGiven: 'לא צוין',
+    language: 'שפה: עברית',
+    fromName: 'Tech-shure, טופס יצירת קשר',
+    subject: (name) => `פנייה מהאתר: ${name}`,
+  },
+  en: {
+    notGiven: 'Not provided',
+    language: 'Language: English',
+    fromName: 'Tech-shure, contact form',
+    subject: (name) => `Website inquiry (English site): ${name}`,
+  },
 };
 
 const FIELD_ORDER = ['name', 'phone', 'email', 'service', 'message', 'page'] as const;
@@ -30,7 +44,7 @@ function asString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function readFields(body: unknown): { fields: Fields } | { error: string } {
+function readFields(body: unknown): { fields: Fields; lang: Lang } | { error: string } {
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return { error: 'invalid' };
   }
@@ -43,7 +57,7 @@ function readFields(body: unknown): { fields: Fields } | { error: string } {
   }
   if (!fields.name || !fields.phone) return { error: 'invalid' };
   if (fields.email && !isEmail(fields.email)) return { error: 'invalid' };
-  return { fields };
+  return { fields, lang: record.lang === 'en' ? 'en' : 'he' };
 }
 
 export async function POST(request: Request): Promise<Response> {
@@ -58,12 +72,14 @@ export async function POST(request: Request): Promise<Response> {
 
   const parsed = readFields(body);
   if ('error' in parsed) return json({ ok: false }, 400);
-  const { fields } = parsed;
+  const { fields, lang } = parsed;
+  const mail = MAIL[lang];
 
-  const { text, html } = rtlBodies(FIELD_ORDER.map((key) => `${LABELS[key]}: ${fields[key] || 'לא צוין'}`));
+  const lines = [...FIELD_ORDER.map((key) => `${LABELS[lang][key]}: ${fields[key] || mail.notGiven}`), mail.language];
+  const { text, html } = lang === 'en' ? ltrBodies(lines) : rtlBodies(lines);
   const result = await sendToOwner({
-    fromName: 'Tech-shure, טופס יצירת קשר',
-    subject: `פנייה מהאתר: ${oneLine(fields.name).slice(0, 80)}`,
+    fromName: mail.fromName,
+    subject: mail.subject(oneLine(fields.name).slice(0, 80)),
     text,
     html,
     replyTo: fields.email || undefined,

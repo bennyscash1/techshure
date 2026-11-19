@@ -21,6 +21,14 @@ export function oneLine(value: string): string {
   return value.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+/** English lines (leads from the English site) as plain text and as an LTR HTML body. */
+export function ltrBodies(lines: string[]): { text: string; html: string } {
+  return {
+    text: lines.join('\n'),
+    html: `<div dir="ltr">${lines.map((line) => `<p>${escapeHtml(line) || '&nbsp;'}</p>`).join('')}</div>`,
+  };
+}
+
 /** Hebrew lines as plain text and as an RTL HTML body. */
 export function rtlBodies(lines: string[]): { text: string; html: string } {
   return {

@@ -5,52 +5,56 @@ import { AiEdge, PriceBox, PriceNote, TechCard, Terms } from '../components/Bloc
 import { BidiText } from '../components/BidiText';
 import { Icon } from '../components/Icon';
 import { RotatingWords, SplitWords, TiltCard, useSpotlight } from '../components/Motion';
-import { SOLUTIONS, solutionPath } from '../data/solutions';
+import { getSolutions, solutionPath } from '../data/solutions';
 import { CONTACT } from '../data/site';
-
-const FOR_WHOM = ['העסק שלך', 'הלקוחות שלך', 'הצוות שלך', 'הצמיחה שלך', 'השקט שלך'];
+import { useLang } from '../i18n';
+import { useSeo } from '../i18n/seo';
 
 export default function Solutions() {
+  const { lang, t, lp } = useLang();
+  const c = t.solutions;
+  const solutions = getSolutions(lang);
+  useSeo(t.meta.solutionsTitle, t.meta.solutionsDescription);
   const gridRef = useSpotlight<HTMLUListElement>();
   return (
     <>
       <section className="page-hero page-hero--solutions">
         <div className="container container--narrow">
-          <span className="kicker">טכנולוגיות לעסק שלך</span>
-          <h1 className="choose-title" aria-label="בחר את הטכנולוגיה הבטוחה עבורך">
-            <SplitWords text="בחר את הטכנולוגיה" />{' '}
-            <SplitWords text="הבטוחה" start={3} className="hl" />
+          <span className="kicker">{c.kicker}</span>
+          <h1 className="choose-title" aria-label={c.chooseLabel}>
+            <SplitWords text={c.chooseA} />{' '}
+            <SplitWords text={c.chooseB} start={c.chooseBStart} className="hl" />
             <span className="choose-line">
-              <span className="word" style={{ '--i': 4 } as CSSProperties}>עבור:</span>{' '}
+              <span className="word" style={{ '--i': 4 } as CSSProperties}>{c.chooseFor}</span>{' '}
               <span className="word" style={{ '--i': 5 } as CSSProperties}>
-                <RotatingWords words={FOR_WHOM} />
+                <RotatingWords words={c.forWhom} />
               </span>
             </span>
           </h1>
           <p className="hero-lead">
-            <b>טכנולוגיה. על בטוח.</b> זה לא רק הסלוגן שלנו, זו שיטת העבודה. כל מערכת נבנית אישית לעסק שלך, מלאה ומקצועית, בהיקף שמתאים לעסק ולתקציב, ומתוחזקת על ידינו. בוחרים טכנולוגיה אחת, או מחברים כמה למעטפת אחת.
+            <b>{c.leadStrong}</b>{c.lead}
           </p>
           <p className="callout">
             <Icon name="gear" size={20} />
             <span>
-              הטכנולוגיות כאן הן דוגמאות, לא הגבול. אנחנו מפתחים <b>כל מערכת ולכל פלטפורמה</b>, בהתאמה אישית מלאה לעסק שלך.
+              {c.calloutA}<b>{c.calloutB}</b>{c.calloutC}
             </span>
           </p>
           <div className="launch-banner">
-            <strong>מחיר השקה לזמן מוגבל</strong>
+            <strong>{c.launch}</strong>
           </div>
         </div>
       </section>
 
       <section className="section section--flush">
         <div className="container">
-          <ul className="tech-grid spot-grid" ref={gridRef} aria-label="טכנולוגיות לעסק שלך">
-            {SOLUTIONS.map((s) => (
+          <ul className="tech-grid spot-grid" ref={gridRef} aria-label={c.gridLabel}>
+            {solutions.map((s) => (
               <TechCard key={s.slug} solution={s} />
             ))}
           </ul>
 
-          {SOLUTIONS.map((s, i) => (
+          {solutions.map((s, i) => (
             <article key={s.slug} id={s.anchor} className={`product-row${i % 2 ? ' product-row--flip' : ''}`}>
               <TiltCard className="product-row-media">
                 <img src={s.image} alt={s.imageAlt} loading={i ? 'lazy' : 'eager'} />
@@ -66,7 +70,7 @@ export default function Solutions() {
                     <li key={pt}><Icon name="check" size={18} strokeWidth={3} /> {pt}</li>
                   ))}
                   {s.allWeek && (
-                    <li><Icon name="clock" size={18} strokeWidth={2.5} /> פעיל 24/7</li>
+                    <li><Icon name="clock" size={18} strokeWidth={2.5} /> {c.allWeek}</li>
                   )}
                 </ul>
                 {s.price ? (
@@ -78,17 +82,17 @@ export default function Solutions() {
                   </p>
                 )}
                 <div className="custom-cta">
-                  <Link to={solutionPath(s.slug)} className="btn btn-primary">
-                    לפרטים המלאים <Icon name="arrow" size={18} />
+                  <Link to={lp(solutionPath(s.slug))} className="btn btn-primary">
+                    {c.details} <Icon name="arrow" size={18} />
                   </Link>
                   {s.price ? (
-                    <Link to={s.modulesLink} className="text-link">
-                      מה בדיוק כלול? לגבולות המוצר <Icon name="arrow" size={16} />
+                    <Link to={lp(s.modulesLink)} className="text-link">
+                      {c.limits} <Icon name="arrow" size={16} />
                     </Link>
                   ) : (
                     CONTACT.phone && (
                       <a href={`tel:${CONTACT.phoneTel}`} className="text-link" dir="ltr">
-                        {CONTACT.phone}
+                        {t.contactInfo.phone}
                       </a>
                     )
                   )}
@@ -97,16 +101,14 @@ export default function Solutions() {
             </article>
           ))}
 
-          <p className="bundle-note">
-            מחירים מיוחדים בבחירת כמה חבילות
-          </p>
+          <p className="bundle-note">{c.bundle}</p>
           <PriceNote />
         </div>
       </section>
 
       <Terms />
-      <AiEdge title="למה זה כל כך משתלם? כי אנחנו בונים עם AI." />
-      <Contact title="איזו טכנולוגיה מתאימה לעסק שלך?" sub="ספרו לנו מה מעיק עליכם היום. נציע את הטכנולוגיה הנכונה, או את החבילה הנכונה." />
+      <AiEdge title={c.edgeTitle} />
+      <Contact title={c.contactTitle} sub={c.contactSub} />
     </>
   );
 }

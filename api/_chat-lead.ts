@@ -19,6 +19,9 @@ export type Lead = {
 };
 
 export const NOT_GIVEN = 'לא צוין';
+/** "Not given" in the lead email, per conversation language. */
+export const NOT_GIVEN_BY_LANG = { he: NOT_GIVEN, en: 'Not provided' } as const;
+type LeadLang = keyof typeof NOT_GIVEN_BY_LANG;
 
 /** Per-field length caps. The same numbers go into the schema descriptions as hints for the model. */
 export const LEAD_LIMITS = {
@@ -230,8 +233,9 @@ export function nameFromTranscript(messages: ChatMessage[]): string {
   return '';
 }
 
-function shortTranscript(messages: ChatMessage[]): string {
-  const lines = messages.slice(-6).map((m) => `${m.role === 'user' ? 'פונה' : 'חזקי'}: ${oneLine(m.text).slice(0, 120)}`);
+function shortTranscript(messages: ChatMessage[], lang: LeadLang): string {
+  const [visitor, bot] = lang === 'en' ? ['Visitor', 'Hezki'] : ['פונה', 'חזקי'];
+  const lines = messages.slice(-6).map((m) => `${m.role === 'user' ? visitor : bot}: ${oneLine(m.text).slice(0, 120)}`);
   return lines.join(' | ').slice(0, LEAD_LIMITS.summary);
 }
 
@@ -250,9 +254,10 @@ export type LeadResult = { lead: Lead; source: 'model' | 'model+transcript' | 't
 
 /**
  * Final lead: the model's fields after sanitizing, with name and phone filled from the transcript when
- * the model missed them. Needs a name and a valid phone. Broken optional fields become "לא צוין".
+ * the model missed them. Needs a name and a valid phone. Broken optional fields become "לא צוין"
+ * ("Not provided" in an English conversation).
  */
-export function buildLead(modelLead: Record<string, unknown> | null, messages: ChatMessage[]): LeadResult {
+export function buildLead(modelLead: Record<string, unknown> | null, messages: ChatMessage[], lang: LeadLang = 'he'): LeadResult {
   const fromModel = sanitizeLead(modelLead);
   const hadModelLead = Boolean(fromModel.name && fromModel.phone);
 
@@ -269,17 +274,20 @@ export function buildLead(modelLead: Record<string, unknown> | null, messages: C
     return '';
   })();
 
+  const none = NOT_GIVEN_BY_LANG[lang];
+  // In English, runaway fields (sanitized to the Hebrew NOT_GIVEN) fall back like empty ones. Hebrew is unchanged.
+  const given = (value: string | undefined) => (lang === 'en' && value === NOT_GIVEN ? '' : value || '');
   const lead: Lead = {
     name,
     phone,
     email,
-    need: fromModel.need || lastTopic(messages) || NOT_GIVEN,
-    summary: fromModel.summary || shortTranscript(messages),
-    businessType: fromModel.businessType || NOT_GIVEN,
-    size: fromModel.size || NOT_GIVEN,
-    currentTools: fromModel.currentTools || NOT_GIVEN,
-    pains: fromModel.pains || NOT_GIVEN,
-    recommended: fromModel.recommended || NOT_GIVEN,
+    need: given(fromModel.need) || lastTopic(messages) || none,
+    summary: given(fromModel.summary) || shortTranscript(messages, lang),
+    businessType: given(fromModel.businessType) || none,
+    size: given(fromModel.size) || none,
+    currentTools: given(fromModel.currentTools) || none,
+    pains: given(fromModel.pains) || none,
+    recommended: given(fromModel.recommended) || none,
   };
   const source = hadModelLead ? 'model' : modelLead ? 'model+transcript' : 'transcript';
   return { lead, source };

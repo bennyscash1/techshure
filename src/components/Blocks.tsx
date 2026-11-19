@@ -2,12 +2,14 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import { BRAND } from '../data/site';
-import { PRICE_NOTE, TERMS, nis } from '../data/offer';
+import { getOffer, nis } from '../data/offer';
 import { solutionPath, type DayOffer, type Price, type Solution } from '../data/solutions';
+import { useLang } from '../i18n';
 import { Icon, type IconName } from './Icon';
 import { CountUp } from './Motion';
 
 export function Brand({ size = 'md' }: { size?: 'md' | 'lg' }) {
+  const { lang } = useLang();
   return (
     <span className={`brand brand--${size}`}>
       <img src={emblem} alt="" className="brand-emblem" width={360} height={360} />
@@ -15,7 +17,7 @@ export function Brand({ size = 'md' }: { size?: 'md' | 'lg' }) {
         <span className="brand-name" dir="ltr">
           Tech-<span>shure</span>
         </span>
-        <span className="brand-slogan">{BRAND.slogan}</span>
+        <span className="brand-slogan">{lang === 'he' ? BRAND.slogan : BRAND.sloganEn}</span>
       </span>
     </span>
   );
@@ -31,42 +33,51 @@ export function SectionHead({ kicker, title, children, center }: { kicker?: stri
   );
 }
 
+/** Launch price box on the /solutions list. Languages that show no numbers (English) get one line of text instead. */
 export function PriceBox({ price }: { price: Price }) {
+  const { t } = useLang();
+  const b = t.blocks;
   return (
     <div className="price-box">
-      <span className="price-flag">מחיר השקה לזמן מוגבל</span>
+      <span className="price-flag">{b.priceFlag}</span>
+      {b.priceNoNumbers ? (
+        <p className="price-words">{b.priceNoNumbers}</p>
+      ) : (
       <div className="price-rows">
         <div className="price-row">
-          <span className="price-label">הקמה, תשלום אחד</span>
+          <span className="price-label">{b.priceSetup}</span>
           <span className="price-now"><CountUp value={price.setup} format={nis} /></span>
         </div>
         <div className="price-row">
-          <span className="price-label">בכל חודש</span>
+          <span className="price-label">{b.priceMonthly}</span>
           <span className="price-now"><CountUp value={price.monthly} format={nis} /></span>
         </div>
       </div>
+      )}
     </div>
   );
 }
 
 export function PriceNote() {
+  const { lang } = useLang();
   return (
     <p className="price-note">
       <Icon name="file" size={18} />
-      <span>{PRICE_NOTE}</span>
+      <span>{getOffer(lang).priceNote}</span>
     </p>
   );
 }
 
 export function Terms() {
+  const { lang, t: dict } = useLang();
   return (
     <section id="terms" className="section section--sand">
       <div className="container">
-        <SectionHead kicker="האותיות הקטנות, בגדול" title="התנאים, בלי הפתעות">
-          כל מה שכדאי לדעת לפני שמתחילים. קצר וברור.
+        <SectionHead kicker={dict.blocks.termsKicker} title={dict.blocks.termsTitle}>
+          {dict.blocks.termsLead}
         </SectionHead>
         <ul className="terms-grid">
-          {TERMS.map((t) => (
+          {getOffer(lang).terms.map((t) => (
             <li key={t.title} className="term">
               <span className="term-icon"><Icon name={t.icon} size={20} /></span>
               <div>
@@ -84,6 +95,7 @@ export function Terms() {
 
 /** A fixed offer with its price and a clear "what is included / what is not" block. No small print. */
 export function OfferBlock({ offer }: { offer: DayOffer }) {
+  const { t } = useLang();
   return (
     <div className="offer">
       <div className="offer-head">
@@ -98,7 +110,7 @@ export function OfferBlock({ offer }: { offer: DayOffer }) {
       </div>
       <div className="compare offer-compare">
         <div className="compare-col compare-col--after">
-          <h4>מה כלול</h4>
+          <h4>{t.blocks.offerIncluded}</h4>
           <ul>
             {offer.included.map((t) => (
               <li key={t}><Icon name="check" size={18} strokeWidth={3} /> {t}</li>
@@ -106,7 +118,7 @@ export function OfferBlock({ offer }: { offer: DayOffer }) {
           </ul>
         </div>
         <div className="compare-col compare-col--before">
-          <h4>מה לא כלול</h4>
+          <h4>{t.blocks.offerExcluded}</h4>
           <ul>
             {offer.excluded.map((t) => (
               <li key={t}><Icon name="close" size={18} strokeWidth={2.5} /> {t}</li>
@@ -124,40 +136,38 @@ export function OfferBlock({ offer }: { offer: DayOffer }) {
 
 /** A card that links to a solution sub-page. Render inside a <ul>. */
 export function TechCard({ solution }: { solution: Solution }) {
+  const { t, lp } = useLang();
   return (
     <li className="card tech-card">
-      <Link to={solutionPath(solution.slug)} className="tech-card-link">
+      <Link to={lp(solutionPath(solution.slug))} className="tech-card-link">
         <span className="card-icon"><Icon name={solution.icon} size={24} /></span>
         {solution.category && <span className="tech-card-cat">{solution.category}</span>}
         <h3>{solution.shortTitle}</h3>
         <p>{solution.cardText}</p>
         <span className="tech-card-more">
-          לפרטים המלאים <Icon name="arrow" size={16} />
+          {t.blocks.cardMore} <Icon name="arrow" size={16} />
         </span>
       </Link>
     </li>
   );
 }
 
-const AI_EDGE: { icon: IconName; title: string; text: string; gold?: boolean }[] = [
-  { icon: 'sparkle', title: 'AI בכל שלב בפיתוח', text: 'כותבים קוד מהר מאוד עם כלי ה-AI המתקדמים ביותר, ואתם מקבלים מערכת מוכנה הרבה יותר מוקדם.' },
-  { icon: 'users', title: 'צוות מנוסה, למעלה מעשור', text: 'צוות קטן של מפתחי תוכנה ותיקים, שיודעים בדיוק מה לבנות ואיך. כל מערכת נבנית נכון מהיום הראשון.' },
-  { icon: 'coins', title: 'משתלם באמת', text: 'החיסכון בזמן הפיתוח עובר אליכם. מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.', gold: true },
-  { icon: 'shield', title: 'בלי אותיות קטנות', text: 'משתלם כי אנחנו עובדים חכם, לא כי חסר משהו. מה שסיכמנו, זה מה שמקבלים.', gold: true },
-];
+/** Icons and accents of the four AI edge cards; the text is in t.blocks.edge, in the same order. */
+const AI_EDGE: { icon: IconName; gold?: boolean }[] = [{ icon: 'sparkle' }, { icon: 'users' }, { icon: 'coins', gold: true }, { icon: 'shield', gold: true }];
 
 /** "Why we are fast and efficient": the AI edge, on the home page and on /solutions. Extra content goes in children. */
 export function AiEdge({ title, sand, children }: { title: string; sand?: boolean; children?: ReactNode }) {
+  const { t } = useLang();
   return (
     <section id="ai-edge" className={`section${sand ? ' section--sand' : ''}`}>
       <div className="container">
-        <SectionHead kicker="למה אנחנו מהירים ויעילים" title={title}>
-          אנחנו בונים עם כלי ה-AI המתקדמים ביותר, ולכן הפיתוח מהיר מאוד ומשתלם במיוחד. צוות קטן של מפתחי תוכנה מנוסים, למעלה מעשור. אין פה אותיות קטנות: פשוט יודעים לעשות הכל מהר ויעיל, ואתם מקבלים מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.
+        <SectionHead kicker={t.blocks.edgeKicker} title={title}>
+          {t.blocks.edgeLead}
         </SectionHead>
         <ul className="edge-grid">
-          {AI_EDGE.map((e) => (
+          {t.blocks.edge.map((e, i) => (
             <li key={e.title} className="card">
-              <span className={`card-icon${e.gold ? ' card-icon--gold' : ''}`}><Icon name={e.icon} size={24} /></span>
+              <span className={`card-icon${AI_EDGE[i].gold ? ' card-icon--gold' : ''}`}><Icon name={AI_EDGE[i].icon} size={24} /></span>
               <h3>{e.title}</h3>
               <p>{e.text}</p>
             </li>

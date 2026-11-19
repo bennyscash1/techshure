@@ -2,10 +2,16 @@ import { Link } from 'react-router-dom';
 import { Contact } from '../components/Contact';
 import { PriceNote, SectionHead, Terms } from '../components/Blocks';
 import { Icon } from '../components/Icon';
-import { ADDONS, MODULES } from '../data/offer';
+import { getOffer } from '../data/offer';
 import { SplitWords, useSpotlight } from '../components/Motion';
+import { useLang } from '../i18n';
+import { useSeo } from '../i18n/seo';
 
 export default function Modules() {
+  const { lang, t, lp } = useLang();
+  const c = t.modules;
+  const { modules, addons } = getOffer(lang);
+  useSeo(t.meta.modulesTitle, t.meta.modulesDescription);
   const modulesRef = useSpotlight<HTMLUListElement>();
   const addonsRef = useSpotlight<HTMLUListElement>();
   return (
@@ -13,25 +19,23 @@ export default function Modules() {
       <section className="page-hero page-hero--modules">
         <div className="mesh" aria-hidden="true"><span /><span /><span /></div>
         <div className="container container--narrow">
-          <span className="kicker">מודולים</span>
-          <h1 aria-label="מה מקבלים בכל כלי, בדיוק">
-            <SplitWords text="מה מקבלים בכל כלי," />{' '}
-            <SplitWords text="בדיוק" start={4} className="hl" />
+          <span className="kicker">{c.kicker}</span>
+          <h1 aria-label={c.titleLabel}>
+            <SplitWords text={c.titleA} />{' '}
+            <SplitWords text={c.titleB} start={c.titleBStart} className="hl" />
           </h1>
-          <p className="hero-lead">
-            כל כלי מגיע עם היקף מוגדר וברור, כך שאתה יודע בדיוק מה מקבלים, והאספקה מהירה. כל מערכת נבנית מלאה ומקצועית, וההיקף נקבע לפי מה שהעסק צריך ולפי התקציב.
-          </p>
+          <p className="hero-lead">{c.lead}</p>
           <p className="callout">
             <Icon name="list" size={20} />
             <span>
-              צריך יותר ממה שכתוב כאן? זה <b>מוצר מורחב</b>. המחיר וזמן הפיתוח נקבעים לפי אפיון.
+              {c.extendedA}<b>{c.extendedB}</b>{c.extendedC}
             </span>
           </p>
           <p className="callout">
             <Icon name="gear" size={20} />
             <span>
-              המודולים הם נקודת התחלה, לא הגבול. אנחנו מפתחים <b>כל מערכת ולכל פלטפורמה</b>, בהתאמה אישית מלאה לעסק שלך.{' '}
-              <Link to="/solutions/custom-system">למערכת מותאמת אישית</Link>
+              {c.customA}<b>{c.customB}</b>{c.customC}{' '}
+              <Link to={lp('/solutions/custom-system')}>{c.customLink}</Link>
             </span>
           </p>
         </div>
@@ -40,7 +44,7 @@ export default function Modules() {
       <section className="section section--flush">
         <div className="container">
           <ul className="module-grid spot-grid" ref={modulesRef}>
-            {MODULES.map((m) => (
+            {modules.map((m) => (
               <li key={m.id} id={m.id} className="module">
                 <header>
                   <span className="card-icon"><Icon name={m.icon} size={24} /></span>
@@ -55,25 +59,25 @@ export default function Modules() {
             ))}
           </ul>
           <p className="center-link">
-            <Link to="/solutions" className="text-link">למחירים של כל כלי <Icon name="arrow" size={16} /></Link>
+            <Link to={lp('/solutions')} className="text-link">{c.toPrices} <Icon name="arrow" size={16} /></Link>
           </p>
         </div>
       </section>
 
       <section id="addons" className="section">
         <div className="container">
-          <SectionHead kicker="חבילות ותוספות" title="מחברים כמה כלים, משלמים פחות">
-            ככה זה עובד כשרוצים יותר מכלי אחד, או כשצריך לחבר מערכת שכבר יש לך.
+          <SectionHead kicker={c.addonsKicker} title={c.addonsTitle}>
+            {c.addonsLead}
           </SectionHead>
           <ul className="addon-grid spot-grid" ref={addonsRef}>
-            {ADDONS.map((a) => (
+            {addons.map((a) => (
               <li key={a.title} className="card addon">
                 <span className="card-icon"><Icon name={a.icon} size={24} /></span>
                 <h3>{a.title}</h3>
                 <p>{a.text}</p>
                 {a.example && (
                   <p className="addon-example">
-                    <span>דוגמה</span>
+                    <span>{c.example}</span>
                     {a.example}
                   </p>
                 )}
@@ -86,7 +90,7 @@ export default function Modules() {
       </section>
 
       <Terms />
-      <Contact title="רוצים לבדוק מה מתאים לכם?" sub="נעבור יחד על מה שהעסק צריך, ונגיד לך בדיוק מה נכנס בהיקף הסטנדרטי ומה נבנה בהרחבה." />
+      <Contact title={c.contactTitle} sub={c.contactSub} />
     </>
   );
 }

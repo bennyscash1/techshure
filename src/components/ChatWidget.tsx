@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { CONTACT } from '../data/site';
+import { useLang, type Lang } from '../i18n';
 import { HezkiAvatar } from './HezkiAvatar';
 import { Icon } from './Icon';
 
@@ -9,27 +10,14 @@ type Msg = { role: 'user' | 'bot'; text: string };
 // Match the limits in api/chat.ts.
 const MAX_CHARS = 600;
 const MAX_TURNS = 20;
-const STORE_KEY = 'ts-chat-v1';
-
-const GREETING: Msg = {
-  role: 'bot',
-  text: 'היי, אני חזקי מ־Tech-shure. ספרו לי קצת על העסק, ואגיד לכם מה יכול לחסוך לכם זמן, ספקים וכאב ראש. במה העסק עוסק?',
-};
-
-const QUICK = ['אין לי עדיין מערכות, מאיפה מתחילים?', 'מפספס שיחות מלקוחות', 'רוצה מערכת CRM / ERP לניהול העסק', 'כמה זה עולה?'];
-
-const ERRORS: Record<string, string> = {
-  'too-long': `ההודעה ארוכה מדי. אפשר לקצר ל־${MAX_CHARS} תווים?`,
-  'turn-limit': 'הגענו למספר ההודעות המקסימלי בשיחה. נשמח להמשיך בטלפון או בוואטסאפ.',
-  'rate-limit': 'יש עומס רגעי. נסו שוב בעוד כמה דקות, או דברו איתנו ישירות.',
-  default: 'משהו השתבש בדרך. נסו שוב, או דברו איתנו ישירות.',
-};
+// Each language keeps its own conversation. The Hebrew key is unchanged, so existing chats survive.
+const storeKey = (lang: Lang) => (lang === 'he' ? 'ts-chat-v1' : `ts-chat-v1-${lang}`);
 
 type Saved = { messages: Msg[]; leadSent: boolean };
 
-function loadSaved(): Saved | null {
+function loadSaved(lang: Lang): Saved | null {
   try {
-    const raw = sessionStorage.getItem(STORE_KEY);
+    const raw = sessionStorage.getItem(storeKey(lang));
     if (!raw) return null;
     const data = JSON.parse(raw) as Saved;
     return Array.isArray(data.messages) && data.messages.length ? data : null;
@@ -40,7 +28,7 @@ function loadSaved(): Saved | null {
 
 /** Turns links and phone numbers in a bot reply into clickable links. */
 function RichText({ text }: { text: string }) {
-  const parts = text.split(/(https?:\/\/[^\s,]+|0\d{1,2}-?\d{3}-?\d{4})/g);
+  const parts = text.split(/(https?:\/\/[^\s,]+|\+972[-\s]?\d{1,2}[-\s]?\d{3}[-\s]?\d{4}|0\d{1,2}-?\d{3}-?\d{4})/g);
   return (
     <>
       {parts.map((part, i) => {
@@ -56,6 +44,9 @@ function RichText({ text }: { text: string }) {
         if (/^0\d/.test(part)) {
           return <a key={i} href={`tel:${part.replace(/\D/g, '')}`} dir="ltr">{part}</a>;
         }
+        if (/^\+972/.test(part)) {
+          return <a key={i} href={`tel:+${part.replace(/\D/g, '')}`} dir="ltr">{part}</a>;
+        }
         return <Fragment key={i}>{part}</Fragment>;
       })}
     </>
@@ -69,11 +60,23 @@ export function openChat() {
   window.dispatchEvent(new Event(OPEN_CHAT_EVENT));
 }
 
+/** The Hezki chat. Render with key={lang}: the language is fixed for the life of the widget. */
 export function ChatWidget() {
-  const saved = useRef(loadSaved());
+  const { lang, t } = useLang();
+  const ui = t.chat;
+  const greeting: Msg = { role: 'bot', text: ui.greeting };
+  const errorText = (code: string) =>
+    code === 'too-long'
+      ? ui.errors.tooLong(MAX_CHARS)
+      : code === 'turn-limit'
+        ? ui.errors.turnLimit
+        : code === 'rate-limit'
+          ? ui.errors.rateLimit
+          : ui.errors.default;
+  const saved = useRef(loadSaved(lang));
   const [open, setOpen] = useState(false);
   const [enabled, setEnabled] = useState<boolean | null>(null);
-  const [messages, setMessages] = useState<Msg[]>(saved.current?.messages ?? [GREETING]);
+  const [messages, setMessages] = useState<Msg[]>(saved.current?.messages ?? [greeting]);
   const [leadSent, setLeadSent] = useState(saved.current?.leadSent ?? false);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
@@ -108,11 +111,11 @@ export function ChatWidget() {
 
   useEffect(() => {
     try {
-      sessionStorage.setItem(STORE_KEY, JSON.stringify({ messages, leadSent }));
+      sessionStorage.setItem(storeKey(lang), JSON.stringify({ messages, leadSent }));
     } catch {
       /* private mode: chat still works, just not across reloads */
     }
-  }, [messages, leadSent]);
+  }, [messages, leadSent, lang]);
 
   useEffect(() => {
     const log = logRef.current;
@@ -140,7 +143,7 @@ export function ChatWidget() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ messages: next, leadSent, page: pathname }),
+        body: JSON.stringify({ messages: next, leadSent, page: pathname, lang }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; reply?: string; leadSent?: boolean; error?: string };
       if (data.error === 'disabled') {
@@ -148,13 +151,13 @@ export function ChatWidget() {
         return;
       }
       if (!res.ok || !data.ok || !data.reply) {
-        setError(ERRORS[data.error ?? ''] ?? ERRORS.default);
+        setError(errorText(data.error ?? ''));
         return;
       }
       setMessages((m) => [...m, { role: 'bot', text: data.reply as string }]);
       if (data.leadSent) setLeadSent(true);
     } catch {
-      setError(ERRORS.default);
+      setError(ui.errors.default);
     } finally {
       setSending(false);
     }
@@ -173,7 +176,7 @@ export function ChatWidget() {
   }
 
   function reset() {
-    setMessages([GREETING]);
+    setMessages([greeting]);
     setLeadSent(false);
     setError('');
   }
@@ -181,13 +184,13 @@ export function ChatWidget() {
   const contactLinks = (
     <div className="chat-contact">
       <a className="btn btn-accent btn-sm" href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noopener noreferrer">
-        <Icon name="chat" size={16} /> וואטסאפ
+        <Icon name="chat" size={16} /> {ui.whatsapp}
       </a>
       <a className="btn btn-ghost btn-sm" href={`tel:${CONTACT.phoneTel}`}>
-        <Icon name="phone" size={16} /> <span dir="ltr">{CONTACT.phone}</span>
+        <Icon name="phone" size={16} /> <span dir="ltr">{t.contactInfo.phone}</span>
       </a>
       <Link className="btn btn-ghost btn-sm" to={{ pathname, hash: '#contact' }} onClick={() => setOpen(false)}>
-        <Icon name="mail" size={16} /> השאירו פרטים
+        <Icon name="mail" size={16} /> {ui.leaveDetails}
       </Link>
     </div>
   );
@@ -200,11 +203,11 @@ export function ChatWidget() {
         className={`chat-fab${open ? ' is-open' : ''}`}
         aria-expanded={open}
         aria-controls="chat-panel"
-        aria-label={open ? 'סגירת הצ׳אט' : 'צ׳אט עם חזקי'}
+        aria-label={open ? ui.fabClose : ui.fabOpen}
         onClick={() => (open ? close() : setOpen(true))}
       >
         <HezkiAvatar size={50} typing={sending} />
-        {!open && <span className="chat-fab-tip" aria-hidden="true">שאלות? אני כאן</span>}
+        {!open && <span className="chat-fab-tip" aria-hidden="true">{ui.tip}</span>}
       </button>
 
       {open && (
@@ -212,21 +215,21 @@ export function ChatWidget() {
           id="chat-panel"
           className="chat-panel"
           role="dialog"
-          aria-label="צ׳אט עם חזקי"
+          aria-label={ui.dialog}
           onKeyDown={(e) => e.key === 'Escape' && close()}
         >
           <header className="chat-head">
             <HezkiAvatar size={46} typing={sending} />
             <div className="chat-head-text">
-              <strong>חזקי</strong>
-              <span>{sending ? 'מקליד...' : 'הבוט של Tech-shure, זמין 24/7'}</span>
+              <strong>{ui.name}</strong>
+              <span>{sending ? ui.typing : ui.status}</span>
             </div>
             {enabled && messages.length > 1 && (
-              <button type="button" className="chat-icon-btn" onClick={reset} aria-label="שיחה חדשה" title="שיחה חדשה">
+              <button type="button" className="chat-icon-btn" onClick={reset} aria-label={ui.newChat} title={ui.newChat}>
                 <Icon name="sync" size={18} />
               </button>
             )}
-            <button type="button" className="chat-icon-btn" onClick={close} aria-label="סגירה">
+            <button type="button" className="chat-icon-btn" onClick={close} aria-label={ui.close}>
               <Icon name="close" size={20} />
             </button>
           </header>
@@ -235,7 +238,7 @@ export function ChatWidget() {
             <div className="chat-fallback">
               <HezkiAvatar size={96} />
               <p>
-                <b>היי, אני חזקי.</b> הצ׳אט שלי עוד בהכנות, אבל אנחנו כאן בשבילכם. דברו איתנו ישירות, ונחזור אליכם בהקדם.
+                <b>{ui.fallbackHi}</b>{ui.fallbackText}
               </p>
               {contactLinks}
             </div>
@@ -249,13 +252,13 @@ export function ChatWidget() {
                 ))}
                 {messages.length === 1 && enabled && (
                   <div className="chat-quick">
-                    {QUICK.map((q) => (
+                    {ui.quick.map((q) => (
                       <button key={q} type="button" onClick={() => void send(q)}>{q}</button>
                     ))}
                   </div>
                 )}
                 {(sending || enabled === null) && (
-                  <div className="chat-msg chat-msg--bot chat-typing" aria-label="חזקי מקליד">
+                  <div className="chat-msg chat-msg--bot chat-typing" aria-label={ui.typingLabel}>
                     <span /><span /><span />
                   </div>
                 )}
@@ -267,7 +270,7 @@ export function ChatWidget() {
                 )}
                 {atLimit && !error && (
                   <div className="chat-error">
-                    <p>{ERRORS['turn-limit']}</p>
+                    <p>{ui.errors.turnLimit}</p>
                     {contactLinks}
                   </div>
                 )}
@@ -281,11 +284,11 @@ export function ChatWidget() {
                   maxLength={MAX_CHARS}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={onKeyDown}
-                  placeholder={atLimit ? 'השיחה הגיעה לסיום' : 'כתבו הודעה...'}
-                  aria-label="הודעה לחזקי"
+                  placeholder={atLimit ? ui.ended : ui.placeholder}
+                  aria-label={ui.inputLabel}
                   disabled={!enabled || atLimit}
                 />
-                <button type="submit" className="chat-send" disabled={!enabled || sending || atLimit || !input.trim()} aria-label="שליחה">
+                <button type="submit" className="chat-send" disabled={!enabled || sending || atLimit || !input.trim()} aria-label={ui.send}>
                   <Icon name="arrow" size={20} />
                 </button>
               </form>
