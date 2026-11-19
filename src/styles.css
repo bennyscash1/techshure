@@ -925,11 +925,14 @@ a.integration:hover .integration-arrow { transform: translateX(-4px); }
 .edge-grid .card { padding: 24px; }
 .edge-grid h3 { font-size: 1.08rem; }
 .edge-grid p { font-size: 0.98rem; }
-.edge-split { margin-top: 48px; }
-@media (min-width: 900px) { .edge-split { margin-top: 64px; } }
+.edge-feature { margin-top: 48px; }
+.feature--wide { display: grid; gap: 8px 48px; align-items: center; }
+.feature--wide .ticks { margin: 0; }
+@media (min-width: 900px) {
+  .edge-feature { margin-top: 64px; }
+  .feature--wide { grid-template-columns: 1.4fr 1fr; padding: 40px; }
+}
 .feature .kicker, .product-row-cat { display: block; width: fit-content; }
-.feature--ai { background: linear-gradient(135deg, var(--gold-soft), var(--card) 55%); border-color: #ecd6a6; }
-.feature--ai .btn { margin-top: 0.5rem; }
 
 /* Fixed offer: price + what is included / not included (AI consulting day) */
 .offer { background: var(--card); border: 1px solid #ecd6a6; border-radius: var(--radius); padding: 28px 22px; box-shadow: var(--shadow); display: grid; gap: 20px; }
@@ -950,13 +953,6 @@ a.integration:hover .integration-arrow { transform: translateX(-4px); }
   .offer { padding: 36px; }
   .offer-head { grid-template-columns: 1fr auto; gap: 32px; }
 }
-.offer--compact { padding: 20px; gap: 14px; margin: 1.2rem 0 1rem; box-shadow: none; }
-.offer--compact .offer-head { grid-template-columns: 1fr; gap: 12px; }
-.offer--compact .offer-price { justify-items: start; text-align: start; padding: 12px 18px; }
-.offer--compact .compare { grid-template-columns: 1fr; }
-.offer--compact .compare-col { padding: 16px; }
-.offer--compact .compare-col li { font-size: 0.94rem; }
-.offer--compact .offer-note { font-size: 0.94rem; }
 .tech-card-cat {
   align-self: flex-start; font-size: 0.78rem; font-weight: 700; color: var(--navy-deep); background: var(--gold-soft);
   border: 1px solid #ecd6a6; padding: 0.1rem 0.65rem; border-radius: 999px; margin-bottom: 0.5rem;

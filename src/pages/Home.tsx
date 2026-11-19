@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import hezki from '../assets/hezki.webp';
 import { Contact } from '../components/Contact';
-import { AiEdge, OfferBlock, SectionHead } from '../components/Blocks';
-import { AI_CONSULTING_DAY } from '../data/solutions';
+import { AiEdge, SectionHead } from '../components/Blocks';
 import { Icon, type IconName } from '../components/Icon';
 import { CountUp, SplitWords, useParallax } from '../components/Motion';
 
@@ -95,34 +94,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4 + 5. Why fast and efficient (AI edge), AI consulting for tech-savvy owners, built for you */}
-      <AiEdge title="פיתוח בעוצמה של AI. מחיר נמוך משמעותית.">
-        <div className="split edge-split">
-          <article className="feature feature--ai">
-            <span className="card-icon card-icon--gold"><Icon name="sparkle" size={24} /></span>
-            <span className="kicker kicker--gold">ייעוץ לעסקים</span>
-            <h2>לבעלי עסקים עם ראש טכנולוגי</h2>
-            <p>
-              רוצים לקחת את העסק לעתיד? אנחנו מגיעים אליכם לעסק ליום ייעוץ AI ממוקד, מכמה שעות ועד 6 שעות: ממפים יחד את התהליכים, בוחרים את כלי ה-AI המתקדמים ביותר, ומאתרים איפה סוכני AI ואוטומציות יעשו עבודה של עובדים על אנושיים. בסוף היום אתם מקבלים מסמך המלצות כתוב להטמעה. בלי אותיות קטנות.
-            </p>
-            <OfferBlock offer={AI_CONSULTING_DAY} compact />
-            <Link to="/solutions/ai-consulting" className="btn btn-primary">
-              לכל הפרטים על יום הייעוץ <Icon name="arrow" size={18} />
-            </Link>
-          </article>
-          <article className="feature">
+      {/* 4 + 5. Why fast and efficient (AI edge), built for you */}
+      <AiEdge title="פיתוח בעוצמה של AI. מהיר, יעיל ומשתלם.">
+        <article className="feature feature--wide edge-feature">
+          <div className="feature-wide-copy">
             <span className="card-icon"><Icon name="lock" size={24} /></span>
             <h2>נבנה אישית בשבילך</h2>
             <p>
               לא תבנית גנרית. קוד שנכתב במיוחד לעסק שלך, לפי איך שאתה עובד, ורץ על שרת מאובטח.
             </p>
-            <ul className="ticks">
-              <li><Icon name="check" size={18} strokeWidth={3} /> קוד מותאם לעסק שלך</li>
-              <li><Icon name="check" size={18} strokeWidth={3} /> שרת מאובטח</li>
-              <li><Icon name="check" size={18} strokeWidth={3} /> מתחזקים ומשפרים לאורך הדרך</li>
-            </ul>
-          </article>
-        </div>
+          </div>
+          <ul className="ticks">
+            <li><Icon name="check" size={18} strokeWidth={3} /> קוד מותאם לעסק שלך</li>
+            <li><Icon name="check" size={18} strokeWidth={3} /> שרת מאובטח</li>
+            <li><Icon name="check" size={18} strokeWidth={3} /> מתחזקים ומשפרים לאורך הדרך</li>
+          </ul>
+        </article>
       </AiEdge>
 
       {/* 6. Custom build */}

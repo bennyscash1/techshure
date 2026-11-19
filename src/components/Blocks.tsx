@@ -83,16 +83,14 @@ export function Terms() {
 }
 
 /** A fixed offer with its price and a clear "what is included / what is not" block. No small print. */
-export function OfferBlock({ offer, compact }: { offer: DayOffer; compact?: boolean }) {
+export function OfferBlock({ offer }: { offer: DayOffer }) {
   return (
-    <div className={`offer${compact ? ' offer--compact' : ''}`}>
+    <div className="offer">
       <div className="offer-head">
-        {!compact && (
-          <div className="offer-copy">
-            <h3>{offer.title}</h3>
-            <p>{offer.summary}</p>
-          </div>
-        )}
+        <div className="offer-copy">
+          <h3>{offer.title}</h3>
+          <p>{offer.summary}</p>
+        </div>
         <div className="offer-price">
           <strong dir="ltr">{offer.price}</strong>
           <span>{offer.priceLabel}</span>
@@ -144,8 +142,8 @@ export function TechCard({ solution }: { solution: Solution }) {
 const AI_EDGE: { icon: IconName; title: string; text: string; gold?: boolean }[] = [
   { icon: 'sparkle', title: 'AI בכל שלב בפיתוח', text: 'כותבים קוד מהר מאוד עם כלי ה-AI המתקדמים ביותר, ואתם מקבלים מערכת מוכנה הרבה יותר מוקדם.' },
   { icon: 'users', title: 'צוות מנוסה, למעלה מעשור', text: 'צוות קטן של מפתחי תוכנה ותיקים, שיודעים בדיוק מה לבנות ואיך. כל מערכת נבנית נכון מהיום הראשון.' },
-  { icon: 'coins', title: 'מחיר נמוך משמעותית', text: 'החיסכון בזמן הפיתוח עובר אליכם. מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.', gold: true },
-  { icon: 'shield', title: 'בלי אותיות קטנות', text: 'המחיר נמוך כי אנחנו עובדים חכם, לא כי חסר משהו. מה שסיכמנו, זה מה שמקבלים.', gold: true },
+  { icon: 'coins', title: 'משתלם באמת', text: 'החיסכון בזמן הפיתוח עובר אליכם. מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.', gold: true },
+  { icon: 'shield', title: 'בלי אותיות קטנות', text: 'משתלם כי אנחנו עובדים חכם, לא כי חסר משהו. מה שסיכמנו, זה מה שמקבלים.', gold: true },
 ];
 
 /** "Why we are fast and efficient": the AI edge, on the home page and on /solutions. Extra content goes in children. */
@@ -154,7 +152,7 @@ export function AiEdge({ title, sand, children }: { title: string; sand?: boolea
     <section id="ai-edge" className={`section${sand ? ' section--sand' : ''}`}>
       <div className="container">
         <SectionHead kicker="למה אנחנו מהירים ויעילים" title={title}>
-          אנחנו בונים עם כלי ה-AI המתקדמים ביותר, ולכן הפיתוח מהיר מאוד והמחיר שלנו נמוך משמעותית. צוות קטן של מפתחי תוכנה מנוסים, למעלה מעשור. אין פה אותיות קטנות: פשוט יודעים לעשות הכל מהר ויעיל, ואתם מקבלים מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.
+          אנחנו בונים עם כלי ה-AI המתקדמים ביותר, ולכן הפיתוח מהיר מאוד ומשתלם במיוחד. צוות קטן של מפתחי תוכנה מנוסים, למעלה מעשור. אין פה אותיות קטנות: פשוט יודעים לעשות הכל מהר ויעיל, ואתם מקבלים מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.
         </SectionHead>
         <ul className="edge-grid">
           {AI_EDGE.map((e) => (
