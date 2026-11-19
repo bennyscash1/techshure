@@ -47,19 +47,22 @@ function apiKey(): string {
   return process.env.GEMINI_API_KEY?.trim() ?? '';
 }
 
-/**
- * The brand is always "Tech-shure", never in Hebrew letters (טק-שור, טק שור, טקשור, טק־שור and the like).
- * Letter boundaries keep unrelated words intact; a Hebrew prefix letter becomes e.g. "מ-Tech-shure".
- */
-function fixBrandName(text: string): string {
-  return text.replace(/(?<![א-ת])([מבלושכה]?)טק[\s־-]?שור(?![א-ת])/g, (_m, prefix: string) =>
-    prefix ? `${prefix}-Tech-shure` : 'Tech-shure',
-  );
-}
-
 /** Never show long dashes on the site, even if the model slips one in. */
 function noDashes(text: string): string {
   return text.replace(/\s*[\u2013\u2014]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
+}
+
+// The brand name is always "Tech-shure", never in Hebrew letters (owner's request, change request 21a).
+// Catches the dash, space, maqaf (U+05BE) and joined forms, with or without a Hebrew prefix letter
+// such as \u05de, \u05d1, \u05dc, \u05d5 or \u05e9. The letters are written as escapes so the forbidden form never sits in the source.
+const HEBREW_BRAND =
+  /(^|[^\u05d0-\u05ea])([\u05d5\u05d1\u05dc\u05de\u05db\u05e9\u05d4]{0,2})\u05d8\u05e7[\s\-\u05be\u2010\u2011]?\u05e9\u05d5\u05e8(?![\u05d0-\u05ea])/g;
+
+/** Rewrites any Hebrew-letter form of the brand to "Tech-shure"; a prefix letter stays, as in "\u05de-Tech-shure". */
+function brandName(text: string): string {
+  return text
+    .replace(HEBREW_BRAND, (_m, before: string, prefix: string) => `${before}${prefix ? `${prefix}-` : ''}Tech-shure`)
+    .replace(/Tech-shure\s*\(?\s*Tech-shure\s*\)?/g, 'Tech-shure');
 }
 
 // Best effort, per warm instance. Good enough to stop a single noisy client.
@@ -245,7 +248,7 @@ async function sendLeadEmail(lead: Lead, messages: ChatMessage[], page: string):
     '',
     'השיחה המלאה:',
     ...transcript,
-  ]);
+  ].map(brandName));
   return sendToOwner({
     fromName: 'Tech-shure, צ׳אט באתר',
     subject: `ליד מהצ׳אט: ${lead.name.slice(0, 80)}`,
@@ -335,7 +338,7 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
 
-  reply = fixBrandName(noDashes(reply));
+  reply = brandName(noDashes(reply));
   if (!reply || looksLikeJson(reply)) reply = REPLY_RETRY;
   return json({ ok: true, reply, leadSent: leadSent || sentNow });
 }

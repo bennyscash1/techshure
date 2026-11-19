@@ -1,4 +1,4 @@
-# Tech-Shure טק-שור – אתר
+# Tech-shure: אתר
 
 Landing site for Tech-Shure: React + TypeScript + Vite, RTL Hebrew, responsive for desktop and mobile.
 
@@ -25,7 +25,7 @@ The form posts to `/api/contact`. That Vercel function emails the submission wit
 Set these in Vercel → Project → Settings → Environment Variables (do not commit them):
 
 - `RESEND_API_KEY`
-- `CONTACT_TO_EMAIL` — address that receives each lead
+- `CONTACT_TO_EMAIL`: address that receives each lead
 
 The sender is `onboarding@resend.dev` until a domain is verified. Resend’s sandbox only delivers to the account email.
 
