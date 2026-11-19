@@ -32,7 +32,7 @@ export default function Home() {
               <SplitWords text="על בטוח." start={7} className="hl" />
             </h1>
             <p className="hero-lead">
-              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
+              אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (<bdi className="ltr-chunk" dir="ltr">CRM / ERP</bdi>) ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.
             </p>
             <div className="hero-actions">
               <Link to={{ hash: '#contact' }} className="btn btn-accent btn-lg">

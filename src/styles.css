@@ -81,6 +81,7 @@ b, strong { font-weight: 700; }
 .section-head--center { text-align: center; margin-inline: auto; }
 .lead, .hero-lead { font-size: 1.15rem; color: var(--muted); }
 @media (min-width: 900px) { .lead, .hero-lead { font-size: 1.25rem; } }
+.ltr-chunk { unicode-bidi: isolate; direction: ltr; white-space: nowrap; }
 
 /* Buttons */
 .btn {

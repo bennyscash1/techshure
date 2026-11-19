@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Contact } from '../components/Contact';
 import { OfferBlock, SectionHead, TechCard } from '../components/Blocks';
+import { BidiText } from '../components/BidiText';
 import { openChat } from '../components/ChatWidget';
 import { Icon } from '../components/Icon';
 import { SplitWords, TiltCard, useSpotlight } from '../components/Motion';
@@ -238,7 +239,7 @@ function SolutionView({ s }: { s: Solution }) {
                 <SplitWords text={s.title} />
               </h1>
               <p className="sol-tagline">{s.tagline}</p>
-              <p className="hero-lead">{s.pitch}</p>
+              <p className="hero-lead"><BidiText text={s.pitch} /></p>
               <ul className="ticks sol-benefits">
                 {s.benefits.map((b) => (
                   <li key={b}><Icon name="check" size={18} strokeWidth={3} /> {b}</li>

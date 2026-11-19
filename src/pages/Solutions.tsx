@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { Contact } from '../components/Contact';
 import { AiEdge, PriceBox, PriceNote, TechCard, Terms } from '../components/Blocks';
+import { BidiText } from '../components/BidiText';
 import { Icon } from '../components/Icon';
 import { RotatingWords, SplitWords, TiltCard, useSpotlight } from '../components/Motion';
 import { SOLUTIONS, solutionPath } from '../data/solutions';
@@ -59,7 +60,7 @@ export default function Solutions() {
                 {s.category && <span className="kicker kicker--gold product-row-cat">{s.category}</span>}
                 <h2>{s.title}</h2>
                 <p className="product-tagline">{s.tagline}</p>
-                <p>{s.pitch}</p>
+                <p><BidiText text={s.pitch} /></p>
                 <ul className="ticks">
                   {s.points.map((pt) => (
                     <li key={pt}><Icon name="check" size={18} strokeWidth={3} /> {pt}</li>
