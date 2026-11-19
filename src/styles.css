@@ -776,6 +776,7 @@ main .module.is-in::after {
   animation: sheen 5s linear infinite;
 }
 .launch-badge svg { color: #9a6a12; }
+a.launch-badge, a.launch-badge:hover { text-decoration: none; color: var(--navy-deep); }
 .sol-addon-note { margin: 0.5rem 0 0; max-width: 46ch; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
 .sol-addon-note a { font-weight: 700; white-space: nowrap; }
 .sol-hero-art { width: min(460px, 100%); margin-inline: auto; animation: chip-in 0.9s var(--ease) 0.3s both; }
@@ -929,6 +930,33 @@ a.integration:hover .integration-arrow { transform: translateX(-4px); }
 .feature .kicker, .product-row-cat { display: block; width: fit-content; }
 .feature--ai { background: linear-gradient(135deg, var(--gold-soft), var(--card) 55%); border-color: #ecd6a6; }
 .feature--ai .btn { margin-top: 0.5rem; }
+
+/* Fixed offer: price + what is included / not included (AI consulting day) */
+.offer { background: var(--card); border: 1px solid #ecd6a6; border-radius: var(--radius); padding: 28px 22px; box-shadow: var(--shadow); display: grid; gap: 20px; }
+.offer-head { display: grid; gap: 18px; align-items: center; }
+.offer-copy h3 { font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 0.4em; }
+.offer-copy p { color: var(--muted); margin: 0; }
+.offer-price {
+  display: grid; justify-items: center; gap: 2px; text-align: center; padding: 16px 26px; border-radius: var(--radius-sm);
+  background: linear-gradient(140deg, var(--gold-soft), #fff6e2); border: 2px solid var(--gold);
+}
+.offer-price strong { font-size: clamp(1.9rem, 4.6vw, 2.5rem); font-weight: 800; color: var(--navy-deep); line-height: 1.1; }
+.offer-price span { font-size: 0.92rem; font-weight: 700; color: #7a5410; }
+.offer-compare h4 { font-size: 1.05rem; margin: 0 0 0.8rem; }
+.offer-compare .compare-col--before h4 { color: #8a4b26; }
+.offer-note { display: flex; align-items: flex-start; gap: 0.5rem; margin: 0; font-weight: 600; color: var(--navy); }
+.offer-note svg { flex: none; margin-top: 0.25rem; color: var(--blue); }
+@media (min-width: 760px) {
+  .offer { padding: 36px; }
+  .offer-head { grid-template-columns: 1fr auto; gap: 32px; }
+}
+.offer--compact { padding: 20px; gap: 14px; margin: 1.2rem 0 1rem; box-shadow: none; }
+.offer--compact .offer-head { grid-template-columns: 1fr; gap: 12px; }
+.offer--compact .offer-price { justify-items: start; text-align: start; padding: 12px 18px; }
+.offer--compact .compare { grid-template-columns: 1fr; }
+.offer--compact .compare-col { padding: 16px; }
+.offer--compact .compare-col li { font-size: 0.94rem; }
+.offer--compact .offer-note { font-size: 0.94rem; }
 .tech-card-cat {
   align-self: flex-start; font-size: 0.78rem; font-weight: 700; color: var(--navy-deep); background: var(--gold-soft);
   border: 1px solid #ecd6a6; padding: 0.1rem 0.65rem; border-radius: 999px; margin-bottom: 0.5rem;

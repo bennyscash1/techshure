@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import { BRAND } from '../data/site';
 import { PRICE_NOTE, TERMS, nis } from '../data/offer';
-import { solutionPath, type Price, type Solution } from '../data/solutions';
+import { solutionPath, type DayOffer, type Price, type Solution } from '../data/solutions';
 import { Icon, type IconName } from './Icon';
 import { CountUp } from './Motion';
 
@@ -79,6 +79,48 @@ export function Terms() {
         <PriceNote />
       </div>
     </section>
+  );
+}
+
+/** A fixed offer with its price and a clear "what is included / what is not" block. No small print. */
+export function OfferBlock({ offer, compact }: { offer: DayOffer; compact?: boolean }) {
+  return (
+    <div className={`offer${compact ? ' offer--compact' : ''}`}>
+      <div className="offer-head">
+        {!compact && (
+          <div className="offer-copy">
+            <h3>{offer.title}</h3>
+            <p>{offer.summary}</p>
+          </div>
+        )}
+        <div className="offer-price">
+          <strong dir="ltr">{offer.price}</strong>
+          <span>{offer.priceLabel}</span>
+        </div>
+      </div>
+      <div className="compare offer-compare">
+        <div className="compare-col compare-col--after">
+          <h4>מה כלול</h4>
+          <ul>
+            {offer.included.map((t) => (
+              <li key={t}><Icon name="check" size={18} strokeWidth={3} /> {t}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="compare-col compare-col--before">
+          <h4>מה לא כלול</h4>
+          <ul>
+            {offer.excluded.map((t) => (
+              <li key={t}><Icon name="close" size={18} strokeWidth={2.5} /> {t}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <p className="offer-note">
+        <Icon name="code" size={18} />
+        <span>{offer.note}</span>
+      </p>
+    </div>
   );
 }
 

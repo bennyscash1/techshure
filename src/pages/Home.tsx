@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import hezki from '../assets/hezki.webp';
 import { Contact } from '../components/Contact';
-import { AiEdge, SectionHead } from '../components/Blocks';
+import { AiEdge, OfferBlock, SectionHead } from '../components/Blocks';
+import { AI_CONSULTING_DAY } from '../data/solutions';
 import { Icon, type IconName } from '../components/Icon';
 import { CountUp, SplitWords, useParallax } from '../components/Motion';
 
@@ -102,15 +103,11 @@ export default function Home() {
             <span className="kicker kicker--gold">ייעוץ לעסקים</span>
             <h2>לבעלי עסקים עם ראש טכנולוגי</h2>
             <p>
-              רוצים לקחת את העסק לעתיד? ביום ייעוץ והטמעה ממוקד ממפים יחד את התהליכים, בוחרים את כלי ה-AI המתקדמים ביותר, ומקימים סוכני AI ואוטומציות שעובדים כמו עובדים על אנושיים. העסק עושה יותר, עם פחות עובדים.
+              רוצים לקחת את העסק לעתיד? אנחנו מגיעים אליכם לעסק ליום ייעוץ AI ממוקד, מכמה שעות ועד 6 שעות: ממפים יחד את התהליכים, בוחרים את כלי ה-AI המתקדמים ביותר, ומאתרים איפה סוכני AI ואוטומציות יעשו עבודה של עובדים על אנושיים. בסוף היום אתם מקבלים מסמך המלצות כתוב להטמעה. בלי אותיות קטנות.
             </p>
-            <ul className="ticks">
-              <li><Icon name="check" size={18} strokeWidth={3} /> מיפוי תהליכים ובחירת הכלים הנכונים</li>
-              <li><Icon name="check" size={18} strokeWidth={3} /> סוכני AI ואוטומציות שמוקמים יחד איתכם</li>
-              <li><Icon name="check" size={18} strokeWidth={3} /> ליווי חודשי קצר, או ממשיכים לבד</li>
-            </ul>
+            <OfferBlock offer={AI_CONSULTING_DAY} compact />
             <Link to="/solutions/ai-consulting" className="btn btn-primary">
-              להטמעת AI בעסק שלכם <Icon name="arrow" size={18} />
+              לכל הפרטים על יום הייעוץ <Icon name="arrow" size={18} />
             </Link>
           </article>
           <article className="feature">

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Contact } from '../components/Contact';
-import { SectionHead, TechCard } from '../components/Blocks';
+import { OfferBlock, SectionHead, TechCard } from '../components/Blocks';
 import { openChat } from '../components/ChatWidget';
 import { Icon } from '../components/Icon';
 import { SplitWords, TiltCard, useSpotlight } from '../components/Motion';
@@ -245,7 +245,13 @@ function SolutionView({ s }: { s: Solution }) {
                 ))}
               </ul>
               <div className="sol-hero-foot">
-                <span className="launch-badge"><Icon name="bell" size={18} /> מחיר השקה לזמן מוגבל</span>
+                {s.offer ? (
+                  <a href="#offer" className="launch-badge">
+                    <Icon name="coins" size={18} /> יום ייעוץ אצלכם בעסק: <span dir="ltr">{s.offer.price}</span>
+                  </a>
+                ) : (
+                  <span className="launch-badge"><Icon name="bell" size={18} /> מחיר השקה לזמן מוגבל</span>
+                )}
                 {s.addonNote && (
                   <p className="sol-addon-note">
                     {s.addonNote} <Link to="/modules#addons">לפרטים על התוספות</Link>
@@ -283,6 +289,17 @@ function SolutionView({ s }: { s: Solution }) {
           </ul>
         </div>
       </section>
+
+      {s.offer && (
+        <section className="section section--tight" id="offer">
+          <div className="container">
+            <SectionHead kicker="בלי אותיות קטנות" title="מה מקבלים, וכמה זה עולה" center>
+              מחיר אחד וברור ליום הייעוץ. מה שכתוב כאן, זה מה שמקבלים.
+            </SectionHead>
+            <OfferBlock offer={s.offer} />
+          </div>
+        </section>
+      )}
 
       <section className="section sol-details" id="details">
         <div className="container">
