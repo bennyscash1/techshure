@@ -27,7 +27,7 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} טק-שור · שור בנימין חיים · עוסק פטור {CONTACT.businessId}</span>
+          <span>© {new Date().getFullYear()} Tech-shure · שור בנימין חיים · עוסק פטור {CONTACT.businessId}</span>
           <span className="footer-legal">
             <a href="#">מדיניות פרטיות</a>
             <a href="#">הצהרת נגישות</a>

@@ -12,9 +12,9 @@ import Modules from './pages/Modules';
 import SolutionPage from './pages/SolutionPage';
 
 const TITLES: Record<PageKey, string> = {
-  home: 'Tech-shure טק-שור | טכנולוגיה. על בטוח.',
-  solutions: 'טכנולוגיות לעסק שלך | Tech-shure טק-שור',
-  modules: 'מודולים, חבילות ותנאים | Tech-shure טק-שור',
+  home: 'Tech-shure | טכנולוגיה. על בטוח.',
+  solutions: 'טכנולוגיות לעסק שלך | Tech-shure',
+  modules: 'מודולים, חבילות ותנאים | Tech-shure',
 };
 
 function pageFromPath(pathname: string): PageKey {

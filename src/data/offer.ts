@@ -75,7 +75,7 @@ export const ADDONS: Addon[] = [
     icon: 'shield',
     title: 'וואטסאפ רשמי (API של Meta)',
     text: 'הלקוח מספק API דרך חברה מורשית, או משלם תוספת של 2,000 ₪.',
-    note: 'טק-שור אינה אחראית לחסימת מספר על ידי Meta, מכל סיבה שהיא.',
+    note: 'Tech-shure אינה אחראית לחסימת מספר על ידי Meta, מכל סיבה שהיא.',
   },
 ];
 
@@ -124,7 +124,7 @@ export const TERMS: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'signal',
     title: 'סיום התקשרות',
-    text: 'טק-שור רשאית לכבות את המערכת בהודעה מוקדמת של 30 יום. המערכת, הקוד והתשתית בבעלות טק-שור.',
+    text: 'Tech-shure רשאית לכבות את המערכת בהודעה מוקדמת של 30 יום. המערכת, הקוד והתשתית בבעלות Tech-shure.',
   },
   {
     icon: 'gift',

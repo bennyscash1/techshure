@@ -47,6 +47,16 @@ function apiKey(): string {
   return process.env.GEMINI_API_KEY?.trim() ?? '';
 }
 
+/**
+ * The brand is always "Tech-shure", never in Hebrew letters (טק-שור, טק שור, טקשור, טק־שור and the like).
+ * Letter boundaries keep unrelated words intact; a Hebrew prefix letter becomes e.g. "מ-Tech-shure".
+ */
+function fixBrandName(text: string): string {
+  return text.replace(/(?<![א-ת])([מבלושכה]?)טק[\s־-]?שור(?![א-ת])/g, (_m, prefix: string) =>
+    prefix ? `${prefix}-Tech-shure` : 'Tech-shure',
+  );
+}
+
 /** Never show long dashes on the site, even if the model slips one in. */
 function noDashes(text: string): string {
   return text.replace(/\s*[\u2013\u2014]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
@@ -325,7 +335,7 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
 
-  reply = noDashes(reply);
+  reply = fixBrandName(noDashes(reply));
   if (!reply || looksLikeJson(reply)) reply = REPLY_RETRY;
   return json({ ok: true, reply, leadSent: leadSent || sentNow });
 }

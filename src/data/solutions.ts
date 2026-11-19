@@ -175,7 +175,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['whatsapp-bot', 'crm-erp', 'custom-system'],
     service: 'מענה טלפוני חכם',
-    metaTitle: 'מענה טלפוני חכם | טכנולוגיות לעסק שלך | Tech-shure טק-שור',
+    metaTitle: 'מענה טלפוני חכם | טכנולוגיות לעסק שלך | Tech-shure',
     metaDescription: 'מענה טלפוני חכם לעסק: תפריט הקשות ובוט AI שעונה ללקוחות, ניתוב לפי שעות פעילות וסיכום כל שיחה במייל. פעיל 24/7, מתוחזק על ידי Tech-shure.',
   },
   {
@@ -250,7 +250,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['phone-answering', 'crm-erp', 'landing-page', 'ai-consulting'],
     service: 'בוט וואטסאפ',
-    metaTitle: 'בוט וואטסאפ לעסק | טכנולוגיות לעסק שלך | Tech-shure טק-שור',
+    metaTitle: 'בוט וואטסאפ לעסק | טכנולוגיות לעסק שלך | Tech-shure',
     metaDescription: 'בוט וואטסאפ לעסק: תשובה מיידית לשאלות נפוצות, תפריט ברור ללקוח וסינון לידים שמגיעים אליך למייל או לוואטסאפ. פעיל 24/7, מתוחזק על ידי Tech-shure.',
   },
   {
@@ -330,7 +330,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['phone-answering', 'whatsapp-bot', 'custom-system', 'ai-consulting'],
     service: 'מערכת CRM / ERP לניהול העסק + סליקה',
-    metaTitle: 'מערכת CRM / ERP לניהול העסק | טכנולוגיות לעסק שלך | Tech-shure טק-שור',
+    metaTitle: 'מערכת CRM / ERP לניהול העסק | טכנולוגיות לעסק שלך | Tech-shure',
     metaDescription: 'מערכת CRM / ERP מלאה לניהול לקוחות ולניהול העסק: לידים, תורים, הזמנות, משימות, דשבורד, דוחות, גבייה ותשלומים. נבנית לפי העסק שלך ומתרחבת יחד איתו.',
   },
   {
@@ -403,7 +403,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['whatsapp-bot', 'crm-erp', 'custom-system'],
     service: 'דף נחיתה',
-    metaTitle: 'דף נחיתה ואוטומציית מיילים | טכנולוגיות לעסק שלך | Tech-shure טק-שור',
+    metaTitle: 'דף נחיתה ואוטומציית מיילים | טכנולוגיות לעסק שלך | Tech-shure',
     metaDescription: 'דף נחיתה מקצועי ומותאם למובייל שאוסף לידים, ואוטומציית מיילים שנשלחים ללקוחות בזמן הנכון. נבנה ומתוחזק על ידי Tech-shure.',
   },
   {
@@ -482,7 +482,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['crm-erp', 'ai-consulting', 'phone-answering', 'whatsapp-bot'],
     service: 'מערכת מותאמת אישית',
-    metaTitle: 'מערכת מותאמת אישית לעסק | טכנולוגיות לעסק שלך | Tech-shure טק-שור',
+    metaTitle: 'מערכת מותאמת אישית לעסק | טכנולוגיות לעסק שלך | Tech-shure',
     metaDescription: 'מערכת מותאמת אישית לעסק, לכל פלטפורמה: אתר, אפליקציה, מערכת פנימית או חיבור בין מערכות. נבנית מהמודולים של Tech-shure ומקוד ייעודי, מהר ובהתאמה מלאה.',
   },
   {
@@ -576,7 +576,7 @@ export const SOLUTIONS: Solution[] = [
     ],
     related: ['custom-system', 'crm-erp', 'whatsapp-bot'],
     service: 'הטמעת AI בעסק (ייעוץ לעסקים)',
-    metaTitle: 'הטמעת AI בעסק שלכם | ייעוץ לעסקים | Tech-shure טק-שור',
+    metaTitle: 'הטמעת AI בעסק שלכם | ייעוץ לעסקים | Tech-shure',
     metaDescription: 'יום ייעוץ AI אצלכם בעסק, מכמה שעות ועד 6 שעות, ב-1,000 ₪: מיפוי תהליכים, בחירת כלים מתקדמים ומסמך המלצות כתוב להטמעה. פיתוח זמין בנפרד.',
   },
 ];

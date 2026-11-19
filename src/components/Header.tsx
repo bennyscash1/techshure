@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="container header-row">
-        <Link to="/" className="brand-link" aria-label="Tech-shure טק-שור, דף הבית">
+        <Link to="/" className="brand-link" aria-label="Tech-shure, דף הבית">
           <Brand />
         </Link>
 
