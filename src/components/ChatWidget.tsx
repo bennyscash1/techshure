@@ -62,6 +62,13 @@ function RichText({ text }: { text: string }) {
   );
 }
 
+const OPEN_CHAT_EVENT = 'techshure:open-chat';
+
+/** Opens the Hezki chat panel from anywhere on the site. */
+export function openChat() {
+  window.dispatchEvent(new Event(OPEN_CHAT_EVENT));
+}
+
 export function ChatWidget() {
   const saved = useRef(loadSaved());
   const [open, setOpen] = useState(false);
@@ -75,6 +82,13 @@ export function ChatWidget() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fabRef = useRef<HTMLButtonElement>(null);
   const { pathname } = useLocation();
+
+  // Any page can open the chat, for example the call to action on a solution page.
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener(OPEN_CHAT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
+  }, []);
 
   const userTurns = messages.filter((m) => m.role === 'user').length;
   const atLimit = userTurns >= MAX_TURNS;

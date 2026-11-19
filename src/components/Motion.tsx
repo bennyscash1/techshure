@@ -24,6 +24,11 @@ const REVEAL_SELECTOR = [
   'main .launch-banner',
   'main .custom-links',
   'main .hero-actions',
+  'main .sol-stat',
+  'main .step',
+  'main .faq-item',
+  'main .compare-col',
+  'main .integration-grid > li',
 ].join(',');
 
 // Items in a list cascade a little slower than sibling text blocks.
@@ -62,7 +67,7 @@ export function useScrollReveal(routeKey: string) {
     // Document order puts parents first, so matches nested in a revealed block are skipped.
     for (const el of Array.from(document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR))) {
       // The hero copy has its own entrance.
-      if (el.closest('.hero-copy, .page-hero, .no-reveal') || el.parentElement?.closest('[data-reveal]')) continue;
+      if (el.closest('.hero-copy, .page-hero, .sol-hero, .tab-bar, .no-reveal') || el.parentElement?.closest('[data-reveal]')) continue;
       els.push(el);
       el.setAttribute('data-reveal', '');
       const parent = el.parentElement;
@@ -260,4 +265,37 @@ export function useScrollProgress<T extends HTMLElement>() {
     };
   }, []);
   return ref;
+}
+
+/**
+ * Cycles through words in place, one rising in as the previous one leaves. All words share one grid cell,
+ * so the line keeps the width of the longest word and nothing jumps. Decorative: give the parent a static
+ * aria-label, the words themselves are hidden from screen readers.
+ * Keeps cycling with reduced motion too (the CSS softens the movement), like the rest of the site.
+ */
+export function RotatingWords({ words, interval = 2600, delay = 1400 }: { words: string[]; interval?: number; delay?: number }) {
+  const [{ index, prev }, setState] = useState<{ index: number; prev: number | null }>({ index: 0, prev: null });
+
+  useEffect(() => {
+    if (words.length < 2) return;
+    let timer = 0;
+    const tick = () => {
+      if (!document.hidden) {
+        setState((s) => ({ index: (s.index + 1) % words.length, prev: s.index }));
+      }
+      timer = window.setTimeout(tick, interval);
+    };
+    timer = window.setTimeout(tick, delay + interval);
+    return () => window.clearTimeout(timer);
+  }, [words.length, interval, delay]);
+
+  return (
+    <span className="rotator" aria-hidden="true">
+      {words.map((w, i) => (
+        <span key={w} className={`rotator-word${i === index ? ' is-active' : ''}${i === prev ? ' is-leaving' : ''}`}>
+          {w}
+        </span>
+      ))}
+    </span>
+  );
 }

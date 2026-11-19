@@ -1,77 +1,7 @@
-// Products, prices, limits and terms. Source: rebrand/business-model.md (sections 4 to 8).
-import phoneImg from '../assets/phone.webp';
-import whatsappImg from '../assets/whatsapp.webp';
-import crmImg from '../assets/crm.webp';
-import landingImg from '../assets/landing.webp';
-import emblemImg from '../assets/emblem.webp';
+// Limits, add-ons and terms. Source: rebrand/business-model.md (sections 4 to 8).
 import type { IconName } from '../components/Icon';
 
-export type Product = {
-  id: 'phone' | 'whatsapp' | 'crm' | 'light';
-  icon: IconName;
-  name: string;
-  tagline: string;
-  pitch: string;
-  points: string[];
-  image: string;
-  imageAlt: string;
-  setup: number;
-  monthly: number;
-  allWeek?: boolean;
-};
-
-export const PRODUCTS: Product[] = [
-  {
-    id: 'phone',
-    icon: 'phone',
-    name: 'מענה טלפוני חכם',
-    tagline: 'תפריט הקשות ובוט AI שעונה ללקוחות',
-    pitch: 'כל שיחה נענית. הלקוח מקבל מענה מסודר, ואתה מקבל סיכום של השיחה במייל.',
-    points: ['עונה גם כשאתה עסוק', 'מנתב לפי שעות הפעילות', 'סיכום כל שיחה ישירות למייל'],
-    image: phoneImg,
-    imageAlt: 'רובוט עם אוזניות עונה לשיחות טלפון',
-    setup: 2500,
-    monthly: 250,
-    allWeek: true,
-  },
-  {
-    id: 'whatsapp',
-    icon: 'chat',
-    name: 'בוט וואטסאפ',
-    tagline: 'עונה ללקוחות בוואטסאפ, מסנן ומעביר לידים',
-    pitch: 'הלקוח שואל, הבוט עונה מיד. כשיש ליד אמיתי, הוא מגיע אליך.',
-    points: ['תשובות לשאלות נפוצות', 'תפריט ברור ומסודר ללקוח', 'כל ליד מגיע אליך למייל או לוואטסאפ'],
-    image: whatsappImg,
-    imageAlt: 'רובוט לצד טלפון עם שיחת וואטסאפ',
-    setup: 2500,
-    monthly: 250,
-    allWeek: true,
-  },
-  {
-    id: 'crm',
-    icon: 'db',
-    name: 'מערכת CRM / ERP לניהול העסק + סליקה',
-    tagline: 'מערכת מלאה לניהול לקוחות ולניהול העסק, שגדלה יחד איתך',
-    pitch: 'במקום אקסלים ופתקים: מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP), שבנויה לפי איך שהעסק שלך עובד. לקוחות, לידים, משימות, הצעות מחיר, חשבוניות או הזמנות, מלאי, עובדים, דוחות, אוטומציות וחיבורים למערכות אחרות, וגם גבייה ותשלומים. ההיקף נבנה לפי התקציב שלך, והמערכת מתרחבת יחד עם העסק.',
-    points: ['לקוחות, לידים, משימות, תורים, הצעות מחיר והזמנות', 'דשבורד ניהולי ודוחות שמראים מה קורה בעסק', 'גבייה ותשלומים דרך ספק סליקה מהרשימה שלנו', 'אוטומציות וחיבורים למערכות שכבר יש לך'],
-    image: crmImg,
-    imageAlt: 'רובוט מציג מסך של מערכת לניהול העסק עם לקוחות ולידים',
-    setup: 2500,
-    monthly: 250,
-  },
-  {
-    id: 'light',
-    icon: 'layout',
-    name: 'דף נחיתה ואיסוף לידים, אוטומציית מיילים',
-    tagline: 'נוכחות ברשת ומיילים שיוצאים לבד',
-    pitch: 'דף אחד שמציג את העסק ואוסף פניות, או מיילים שנשלחים אוטומטית בזמן הנכון.',
-    points: ['דף נחיתה מותאם למובייל', 'טופס יצירת קשר', 'מיילים אוטומטיים ללקוחות'],
-    image: landingImg,
-    imageAlt: 'רובוט מעל דף נחיתה ומיילים שנשלחים',
-    setup: 1250,
-    monthly: 125,
-  },
-];
+// The products themselves (names, pitch, launch prices) live in ./solutions.ts.
 
 export type Module = { id: string; icon: IconName; name: string; limits: string[] };
 
@@ -207,22 +137,3 @@ export const TERMS: { icon: IconName; title: string; text: string }[] = [
 export const PRICE_NOTE = 'המחירים לעסק קטן בינוני ובהתאם לאפיון. מוצר רחב יותר יתומחר בהתאם';
 
 export const nis = (n: number) => `${n.toLocaleString('en-US')} ₪`;
-
-// Custom system: no fixed price, scoped and priced in a discovery call.
-export const CUSTOM = {
-  id: 'custom',
-  icon: 'code' as IconName,
-  name: 'מערכת מותאמת אישית',
-  tagline: 'כל מערכת, לכל פלטפורמה, מורכבת כמה שהעסק שלך צריך',
-  pitch:
-    'יש לך תהליך שאף כלי מוכן לא פותר? נבנה לך מערכת משלך. אנחנו מרכיבים אותה מהמודולים שלנו ומקוד שנכתב במיוחד בשבילך, כך שמקבלים בדיוק את מה שהעסק צריך.',
-  points: [
-    'כל מערכת ולכל פלטפורמה: אתר, אפליקציה, מערכת פנימית או חיבור בין מערכות',
-    'פיתוח מהיר ועבודה יעילה',
-    'צוות מקצועי שעובד עם כלי ה-AI החכמים ביותר',
-    'במחיר ללא מתחרים',
-  ],
-  priceNote: 'המחיר נקבע בשיחת אפיון קצרה, לפי מה שהעסק שלך צריך.',
-  image: emblemImg,
-  imageAlt: 'רובוט במרכז מערכות שמתחברות זו לזו',
-};

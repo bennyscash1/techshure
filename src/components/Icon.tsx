@@ -178,6 +178,26 @@ const PATHS = {
       <path d="M9 18c0 1.7 2.7 3 6 3s6-1.3 6-3v-5c0-1.7-2.7-3-6-3" />
     </>
   ),
+  plus: <path d="M12 5v14M5 12h14" />,
+  cart: (
+    <>
+      <circle cx="9" cy="20" r="1.5" />
+      <circle cx="18" cy="20" r="1.5" />
+      <path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.5L22 8H6" />
+    </>
+  ),
+  book: (
+    <>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z" />
+      <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5" />
+    </>
+  ),
+  home: (
+    <>
+      <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <path d="M9 22V12h6v10" />
+    </>
+  ),
 } as const;
 
 export type IconName = keyof typeof PATHS;

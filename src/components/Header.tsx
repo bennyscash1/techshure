@@ -33,7 +33,7 @@ export function Header() {
 
         <nav aria-label="ניווט ראשי" className={`main-nav${open ? ' is-open' : ''}`} id="main-nav">
           {NAV.map((item) => (
-            <NavLink key={item.key} to={item.path} end className="nav-link">
+            <NavLink key={item.key} to={item.path} end={item.path === '/'} className="nav-link">
               {item.label}
             </NavLink>
           ))}

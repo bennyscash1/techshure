@@ -20,7 +20,7 @@ export type PageKey = 'home' | 'solutions' | 'modules';
 
 export const NAV: { key: PageKey; path: string; label: string }[] = [
   { key: 'home', path: '/', label: 'דף הבית' },
-  { key: 'solutions', path: '/solutions', label: 'פתרונות תוכנה' },
+  { key: 'solutions', path: '/solutions', label: 'הטכנולוגיות שלנו' },
   { key: 'modules', path: '/modules', label: 'מודולים ותנאים' },
 ];
 
@@ -30,6 +30,7 @@ export const SERVICE_OPTIONS = [
   'מערכת CRM / ERP לניהול העסק + סליקה',
   'דף נחיתה',
   'אוטומציית מיילים',
+  'מערכת מותאמת אישית',
   'חבילה של כמה מוצרים',
   'עוד לא בטוח, רוצה להתייעץ',
 ];

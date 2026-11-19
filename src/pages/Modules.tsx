@@ -31,7 +31,7 @@ export default function Modules() {
             <Icon name="gear" size={20} />
             <span>
               המודולים הם נקודת התחלה, לא הגבול. אנחנו מפתחים <b>כל מערכת ולכל פלטפורמה</b>, בהתאמה אישית מלאה לעסק שלך.{' '}
-              <Link to="/solutions#custom">למערכת מותאמת אישית</Link>
+              <Link to="/solutions/custom-system">למערכת מותאמת אישית</Link>
             </span>
           </p>
         </div>

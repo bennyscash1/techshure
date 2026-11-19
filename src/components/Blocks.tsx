@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import { BRAND } from '../data/site';
-import { PRICE_NOTE, TERMS, nis, type Product } from '../data/offer';
+import { PRICE_NOTE, TERMS, nis } from '../data/offer';
+import { solutionPath, type Price, type Solution } from '../data/solutions';
 import { Icon } from './Icon';
 import { CountUp } from './Motion';
 
@@ -29,18 +31,18 @@ export function SectionHead({ kicker, title, children, center }: { kicker?: stri
   );
 }
 
-export function PriceBox({ product }: { product: Product }) {
+export function PriceBox({ price }: { price: Price }) {
   return (
     <div className="price-box">
       <span className="price-flag">מחיר השקה לזמן מוגבל</span>
       <div className="price-rows">
         <div className="price-row">
           <span className="price-label">הקמה, תשלום אחד</span>
-          <span className="price-now"><CountUp value={product.setup} format={nis} /></span>
+          <span className="price-now"><CountUp value={price.setup} format={nis} /></span>
         </div>
         <div className="price-row">
           <span className="price-label">בכל חודש</span>
-          <span className="price-now"><CountUp value={product.monthly} format={nis} /></span>
+          <span className="price-now"><CountUp value={price.monthly} format={nis} /></span>
         </div>
       </div>
     </div>
@@ -77,5 +79,21 @@ export function Terms() {
         <PriceNote />
       </div>
     </section>
+  );
+}
+
+/** A card that links to a solution sub-page. Render inside a <ul>. */
+export function TechCard({ solution }: { solution: Solution }) {
+  return (
+    <li className="card tech-card">
+      <Link to={solutionPath(solution.slug)} className="tech-card-link">
+        <span className="card-icon"><Icon name={solution.icon} size={24} /></span>
+        <h3>{solution.shortTitle}</h3>
+        <p>{solution.cardText}</p>
+        <span className="tech-card-more">
+          לפרטים המלאים <Icon name="arrow" size={16} />
+        </span>
+      </Link>
+    </li>
   );
 }

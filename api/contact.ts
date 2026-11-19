@@ -62,7 +62,7 @@ export async function POST(request: Request): Promise<Response> {
 
   const { text, html } = rtlBodies(FIELD_ORDER.map((key) => `${LABELS[key]}: ${fields[key] || 'לא צוין'}`));
   const result = await sendToOwner({
-    fromName: 'Tech-Shure, טופס יצירת קשר',
+    fromName: 'Tech-shure, טופס יצירת קשר',
     subject: `פנייה מהאתר: ${oneLine(fields.name).slice(0, 80)}`,
     text,
     html,

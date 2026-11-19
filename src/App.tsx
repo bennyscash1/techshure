@@ -9,10 +9,11 @@ import { CONTACT, type PageKey } from './data/site';
 import Home from './pages/Home';
 import Solutions from './pages/Solutions';
 import Modules from './pages/Modules';
+import SolutionPage from './pages/SolutionPage';
 
 const TITLES: Record<PageKey, string> = {
   home: 'Tech-shure טק-שור | טכנולוגיה. על בטוח.',
-  solutions: 'פתרונות תוכנה ומחירים | Tech-shure טק-שור',
+  solutions: 'הטכנולוגיות שלנו | Tech-shure טק-שור',
   modules: 'מודולים, חבילות ותנאים | Tech-shure טק-שור',
 };
 
@@ -54,9 +55,11 @@ export default function App() {
   useScrollManager();
   useScrollReveal(pathname);
 
+  // Solution sub-pages set their own title and description (see SolutionPage).
+  const isSubPage = /^\/solutions\/[^/]+/.test(pathname);
   useEffect(() => {
-    document.title = TITLES[page];
-  }, [page]);
+    if (!isSubPage) document.title = TITLES[page];
+  }, [page, isSubPage]);
 
   return (
     <div className="site">
@@ -66,11 +69,12 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/solutions/:slug" element={<SolutionPage />} />
           <Route path="/modules" element={<Modules />} />
           {/* Old addresses from the previous site, kept so shared links still work. */}
-          <Route path="/ivr" element={<Navigate to="/solutions#phone" replace />} />
-          <Route path="/automation" element={<Navigate to="/solutions#whatsapp" replace />} />
-          <Route path="/web" element={<Navigate to="/solutions#crm" replace />} />
+          <Route path="/ivr" element={<Navigate to="/solutions/phone-answering" replace />} />
+          <Route path="/automation" element={<Navigate to="/solutions/whatsapp-bot" replace />} />
+          <Route path="/web" element={<Navigate to="/solutions/crm-erp" replace />} />
           <Route path="/consulting" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
