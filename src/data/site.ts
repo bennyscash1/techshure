@@ -12,7 +12,6 @@ export const CONTACT = {
 
 export const BRAND = {
   en: 'Tech-shure',
-  he: 'טק-שור',
   slogan: 'טכנולוגיה. על בטוח.',
 };
 

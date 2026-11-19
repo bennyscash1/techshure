@@ -30,7 +30,7 @@ export default function SolutionPage() {
   const { slug } = useParams();
   const solution = getSolution(slug);
   useDocumentMeta(
-    solution?.metaTitle ?? `הטכנולוגיה לא נמצאה | ${SECTION_NAME} | Tech-shure טק-שור`,
+    solution?.metaTitle ?? `הטכנולוגיה לא נמצאה | ${SECTION_NAME} | Tech-shure`,
     solution?.metaDescription,
   );
   return solution ? <SolutionView key={solution.slug} s={solution} /> : <SolutionNotFound />;
