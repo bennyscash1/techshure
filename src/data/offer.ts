@@ -61,9 +61,8 @@ export type Addon = { icon: IconName; title: string; text: string; example?: str
 export const ADDONS: Addon[] = [
   {
     icon: 'grid',
-    title: 'מוצר שני בחבילה: חצי מחיר',
-    text: 'המוצר השני בחבילה בחצי מחיר, גם בהקמה וגם בתשלום החודשי.',
-    example: 'וואטסאפ + מערכת CRM / ERP = 3,750 ₪ הקמה, 375 ₪ בחודש',
+    title: 'מחירים מיוחדים בבחירת כמה חבילות',
+    text: 'בוחרים יותר מטכנולוגיה אחת? נבנה לך הצעה משתלמת לכל החבילה, בשיחת האפיון.',
   },
   {
     icon: 'sync',

@@ -49,7 +49,7 @@ function apiKey(): string {
 
 /** Never show long dashes on the site, even if the model slips one in. */
 function noDashes(text: string): string {
-  return text.replace(/\s*[–—]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
+  return text.replace(/\s*[\u2013\u2014]\s*/g, ', ').replace(/,\s*,/g, ',').trim();
 }
 
 // Best effort, per warm instance. Good enough to stop a single noisy client.

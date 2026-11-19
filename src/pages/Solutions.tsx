@@ -96,7 +96,7 @@ export default function Solutions() {
           ))}
 
           <p className="bundle-note">
-            המוצר השני בחבילה בחצי מחיר. חיבור למערכת קיימת, וואטסאפ רשמי ושאר התוספות מפורטים <Link to="/modules#addons">בעמוד המודולים</Link>.
+            מחירים מיוחדים בבחירת כמה חבילות
           </p>
           <PriceNote />
         </div>

@@ -240,6 +240,11 @@ function SolutionView({ s }: { s: Solution }) {
               </ul>
               <div className="sol-hero-foot">
                 <span className="launch-badge"><Icon name="bell" size={18} /> מחיר השקה לזמן מוגבל</span>
+                {s.addonNote && (
+                  <p className="sol-addon-note">
+                    {s.addonNote} <Link to="/modules#addons">לפרטים על התוספות</Link>
+                  </p>
+                )}
                 <div className="hero-actions">
                   <a href="#contact" className="btn btn-accent btn-lg">
                     בואו נדבר <Icon name="arrow" size={20} />

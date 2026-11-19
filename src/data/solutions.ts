@@ -31,6 +31,8 @@ export type Solution = {
   /** Launch price for the list page. Missing for the custom system, which is priced in a discovery call. */
   price?: Price;
   priceNote?: string;
+  /** Small print on the sub-page about relevant add-ons (official WhatsApp, connecting an existing system). */
+  addonNote?: string;
   /** Key benefits in the sub-page hero. */
   benefits: string[];
   /** Short benefit strip under the hero. */
@@ -75,6 +77,7 @@ export const SOLUTIONS: Solution[] = [
     points: ['עונה גם כשאתה עסוק', 'מנתב לפי שעות הפעילות', 'סיכום כל שיחה ישירות למייל'],
     allWeek: true,
     price: { setup: 2500, monthly: 250 },
+    addonNote: 'חיבור למערכת קיימת, כמו CRM או יומן תורים, הוא תוספת, בתנאי שיש לה API מתועד.',
     benefits: [
       'אף שיחה לא הולכת לאיבוד, גם כשאתה באמצע עבודה',
       'הלקוח מקבל מענה מסודר ומקצועי מהרגע הראשון',
@@ -149,6 +152,7 @@ export const SOLUTIONS: Solution[] = [
     points: ['תשובות לשאלות נפוצות', 'תפריט ברור ומסודר ללקוח', 'כל ליד מגיע אליך למייל או לוואטסאפ'],
     allWeek: true,
     price: { setup: 2500, monthly: 250 },
+    addonNote: 'הבוט עובד על מספר לא רשמי. וואטסאפ רשמי (API של Meta) וחיבור למערכת קיימת הם תוספות.',
     benefits: [
       'תשובה מיידית לכל לקוח, בכל שעה',
       'סינון אוטומטי: רק לידים אמיתיים מגיעים אליך',
@@ -228,6 +232,7 @@ export const SOLUTIONS: Solution[] = [
       'אוטומציות וחיבורים למערכות שכבר יש לך',
     ],
     price: { setup: 2500, monthly: 250 },
+    addonNote: 'כבר עובד אצלך עם מערכת אחרת? חיבור אליה הוא תוספת, בתנאי שיש לה API מתועד.',
     benefits: [
       'כל המידע של העסק במקום אחד, מסודר ונגיש',
       'דשבורד שמראה לך בכל רגע מה קורה בעסק',
@@ -301,6 +306,7 @@ export const SOLUTIONS: Solution[] = [
     pitch: 'דף אחד שמציג את העסק ואוסף פניות, או מיילים שנשלחים אוטומטית בזמן הנכון.',
     points: ['דף נחיתה מותאם למובייל', 'טופס יצירת קשר', 'מיילים אוטומטיים ללקוחות'],
     price: { setup: 1250, monthly: 125 },
+    addonNote: 'רוצה שהלידים מהדף ייכנסו ישר למערכת שכבר עובדת אצלך? חיבור למערכת קיימת הוא תוספת, בתנאי שיש לה API מתועד.',
     benefits: [
       'כתובת אחת ברשת שמציגה את העסק בצורה מקצועית',
       'טופס שאוסף פניות ושולח אותן ישר אליך',
