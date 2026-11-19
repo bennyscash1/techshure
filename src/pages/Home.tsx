@@ -39,7 +39,7 @@ export default function Home() {
                 בואו נדבר
                 <Icon name="arrow" size={20} />
               </Link>
-              <Link to="/solutions" className="btn btn-ghost btn-lg">הטכנולוגיות שלנו</Link>
+              <Link to="/solutions" className="btn btn-ghost btn-lg">טכנולוגיות לעסק שלך</Link>
             </div>
           </div>
           <div className="hero-art" aria-hidden="true" ref={art}>
@@ -121,7 +121,7 @@ export default function Home() {
             אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, מערכות CRM / ERP לניהול העסק, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.
           </p>
           <div className="custom-links">
-            <Link to="/solutions" className="btn btn-primary">לכל הטכנולוגיות שלנו <Icon name="arrow" size={18} /></Link>
+            <Link to="/solutions" className="btn btn-primary">לכל הטכנולוגיות לעסק שלך <Icon name="arrow" size={18} /></Link>
             <Link to="/modules" className="btn btn-ghost">למודולים ולתנאים</Link>
           </div>
         </div>

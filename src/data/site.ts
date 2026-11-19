@@ -20,7 +20,7 @@ export type PageKey = 'home' | 'solutions' | 'modules';
 
 export const NAV: { key: PageKey; path: string; label: string }[] = [
   { key: 'home', path: '/', label: 'דף הבית' },
-  { key: 'solutions', path: '/solutions', label: 'הטכנולוגיות שלנו' },
+  { key: 'solutions', path: '/solutions', label: 'טכנולוגיות לעסק שלך' },
   { key: 'modules', path: '/modules', label: 'מודולים ותנאים' },
 ];
 

@@ -9,7 +9,7 @@ import { Tabs, type TabDef } from '../components/Tabs';
 import { CONTACT } from '../data/site';
 import { SOLUTIONS, getSolution, type Solution } from '../data/solutions';
 
-const SECTION_NAME = 'הטכנולוגיות שלנו';
+const SECTION_NAME = 'טכנולוגיות לעסק שלך';
 
 /** Sets the document title and meta description while the page is shown, and restores them on leave. */
 function useDocumentMeta(title: string, description?: string) {
@@ -342,7 +342,7 @@ function SolutionView({ s }: { s: Solution }) {
               ))}
             </ul>
             <p className="center-link">
-              <Link to="/solutions" className="text-link">לכל {SECTION_NAME} <Icon name="arrow" size={16} /></Link>
+              <Link to="/solutions" className="text-link">לכל הטכנולוגיות לעסק שלך <Icon name="arrow" size={16} /></Link>
             </p>
           </div>
         </section>
@@ -365,7 +365,7 @@ function SolutionNotFound() {
         <div className="container--narrow not-found sol-not-found">
           <span className="kicker">{SECTION_NAME}</span>
           <h1>הטכנולוגיה הזו לא נמצאה</h1>
-          <p className="lead">ייתכן שהקישור השתנה. הנה כל הטכנולוגיות שלנו, בחר את מה שמתאים לך:</p>
+          <p className="lead">ייתכן שהקישור השתנה. הנה כל הטכנולוגיות לעסק שלך, בחר את מה שמתאים לך:</p>
         </div>
         <ul className="tech-grid spot-grid" ref={gridRef}>
           {SOLUTIONS.map((s) => (

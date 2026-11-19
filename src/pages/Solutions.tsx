@@ -15,7 +15,7 @@ export default function Solutions() {
     <>
       <section className="page-hero page-hero--solutions">
         <div className="container container--narrow">
-          <span className="kicker">הטכנולוגיות שלנו</span>
+          <span className="kicker">טכנולוגיות לעסק שלך</span>
           <h1 className="choose-title" aria-label="בחר את הטכנולוגיה הבטוחה עבורך">
             <SplitWords text="בחר את הטכנולוגיה" />{' '}
             <SplitWords text="הבטוחה" start={3} className="hl" />
@@ -43,7 +43,7 @@ export default function Solutions() {
 
       <section className="section section--flush">
         <div className="container">
-          <ul className="tech-grid spot-grid" ref={gridRef} aria-label="הטכנולוגיות שלנו">
+          <ul className="tech-grid spot-grid" ref={gridRef} aria-label="טכנולוגיות לעסק שלך">
             {SOLUTIONS.map((s) => (
               <TechCard key={s.slug} solution={s} />
             ))}

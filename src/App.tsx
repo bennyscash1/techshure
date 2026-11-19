@@ -13,7 +13,7 @@ import SolutionPage from './pages/SolutionPage';
 
 const TITLES: Record<PageKey, string> = {
   home: 'Tech-shure טק-שור | טכנולוגיה. על בטוח.',
-  solutions: 'הטכנולוגיות שלנו | Tech-shure טק-שור',
+  solutions: 'טכנולוגיות לעסק שלך | Tech-shure טק-שור',
   modules: 'מודולים, חבילות ותנאים | Tech-shure טק-שור',
 };
 
