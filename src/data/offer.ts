@@ -14,5 +14,3 @@ export type Offer = { modules: Module[]; addons: Addon[]; terms: Term[]; priceNo
 const OFFERS: Record<Lang, Offer> = { he: OFFER_HE, en: OFFER_EN };
 
 export const getOffer = (lang: Lang): Offer => OFFERS[lang];
-
-export const nis = (n: number) => `${n.toLocaleString('en-US')} ₪`;

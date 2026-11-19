@@ -1,7 +1,8 @@
 // Our technologies: one entry per solution. Drives the /solutions list and every /solutions/<slug> sub-page,
 // in both languages. Shared fields (slug, icon, image, prices, links) live here; the text lives in
 // ./solutions.he.ts and ./solutions.en.ts, typed so both languages cover every slug and every field.
-// Prices live only in `price` and are shown on the Hebrew /solutions list; the sub-pages show the launch badge only.
+// Prices come from ./prices.ts (shared by both languages and the chat bot) and are shown on the /solutions list
+// in both languages; the sub-pages show the launch badge only.
 import phoneImg from '../assets/phone.webp';
 import whatsappImg from '../assets/whatsapp.webp';
 import crmImg from '../assets/crm.webp';
@@ -12,10 +13,11 @@ import type { IconName } from '../components/Icon';
 import type { Lang } from '../i18n';
 import { SOLUTIONS_HE } from './solutions.he';
 import { SOLUTIONS_EN } from './solutions.en';
+import { PRODUCT_PRICES, type Price } from './prices';
 
 export type SolutionSlug = 'phone-answering' | 'whatsapp-bot' | 'crm-erp' | 'landing-page' | 'custom-system' | 'ai-consulting';
 
-export type Price = { setup: number; monthly: number };
+export type { Price };
 type IconItem = { icon: IconName; title: string; text: string };
 
 export type Solution = {
@@ -82,10 +84,10 @@ export type DayOffer = {
 
 /** Display order and the fields both languages share. */
 const BASE: SolutionBase[] = [
-  { slug: 'phone-answering', anchor: 'phone', icon: 'phone', image: phoneImg, allWeek: true, price: { setup: 2500, monthly: 250 }, related: ['whatsapp-bot', 'crm-erp', 'custom-system'], modulesLink: '/modules#phone' },
-  { slug: 'whatsapp-bot', anchor: 'whatsapp', icon: 'chat', image: whatsappImg, allWeek: true, price: { setup: 2500, monthly: 250 }, related: ['phone-answering', 'crm-erp', 'landing-page', 'ai-consulting'], modulesLink: '/modules#whatsapp' },
-  { slug: 'crm-erp', anchor: 'crm', icon: 'db', image: crmImg, price: { setup: 2500, monthly: 250 }, related: ['phone-answering', 'whatsapp-bot', 'custom-system', 'ai-consulting'], modulesLink: '/modules#crm' },
-  { slug: 'landing-page', anchor: 'light', icon: 'layout', image: landingImg, price: { setup: 1250, monthly: 125 }, related: ['whatsapp-bot', 'crm-erp', 'custom-system'], modulesLink: '/modules#landing' },
+  { slug: 'phone-answering', anchor: 'phone', icon: 'phone', image: phoneImg, allWeek: true, price: PRODUCT_PRICES.phone, related: ['whatsapp-bot', 'crm-erp', 'custom-system'], modulesLink: '/modules#phone' },
+  { slug: 'whatsapp-bot', anchor: 'whatsapp', icon: 'chat', image: whatsappImg, allWeek: true, price: PRODUCT_PRICES.whatsapp, related: ['phone-answering', 'crm-erp', 'landing-page', 'ai-consulting'], modulesLink: '/modules#whatsapp' },
+  { slug: 'crm-erp', anchor: 'crm', icon: 'db', image: crmImg, price: PRODUCT_PRICES.crm, related: ['phone-answering', 'whatsapp-bot', 'custom-system', 'ai-consulting'], modulesLink: '/modules#crm' },
+  { slug: 'landing-page', anchor: 'light', icon: 'layout', image: landingImg, price: PRODUCT_PRICES.landing, related: ['whatsapp-bot', 'crm-erp', 'custom-system'], modulesLink: '/modules#landing' },
   { slug: 'custom-system', anchor: 'custom', icon: 'code', image: emblemImg, related: ['crm-erp', 'ai-consulting', 'phone-answering', 'whatsapp-bot'], modulesLink: '/modules' },
   { slug: 'ai-consulting', anchor: 'ai', icon: 'sparkle', image: hezkiImg, related: ['custom-system', 'crm-erp', 'whatsapp-bot'], modulesLink: '/modules' },
 ];

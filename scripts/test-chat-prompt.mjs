@@ -1,4 +1,4 @@
-// Unit test for the chat prompt builder and the language handling of leads (change request 25). No network, no email.
+// Unit test for the chat prompt builder and the language handling of leads (change requests 25 and 26). No network, no email.
 // Usage: node scripts/test-chat-prompt.mjs
 // Bundles the TypeScript sources with esbuild (installed with vite) into a temp file, then checks them.
 import { build } from 'esbuild';
@@ -45,10 +45,17 @@ check('English lead-sent note is English', m.buildSystemPrompt('en', true).endsW
 check('no long dashes in either prompt', !DASH.test(en) && !DASH.test(he));
 check('English prompt answers in English', /Natural, warm, everyday English/.test(en));
 check('English prompt keeps the brand rule', /always write Tech-shure, exactly like that/.test(en));
-check('English prompt: only ₪1,000 as a number with ₪', (en.match(/₪\d[\d,]*\d/g) ?? []).every((x) => x === '₪1,000') && en.includes('₪1,000'));
-check('English prompt: no launch price numbers (2,500 / 250 / 1,250 / 125 / 2,000 / 3,750 / 375)', !/\b(2,500|1,250|2,000|3,750|375|250|125)\b/.test(en));
-check('English prompt: "Limited-time launch price" rule', en.includes('"Limited-time launch price"'));
-check('English prompt: special pricing for several packages', en.includes('special pricing when you choose several packages'));
+// Change request 26: the English bot quotes exactly the same shekel amounts as the Hebrew bot ("₪2,500" vs "2,500 ₪").
+const shekels = (text, re) => [...text.matchAll(re)].map((x) => Number(x[1].replace(/,/g, ''))).sort((a, b) => a - b);
+const heAmounts = shekels(he, /(\d{1,3}(?:,\d{3})*)\s*₪/g);
+const enAmounts = shekels(en, /₪(\d{1,3}(?:,\d{3})*)/g);
+check(`English prompt quotes the same shekel amounts as Hebrew (${[...new Set(heAmounts)].join(', ')})`, heAmounts.length > 0 && JSON.stringify(heAmounts) === JSON.stringify(enAmounts));
+check('English prompt writes amounts as "₪2,500" (symbol first), never "2,500 ₪"', !/\d\s*₪/.test(en) && en.includes('setup ₪2,500, monthly ₪250'));
+check('English prompt: no dollars', !/\$\s?\d|USD|dollar/i.test(en));
+check('English prompt: the AI day is ₪1,000 and not a launch price', en.includes('an AI consulting day for ₪1,000') && en.includes('Never call ₪1,000 a "launch price"'));
+check('English prompt: launch price rule', en.includes('These are launch prices.') && en.includes('Never quote a regular or future price'));
+check('English prompt: special pricing for several packages', /special pricing when (you )?choos(e|ing) several packages/i.test(en));
+check('English prompt: phone and WhatsApp in +972 format only', en.includes('Phone: +972-74-705-4942') && en.includes('WhatsApp: +972-52-656-5024') && !/\b0\d{1,2}-?\d{7}\b|\b0\d{1,2}-\d{3}-\d{4}\b/.test(en));
 check('English prompt: active 24/7', en.includes('active 24/7'));
 check('English prompt: Shabbat only in the "never mention" rule', (en.match(/Shabbat/g) ?? []).length === 1 && /Never mention: Shabbat/.test(en));
 check('English prompt: "cheap" only in the rule that forbids it', en.split('\n').filter((l) => /cheap/i.test(l)).every((l) => l.startsWith('- Never use the words')));

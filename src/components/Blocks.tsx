@@ -2,8 +2,9 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import { BRAND } from '../data/site';
-import { getOffer, nis } from '../data/offer';
-import { solutionPath, type DayOffer, type Price, type Solution } from '../data/solutions';
+import { getOffer } from '../data/offer';
+import { money, type Price } from '../data/prices';
+import { solutionPath, type DayOffer, type Solution } from '../data/solutions';
 import { useLang } from '../i18n';
 import { Icon, type IconName } from './Icon';
 import { CountUp } from './Motion';
@@ -33,27 +34,24 @@ export function SectionHead({ kicker, title, children, center }: { kicker?: stri
   );
 }
 
-/** Launch price box on the /solutions list. Languages that show no numbers (English) get one line of text instead. */
+/** Launch price box on the /solutions list. The same shekel amounts in both languages, formatted per language. */
 export function PriceBox({ price }: { price: Price }) {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const b = t.blocks;
+  const format = (n: number) => money(n, lang);
   return (
     <div className="price-box">
       <span className="price-flag">{b.priceFlag}</span>
-      {b.priceNoNumbers ? (
-        <p className="price-words">{b.priceNoNumbers}</p>
-      ) : (
       <div className="price-rows">
         <div className="price-row">
           <span className="price-label">{b.priceSetup}</span>
-          <span className="price-now"><CountUp value={price.setup} format={nis} /></span>
+          <span className="price-now"><CountUp value={price.setup} format={format} /></span>
         </div>
         <div className="price-row">
           <span className="price-label">{b.priceMonthly}</span>
-          <span className="price-now"><CountUp value={price.monthly} format={nis} /></span>
+          <span className="price-now"><CountUp value={price.monthly} format={format} /></span>
         </div>
       </div>
-      )}
     </div>
   );
 }

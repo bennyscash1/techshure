@@ -5,7 +5,10 @@ export const CONTACT = {
   /** The same number for visitors abroad (English pages, English chat). */
   phoneIntl: '+972-74-705-4942',
   phoneTel: '+972747054942',
+  /** International digits for wa.me links. */
   whatsapp: '972526565024',
+  /** The WhatsApp number as shown in English (pages and the English chat), in the same +972 format as phoneIntl. */
+  whatsappIntl: '+972-52-656-5024',
   email: 'info@tech-shure.dev',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('ז׳בוטינסקי 9 בני ברק מגדל הכשרת היישוב'),
 };

@@ -1,6 +1,7 @@
 // Hebrew UI strings (the default language). en.ts must have exactly the same shape (TypeScript enforces it).
 // Product content (solutions, modules, terms) lives in src/data/*.he.ts.
 import { CONTACT_TEXT } from '../data/site';
+import { HOME_MONTHLY, REFERRAL_CREDIT, money } from '../data/prices';
 
 export const he = {
   meta: {
@@ -86,7 +87,7 @@ export const he = {
       { title: 'שקט מלא', text: 'תפעול, תקלות ותחזוקה עלינו. אתה מתעסק בעסק שלך.' },
     ],
     /** The big quote. With a number, it counts up to it before the rest of the line. */
-    quoteNumber: 250 as number | null,
+    quoteNumber: HOME_MONTHLY as number | null,
     quoteBefore: '"',
     quoteAfter: ' ₪ בחודש, ויש לך מערכת שמכסה אותך מכל הכיוונים."',
     edgeTitle: 'פיתוח בעוצמה של AI. מהיר, יעיל ומשתלם.',
@@ -106,7 +107,7 @@ export const he = {
     referLanding: 'דף נחיתה לעסק שלך',
     referLandingNote: '(אחסון ושימוש עליך)',
     referHour: 'שעת ייעוץ',
-    referCredit: 'זיכוי של 250 ₪',
+    referCredit: `זיכוי של ${money(REFERRAL_CREDIT)}`,
   },
 
   solutions: {
@@ -160,8 +161,6 @@ export const he = {
     priceFlag: 'מחיר השקה לזמן מוגבל',
     priceSetup: 'הקמה, תשלום אחד',
     priceMonthly: 'בכל חודש',
-    /** Shown instead of the numbers when the language shows no prices (English). Empty in Hebrew. */
-    priceNoNumbers: '',
     termsKicker: 'האותיות הקטנות, בגדול',
     termsTitle: 'התנאים, בלי הפתעות',
     termsLead: 'כל מה שכדאי לדעת לפני שמתחילים. קצר וברור.',

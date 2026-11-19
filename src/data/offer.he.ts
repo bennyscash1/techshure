@@ -1,5 +1,7 @@
 // Hebrew modules, add-ons and terms. Source: rebrand/business-model.md (sections 4 to 8).
+// The amounts come from ./prices.ts, shared with English and the chat bot.
 import type { Addon, Module, Offer, Term } from './offer';
+import { CONNECT_EXAMPLE, CONNECT_PERCENT, EXTRA_HOUR, OFFICIAL_WHATSAPP_FEE, REFERRAL_CREDIT, money } from './prices';
 
 const MODULES: Module[] = [
   {
@@ -61,14 +63,14 @@ const ADDONS: Addon[] = [
   {
     icon: 'sync',
     title: 'חיבור בין מערכות',
-    text: 'תוספת של 50% מערך המוצר היקר מביניהם, בהקמה ובחודשי.',
-    example: 'מענה טלפוני + חיבור ל-CRM קיים = 3,750 ₪ הקמה, 375 ₪ בחודש',
+    text: `תוספת של ${CONNECT_PERCENT} מערך המוצר היקר מביניהם, בהקמה ובחודשי.`,
+    example: `מענה טלפוני + חיבור ל-CRM קיים = ${money(CONNECT_EXAMPLE.setup)} הקמה, ${money(CONNECT_EXAMPLE.monthly)} בחודש`,
     note: 'תנאי: למערכת הקיימת יש API מתועד. בלי API מתועד, המחיר נקבע לפי אפיון.',
   },
   {
     icon: 'shield',
     title: 'וואטסאפ רשמי (API של Meta)',
-    text: 'הלקוח מספק API דרך חברה מורשית, או משלם תוספת של 2,000 ₪.',
+    text: `הלקוח מספק API דרך חברה מורשית, או משלם תוספת של ${money(OFFICIAL_WHATSAPP_FEE)}.`,
     note: 'Tech-shure אינה אחראית לחסימת מספר על ידי Meta, מכל סיבה שהיא.',
   },
 ];
@@ -79,7 +81,7 @@ const TERMS: Term[] = [
     title: 'שעת שינוי בכל חודש',
     text: 'התשלום החודשי כולל שעת שינוי אחת בחודש. השעה לא נצברת לחודש הבא.',
   },
-  { icon: 'gear', title: 'שעת עבודה נוספת', text: '250 ₪ לשעה.' },
+  { icon: 'gear', title: 'שעת עבודה נוספת', text: `${money(EXTRA_HOUR)} לשעה.` },
   {
     icon: 'check',
     title: 'מה כולל התשלום החודשי',
@@ -123,7 +125,7 @@ const TERMS: Term[] = [
   {
     icon: 'gift',
     title: 'חבר מביא חבר',
-    text: 'אחרי שהחבר חתם על חוזה ושילם הקמה, אתה בוחר אחת: דף נחיתה (עלויות האחסון והשימוש עליך), שעת ייעוץ, או זיכוי של 250 ₪.',
+    text: `אחרי שהחבר חתם על חוזה ושילם הקמה, אתה בוחר אחת: דף נחיתה (עלויות האחסון והשימוש עליך), שעת ייעוץ, או זיכוי של ${money(REFERRAL_CREDIT)}.`,
   },
 ];
 

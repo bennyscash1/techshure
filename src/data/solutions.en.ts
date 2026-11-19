@@ -1,10 +1,13 @@
 // English text of every solution. Same shape and slugs as ./solutions.he.ts (TypeScript enforces it).
-// Faithful to the Hebrew site and rebrand/business-model.md. Prices: only "Limited-time launch price";
-// the single number is the AI consulting day (₪1,000), shown only on its own page.
+// Faithful to the Hebrew site and rebrand/business-model.md. Prices: the same shekel amounts as Hebrew, in the
+// same places (./prices.ts); on the sub-pages that is only the AI consulting day, on its own page.
 import type { DayOffer, SolutionSlug, SolutionText } from './solutions';
+import { AI_DAY, money } from './prices';
+
+const DAY = money(AI_DAY, 'en');
 
 const AI_CONSULTING_DAY: DayOffer = {
-  price: '₪1,000',
+  price: DAY,
   priceLabel: 'per consulting day, at your business',
   title: 'An AI consulting day. One price, no small print.',
   summary:
@@ -413,7 +416,7 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       { icon: 'pin', value: 'At your business', label: 'From a few hours up to 6 hours' },
       { icon: 'route', value: 'Process mapping', label: 'Where AI saves the most' },
       { icon: 'file', value: 'Recommendations document', label: 'Written for implementation, at the end of the day' },
-      { icon: 'coins', value: '₪1,000', label: 'One price for the consulting day' },
+      { icon: 'coins', value: DAY, label: 'One price for the consulting day' },
     ],
     overview: {
       intro: [
@@ -461,7 +464,7 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       { icon: 'code', title: 'Custom system', text: 'Turns out you need a complete system? We build it, fully tailored.', to: '/solutions/custom-system' },
     ],
     faq: [
-      { q: 'How much does the consulting day cost?', a: '₪1,000 for a consulting day at your business, from a few hours up to 6 hours. The price includes the consulting itself and a written recommendations document for implementation at the end of the day. No small print.' },
+      { q: 'How much does the consulting day cost?', a: `${DAY} for a consulting day at your business, from a few hours up to 6 hours. The price includes the consulting itself and a written recommendations document for implementation at the end of the day. No small print.` },
       { q: 'What is not included in the price?', a: 'Development time is not included: actually building agents, automations or systems. Development is available separately, if you wish, in a formal proposal. Subscriptions to the AI tools themselves, if any, are paid directly to the provider.' },
       { q: 'Where does the consulting day take place?', a: 'At your business. That way we see how your business really works, and meet the people who do the work.' },
       { q: 'Who is this service for?', a: 'For business owners who understand technology, enjoy it, and want to take their business into the future: to work smarter, faster, and with fewer employees.' },
@@ -471,6 +474,6 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
     ],
     service: 'AI implementation for your business (business consulting)',
     metaTitle: 'AI implementation for your business | Business consulting | Tech-shure',
-    metaDescription: 'An AI consulting day at your business, from a few hours up to 6 hours, for ₪1,000: process mapping, choosing advanced tools and a written recommendations document for implementation. Development available separately.',
+    metaDescription: `An AI consulting day at your business, from a few hours up to 6 hours, for ${DAY}: process mapping, choosing advanced tools and a written recommendations document for implementation. Development available separately.`,
   },
 };

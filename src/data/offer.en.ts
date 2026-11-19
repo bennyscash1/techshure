@@ -1,6 +1,9 @@
 // English modules, add-ons and terms. Same ids and order as ./offer.he.ts.
-// English shows no price numbers (change request 25): amounts from the Hebrew terms are described in words.
+// The same shekel amounts as Hebrew (change request 26), from the shared numbers in ./prices.ts.
 import type { Addon, Module, Offer, Term } from './offer';
+import { CONNECT_EXAMPLE, CONNECT_PERCENT, EXTRA_HOUR, OFFICIAL_WHATSAPP_FEE, REFERRAL_CREDIT, money } from './prices';
+
+const ils = (n: number) => money(n, 'en');
 
 const MODULES: Module[] = [
   {
@@ -62,13 +65,14 @@ const ADDONS: Addon[] = [
   {
     icon: 'sync',
     title: 'Connecting systems',
-    text: 'An add-on priced as a share of the more expensive product of the two, on both the setup and the monthly payment.',
+    text: `An add-on of ${CONNECT_PERCENT} of the value of the more expensive product of the two, on both the setup and the monthly payment.`,
+    example: `Phone answering + a connection to an existing CRM = ${ils(CONNECT_EXAMPLE.setup)} setup, ${ils(CONNECT_EXAMPLE.monthly)} a month`,
     note: 'Condition: the existing system has a documented API. Without a documented API, the price is set by the specification.',
   },
   {
     icon: 'shield',
     title: 'Official WhatsApp (Meta API)',
-    text: 'You provide the API through an authorized provider, or we arrange it for an additional fee.',
+    text: `You provide the API through an authorized provider, or pay an additional ${ils(OFFICIAL_WHATSAPP_FEE)}.`,
     note: 'Tech-shure is not responsible for a number being blocked by Meta, for any reason.',
   },
 ];
@@ -79,7 +83,7 @@ const TERMS: Term[] = [
     title: 'One change hour every month',
     text: 'The monthly payment includes one change hour a month. Unused time does not carry over to the next month.',
   },
-  { icon: 'gear', title: 'Additional work hours', text: 'Billed at a fixed hourly rate, quoted in advance.' },
+  { icon: 'gear', title: 'Additional work hour', text: `${ils(EXTRA_HOUR)} an hour.` },
   {
     icon: 'check',
     title: 'What the monthly payment includes',
@@ -88,7 +92,7 @@ const TERMS: Term[] = [
   {
     icon: 'bell',
     title: 'Limited-time launch price',
-    text: 'Launch pricing is valid for a limited time.',
+    text: 'The prices shown on the site are valid for a limited time.',
   },
   {
     icon: 'card',
@@ -123,7 +127,7 @@ const TERMS: Term[] = [
   {
     icon: 'gift',
     title: 'Refer a friend',
-    text: 'Once your friend has signed a contract and paid for the setup, you choose one: a landing page (hosting and usage costs are yours), a consulting hour, or a credit on your account.',
+    text: `Once your friend has signed a contract and paid for the setup, you choose one: a landing page (hosting and usage costs are yours), a consulting hour, or a ${ils(REFERRAL_CREDIT)} credit.`,
   },
 ];
 

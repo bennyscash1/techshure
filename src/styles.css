@@ -1004,4 +1004,3 @@ html[dir='ltr'] main .product-row--flip .product-row-media[data-reveal]:not(.is-
   .header-lang:hover { border-color: var(--blue); }
 }
 /* Price box without numbers (English). */
-.price-words { margin: 0.25rem 0 0.5rem; color: var(--navy); font-weight: 500; }

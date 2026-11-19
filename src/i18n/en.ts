@@ -1,8 +1,9 @@
 // English UI strings. Same shape as he.ts (TypeScript enforces every key).
 // Copy rules (change request 25): written for business owners, brand always "Tech-shure", active 24/7,
-// systems are always complete and tailored to the budget, prices only as "Limited-time launch price"
-// (the one exception is the AI consulting day, shown only on its own page), no long dashes.
+// systems are always complete and tailored to the budget, no long dashes.
+// Prices (change request 26): the same shekel amounts as Hebrew, in the same places, from src/data/prices.ts.
 import { CONTACT_TEXT } from '../data/site';
+import { HOME_MONTHLY, REFERRAL_CREDIT, money } from '../data/prices';
 import type { Dict } from './he';
 
 export const en: Dict = {
@@ -87,9 +88,9 @@ export const en: Dict = {
       { title: 'A fixed monthly subscription', text: 'A one-time setup, then a monthly payment you know in advance. No surprises.' },
       { title: 'Complete peace of mind', text: 'Operation, support and maintenance are on us. You focus on your business.' },
     ],
-    quoteNumber: null,
-    quoteBefore: '"One monthly subscription, and you have a system that covers you from every direction."',
-    quoteAfter: '',
+    quoteNumber: HOME_MONTHLY,
+    quoteBefore: '"₪',
+    quoteAfter: ' a month, and you have a system that covers you from every direction."',
     edgeTitle: 'Development powered by AI. Fast, efficient and cost-effective.',
     builtTitle: 'Built personally for you',
     builtText: 'Not a generic template. Code written specifically for your business, around the way you work, running on a secure server.',
@@ -107,7 +108,7 @@ export const en: Dict = {
     referLanding: 'A landing page for your business',
     referLandingNote: '(hosting and usage costs are yours)',
     referHour: 'A consulting hour',
-    referCredit: 'A credit on your account',
+    referCredit: `A ${money(REFERRAL_CREDIT, 'en')} credit`,
   },
 
   solutions: {
@@ -148,7 +149,7 @@ export const en: Dict = {
     customB: 'any system, for any platform',
     customC: ', fully tailored to your business.',
     customLink: 'See the custom system',
-    toPrices: 'See every technology',
+    toPrices: 'Prices for every technology',
     addonsKicker: 'Packages and add-ons',
     addonsTitle: 'Connect several tools, get more value',
     addonsLead: 'This is how it works when you want more than one tool, or need to connect a system you already have.',
@@ -161,7 +162,6 @@ export const en: Dict = {
     priceFlag: 'Limited-time launch price',
     priceSetup: 'One-time setup',
     priceMonthly: 'Every month',
-    priceNoNumbers: 'A one-time setup plus a fixed monthly subscription. Get your exact quote in a short call.',
     termsKicker: 'The small print, in large type',
     termsTitle: 'The terms, with no surprises',
     termsLead: 'Everything worth knowing before you start. Short and clear.',

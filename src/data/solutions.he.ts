@@ -1,9 +1,10 @@
 // Hebrew text of every solution (the default language). The shared fields (slug, icon, image, prices, links)
 // live in ./solutions.ts. Source: rebrand/business-model.md and the current site content.
 import type { DayOffer, SolutionSlug, SolutionText } from './solutions';
+import { AI_DAY, money } from './prices';
 
 const AI_CONSULTING_DAY: DayOffer = {
-  price: '1,000 ₪',
+  price: money(AI_DAY),
   priceLabel: 'ליום ייעוץ, אצלכם בעסק',
   title: 'יום ייעוץ AI. מחיר אחד, בלי אותיות קטנות.',
   summary: 'מגיעים אליכם לעסק ליום ייעוץ ממוקד, מכמה שעות ועד 6 שעות. בסוף היום אתם מקבלים מסמך המלצות כתוב להטמעה: מה כדאי להטמיע, באילו כלים ובאיזה סדר.',
@@ -406,7 +407,7 @@ export const SOLUTIONS_HE: Record<SolutionSlug, SolutionText> = {
       { icon: 'pin', value: 'אצלכם בעסק', label: 'מכמה שעות ועד 6 שעות' },
       { icon: 'route', value: 'מיפוי תהליכים', label: 'איפה AI חוסך הכי הרבה' },
       { icon: 'file', value: 'מסמך המלצות', label: 'כתוב להטמעה, בסוף היום' },
-      { icon: 'coins', value: '1,000 ₪', label: 'מחיר אחד ליום הייעוץ' },
+      { icon: 'coins', value: money(AI_DAY), label: 'מחיר אחד ליום הייעוץ' },
     ],
     overview: {
       intro: [
@@ -454,7 +455,7 @@ export const SOLUTIONS_HE: Record<SolutionSlug, SolutionText> = {
       { icon: 'code', title: 'מערכת מותאמת אישית', text: 'מתברר שצריך מערכת שלמה? אנחנו בונים אותה, בהתאמה מלאה.', to: '/solutions/custom-system' },
     ],
     faq: [
-      { q: 'כמה עולה יום הייעוץ?', a: '1,000 ₪ ליום ייעוץ אצלכם בעסק, מכמה שעות ועד 6 שעות. המחיר כולל את הייעוץ עצמו ומסמך המלצות כתוב להטמעה בסוף היום. בלי אותיות קטנות.' },
+      { q: 'כמה עולה יום הייעוץ?', a: `${money(AI_DAY)} ליום ייעוץ אצלכם בעסק, מכמה שעות ועד 6 שעות. המחיר כולל את הייעוץ עצמו ומסמך המלצות כתוב להטמעה בסוף היום. בלי אותיות קטנות.` },
       { q: 'מה לא כלול במחיר?', a: 'זמן פיתוח לא כלול: הקמה בפועל של סוכנים, אוטומציות או מערכות. הפיתוח זמין בנפרד, אם תרצו, בהצעה מסודרת. מנויים לכלי ה-AI עצמם, אם יש, משולמים ישירות לספק.' },
       { q: 'איפה מתקיים יום הייעוץ?', a: 'אצלכם בעסק. כך אנחנו רואים איך העסק עובד באמת, ופוגשים את מי שעושה את העבודה.' },
       { q: 'למי השירות הזה מתאים?', a: 'לבעלי עסקים שמבינים בטכנולוגיה, אוהבים אותה, ורוצים לקחת את העסק לעתיד: לעבוד חכם יותר, מהר יותר, ועם פחות עובדים.' },
@@ -464,6 +465,6 @@ export const SOLUTIONS_HE: Record<SolutionSlug, SolutionText> = {
     ],
     service: 'הטמעת AI בעסק (ייעוץ לעסקים)',
     metaTitle: 'הטמעת AI בעסק שלכם | ייעוץ לעסקים | Tech-shure',
-    metaDescription: 'יום ייעוץ AI אצלכם בעסק, מכמה שעות ועד 6 שעות, ב-1,000 ₪: מיפוי תהליכים, בחירת כלים מתקדמים ומסמך המלצות כתוב להטמעה. פיתוח זמין בנפרד.',
+    metaDescription: `יום ייעוץ AI אצלכם בעסק, מכמה שעות ועד 6 שעות, ב-${money(AI_DAY)}: מיפוי תהליכים, בחירת כלים מתקדמים ומסמך המלצות כתוב להטמעה. פיתוח זמין בנפרד.`,
   },
 };
