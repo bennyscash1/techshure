@@ -105,10 +105,15 @@ function SolutionView({ s }: { s: Solution }) {
           <p className="price-note">
             <Icon name="file" size={18} />
             <span>
-              {s.price
+              {s.scopeNote ?? (s.price
                 ? 'כל מערכת נבנית מלאה ומקצועית, בהיקף שמתאים לעסק ולתקציב. צריך יותר מההיקף הסטנדרטי? זה מוצר מורחב, שנבנה לפי אפיון.'
-                : 'ההיקף נקבע יחד איתך בשיחת האפיון, לפי מה שהעסק צריך ולפי התקציב.'}{' '}
-              <Link to={s.modulesLink}>לפרטים בעמוד המודולים</Link>
+                : 'ההיקף נקבע יחד איתך בשיחת האפיון, לפי מה שהעסק צריך ולפי התקציב.')}
+              {!s.scopeNote && (
+                <>
+                  {' '}
+                  <Link to={s.modulesLink}>לפרטים בעמוד המודולים</Link>
+                </>
+              )}
             </span>
           </p>
         </>
@@ -227,7 +232,8 @@ function SolutionView({ s }: { s: Solution }) {
         <div className="container">
           <Breadcrumbs current={s.shortTitle} />
           <div className="sol-hero-grid">
-            <div className="hero-copy">
+            <div className={`hero-copy${s.category ? ' has-kicker' : ''}`}>
+              {s.category && <span className="kicker kicker--gold">{s.category}</span>}
               <h1 aria-label={s.title}>
                 <SplitWords text={s.title} />
               </h1>

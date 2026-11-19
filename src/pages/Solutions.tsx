@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { Contact } from '../components/Contact';
-import { PriceBox, PriceNote, TechCard, Terms } from '../components/Blocks';
+import { AiEdge, PriceBox, PriceNote, TechCard, Terms } from '../components/Blocks';
 import { Icon } from '../components/Icon';
 import { RotatingWords, SplitWords, TiltCard, useSpotlight } from '../components/Motion';
 import { SOLUTIONS, solutionPath } from '../data/solutions';
@@ -56,6 +56,7 @@ export default function Solutions() {
               </TiltCard>
               <div className="product-row-copy">
                 <span className="card-icon"><Icon name={s.icon} size={24} /></span>
+                {s.category && <span className="kicker kicker--gold product-row-cat">{s.category}</span>}
                 <h2>{s.title}</h2>
                 <p className="product-tagline">{s.tagline}</p>
                 <p>{s.pitch}</p>
@@ -103,6 +104,7 @@ export default function Solutions() {
       </section>
 
       <Terms />
+      <AiEdge title="למה המחירים שלנו נמוכים משמעותית? כי אנחנו בונים עם AI." />
       <Contact title="איזו טכנולוגיה מתאימה לעסק שלך?" sub="ספרו לנו מה מעיק עליכם היום. נציע את הטכנולוגיה הנכונה, או את החבילה הנכונה." />
     </>
   );

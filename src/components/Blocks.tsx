@@ -4,7 +4,7 @@ import emblem from '../assets/emblem.webp';
 import { BRAND } from '../data/site';
 import { PRICE_NOTE, TERMS, nis } from '../data/offer';
 import { solutionPath, type Price, type Solution } from '../data/solutions';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
 import { CountUp } from './Motion';
 
 export function Brand({ size = 'md' }: { size?: 'md' | 'lg' }) {
@@ -88,6 +88,7 @@ export function TechCard({ solution }: { solution: Solution }) {
     <li className="card tech-card">
       <Link to={solutionPath(solution.slug)} className="tech-card-link">
         <span className="card-icon"><Icon name={solution.icon} size={24} /></span>
+        {solution.category && <span className="tech-card-cat">{solution.category}</span>}
         <h3>{solution.shortTitle}</h3>
         <p>{solution.cardText}</p>
         <span className="tech-card-more">
@@ -95,5 +96,35 @@ export function TechCard({ solution }: { solution: Solution }) {
         </span>
       </Link>
     </li>
+  );
+}
+
+const AI_EDGE: { icon: IconName; title: string; text: string; gold?: boolean }[] = [
+  { icon: 'sparkle', title: 'AI בכל שלב בפיתוח', text: 'כותבים קוד מהר מאוד עם כלי ה-AI המתקדמים ביותר, ואתם מקבלים מערכת מוכנה הרבה יותר מוקדם.' },
+  { icon: 'users', title: 'צוות מנוסה, למעלה מעשור', text: 'צוות קטן של מפתחי תוכנה ותיקים, שיודעים בדיוק מה לבנות ואיך. כל מערכת נבנית נכון מהיום הראשון.' },
+  { icon: 'coins', title: 'מחיר נמוך משמעותית', text: 'החיסכון בזמן הפיתוח עובר אליכם. מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.', gold: true },
+  { icon: 'shield', title: 'בלי אותיות קטנות', text: 'המחיר נמוך כי אנחנו עובדים חכם, לא כי חסר משהו. מה שסיכמנו, זה מה שמקבלים.', gold: true },
+];
+
+/** "Why we are fast and efficient": the AI edge, on the home page and on /solutions. Extra content goes in children. */
+export function AiEdge({ title, sand, children }: { title: string; sand?: boolean; children?: ReactNode }) {
+  return (
+    <section id="ai-edge" className={`section${sand ? ' section--sand' : ''}`}>
+      <div className="container">
+        <SectionHead kicker="למה אנחנו מהירים ויעילים" title={title}>
+          אנחנו בונים עם כלי ה-AI המתקדמים ביותר, ולכן הפיתוח מהיר מאוד והמחיר שלנו נמוך משמעותית. צוות קטן של מפתחי תוכנה מנוסים, למעלה מעשור. אין פה אותיות קטנות: פשוט יודעים לעשות הכל מהר ויעיל, ואתם מקבלים מערכות מלאות ומורכבות, בהתאמה לתקציב שלכם.
+        </SectionHead>
+        <ul className="edge-grid">
+          {AI_EDGE.map((e) => (
+            <li key={e.title} className="card">
+              <span className={`card-icon${e.gold ? ' card-icon--gold' : ''}`}><Icon name={e.icon} size={24} /></span>
+              <h3>{e.title}</h3>
+              <p>{e.text}</p>
+            </li>
+          ))}
+        </ul>
+        {children}
+      </div>
+    </section>
   );
 }

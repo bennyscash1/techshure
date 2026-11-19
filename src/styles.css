@@ -916,3 +916,29 @@ a.integration:hover .integration-arrow { transform: translateX(-4px); }
   .rotator-word.is-leaving { transform: translateY(-0.3em); }
   .sol-hero-art img { animation: none; }
 }
+
+/* ===== AI section and AI consulting (change request 16) ===== */
+.edge-grid { display: grid; gap: 16px; }
+@media (min-width: 640px) { .edge-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .edge-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+.edge-grid .card { padding: 24px; }
+.edge-grid h3 { font-size: 1.08rem; }
+.edge-grid p { font-size: 0.98rem; }
+.edge-split { margin-top: 48px; }
+@media (min-width: 900px) { .edge-split { margin-top: 64px; } }
+.feature .kicker, .product-row-cat { display: block; width: fit-content; }
+.feature--ai { background: linear-gradient(135deg, var(--gold-soft), var(--card) 55%); border-color: #ecd6a6; }
+.feature--ai .btn { margin-top: 0.5rem; }
+.tech-card-cat {
+  align-self: flex-start; font-size: 0.78rem; font-weight: 700; color: var(--navy-deep); background: var(--gold-soft);
+  border: 1px solid #ecd6a6; padding: 0.1rem 0.65rem; border-radius: 999px; margin-bottom: 0.5rem;
+}
+/* Sub-page hero with a category label: keep the original entrance timing of the copy below it. */
+.sol-hero .hero-copy.has-kicker > .kicker { margin-bottom: 0.6rem; }
+.sol-hero .hero-copy.has-kicker > h1 { animation-delay: 0.08s; }
+.sol-hero .hero-copy.has-kicker > :nth-child(3) { animation-delay: 0.75s; }
+.sol-hero .hero-copy.has-kicker > :nth-child(4) { animation-delay: 0.95s; }
+.sol-hero .hero-copy.has-kicker > :nth-child(5) { animation-delay: 1.1s; }
+.sol-hero .hero-copy.has-kicker > :nth-child(6) { animation-delay: 1.25s; }
+/* Six technologies: two even rows of three instead of five plus one. */
+@media (min-width: 960px) { .tech-grid:has(> li:nth-child(6):last-child) { grid-template-columns: repeat(3, 1fr); } }

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import emblem from '../assets/emblem.webp';
 import hezki from '../assets/hezki.webp';
 import { Contact } from '../components/Contact';
-import { SectionHead } from '../components/Blocks';
+import { AiEdge, SectionHead } from '../components/Blocks';
 import { Icon, type IconName } from '../components/Icon';
 import { CountUp, SplitWords, useParallax } from '../components/Motion';
 
@@ -94,16 +94,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4 + 5. Why fast and cheap, built for you */}
-      <section className="section">
-        <div className="container split">
-          <article className="feature">
-            <span className="card-icon card-icon--gold"><Icon name="bolt" size={24} /></span>
-            <h2>למה זה מהיר וזול?</h2>
+      {/* 4 + 5. Why fast and efficient (AI edge), AI consulting for tech-savvy owners, built for you */}
+      <AiEdge title="פיתוח בעוצמה של AI. מחיר נמוך משמעותית.">
+        <div className="split edge-split">
+          <article className="feature feature--ai">
+            <span className="card-icon card-icon--gold"><Icon name="sparkle" size={24} /></span>
+            <span className="kicker kicker--gold">ייעוץ לעסקים</span>
+            <h2>לבעלי עסקים עם ראש טכנולוגי</h2>
             <p>
-              הבינה המלאכותית שינתה את כללי המשחק. אנחנו צוות מקצועי שעובד עם כלי ה-AI החכמים ביותר בשוק, ולכן בונים מערכות מלאות ומורכבות, מהר ובעלות נמוכה.
+              רוצים לקחת את העסק לעתיד? ביום ייעוץ והטמעה ממוקד ממפים יחד את התהליכים, בוחרים את כלי ה-AI המתקדמים ביותר, ומקימים סוכני AI ואוטומציות שעובדים כמו עובדים על אנושיים. העסק עושה יותר, עם פחות עובדים.
             </p>
-            <p>זו הדרך החדשנית ביותר לבנות תוכנה בעידן ה-AI: אתה משלם פחות, ואנחנו נשארים כאן לטווח ארוך.</p>
+            <ul className="ticks">
+              <li><Icon name="check" size={18} strokeWidth={3} /> מיפוי תהליכים ובחירת הכלים הנכונים</li>
+              <li><Icon name="check" size={18} strokeWidth={3} /> סוכני AI ואוטומציות שמוקמים יחד איתכם</li>
+              <li><Icon name="check" size={18} strokeWidth={3} /> ליווי חודשי קצר, או ממשיכים לבד</li>
+            </ul>
+            <Link to="/solutions/ai-consulting" className="btn btn-primary">
+              להטמעת AI בעסק שלכם <Icon name="arrow" size={18} />
+            </Link>
           </article>
           <article className="feature">
             <span className="card-icon"><Icon name="lock" size={24} /></span>
@@ -118,7 +126,7 @@ export default function Home() {
             </ul>
           </article>
         </div>
-      </section>
+      </AiEdge>
 
       {/* 6. Custom build */}
       <section className="section section--sand">
