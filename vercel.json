@@ -3,5 +3,14 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/((?!api/|assets/|.*\\..*).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/en", "destination": "/en/index.html" },
+    { "source": "/en/(solutions|modules)", "destination": "/en/$1/index.html" },
+    {
+      "source": "/en/solutions/(phone-answering|whatsapp-bot|crm-erp|landing-page|custom-system|ai-consulting)",
+      "destination": "/en/solutions/$1/index.html"
+    },
+    { "source": "/en/((?!.*\\..*).*)", "destination": "/en/index.html" },
+    { "source": "/((?!api/|assets/|.*\\..*).*)", "destination": "/index.html" }
+  ]
 }

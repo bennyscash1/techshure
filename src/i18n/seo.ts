@@ -1,5 +1,6 @@
 // Per-page head tags: title, description, Open Graph, Twitter, canonical and hreflang alternates.
-// index.html carries the Hebrew home defaults for crawlers that do not run JavaScript; this keeps them in sync on every route.
+// index.html (Hebrew) and en/index.html (English, one built copy per page, see config/en-html.ts) carry the raw tags for
+// crawlers that do not run JavaScript; this updates those same tags in place on every route (never appends duplicates).
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SITE_URL, basePath, localePath, useLang, type Lang } from '.';
