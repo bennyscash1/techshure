@@ -13,25 +13,19 @@ export const CONTACT = {
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('ז׳בוטינסקי 9 בני ברק מגדל הכשרת היישוב'),
 };
 
-type ContactText = { phone: string; address: string; hours: string; legalName: string; legalType: string; businessId: string };
+type ContactText = { phone: string; address: string; hours: string };
 
-/** Displayed phone (international on English pages), address, hours and the legal line, per language. Same days and hours in both. */
+/** Displayed phone (international on English pages), address and hours, per language. Same days and hours in both. */
 export const CONTACT_TEXT: Record<'he' | 'en', ContactText> = {
   he: {
     phone: '074-7054942',
     address: 'מגדל הכשרת היישוב, ז׳בוטינסקי 9, בני ברק',
     hours: 'שעות פעילות: 9:00 עד 17:00',
-    legalName: 'שור בנימין חיים',
-    legalType: 'עוסק פטור',
-    businessId: '[מס׳ עוסק]',
   },
   en: {
     phone: '+972-74-705-4942',
     address: 'Migdal Hachsharat HaYishuv, 9 Jabotinsky St., Bnei Brak',
     hours: 'Business hours: 9:00 to 17:00',
-    legalName: 'Binyamin Chaim Shor',
-    legalType: 'Licensed sole proprietor',
-    businessId: '[business no.]',
   },
 };
 

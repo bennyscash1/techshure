@@ -30,7 +30,7 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} Tech-shure · {info.legalName} · {info.legalType} {info.businessId}</span>
+          <span dir="ltr">© Tech-shure {new Date().getFullYear()}</span>
           <span className="footer-legal">
             <a href="#">{t.footer.privacy}</a>
             <a href="#">{t.footer.accessibility}</a>

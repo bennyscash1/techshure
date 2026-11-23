@@ -15,7 +15,7 @@ npm run preview  # serve the build
 
 ## Before going live
 
-Fill in the business details in [`src/data/site.ts`](src/data/site.ts): `phone`, `whatsapp` (digits only, e.g. `972500000000`), `email`, and `businessId` (in `CONTACT_TEXT`, once per language).
+Fill in the business details in [`src/data/site.ts`](src/data/site.ts): `phone`, `whatsapp` (digits only, e.g. `972500000000`), and `email`. The displayed phone, address and hours per language are in `CONTACT_TEXT`.
 Once `whatsapp` is set, a floating WhatsApp button appears on every page.
 
 ## Languages
