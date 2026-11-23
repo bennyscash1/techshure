@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
-import { englishHtmlPlugin } from './config/en-html';
+import { ogHtmlPlugin } from './config/og-html';
 
 type Handler = (request: Request) => Response | Promise<Response>;
 
@@ -70,10 +70,10 @@ export default defineConfig(({ mode }) => {
     if (process.env[key] === undefined) process.env[key] = value;
   }
   return {
-    plugins: [react(), devApi(), englishHtmlPlugin()],
+    plugins: [react(), devApi(), ogHtmlPlugin()],
     build: {
       rollupOptions: {
-        // Two HTML entries for the same app: Hebrew (default) and English (/en, raw head in English for link previews).
+        // Two HTML entries for the same app: Hebrew (default) and English (/en). config/og-html.ts writes one copy per page.
         input: {
           index: fileURLToPath(new URL('./index.html', import.meta.url)),
           en: fileURLToPath(new URL('./en/index.html', import.meta.url)),

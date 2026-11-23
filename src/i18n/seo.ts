@@ -1,9 +1,11 @@
 // Per-page head tags: title, description, Open Graph, Twitter, canonical and hreflang alternates.
-// index.html (Hebrew) and en/index.html (English, one built copy per page, see config/en-html.ts) carry the raw tags for
-// crawlers that do not run JavaScript; this updates those same tags in place on every route (never appends duplicates).
+// The build writes one HTML file per page and language (config/og-html.ts) with the raw tags for crawlers that do not
+// run JavaScript; this updates those same tags in place on every route (never appends duplicates). Titles,
+// descriptions and preview images come from the same data (./og.ts) on both sides.
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SITE_URL, basePath, localePath, useLang, type Lang } from '.';
+import { HOME_OG_IMAGE, pageHead } from './og';
 
 const OG_LOCALE: Record<Lang, string> = { he: 'he_IL', en: 'en_US' };
 
@@ -46,6 +48,9 @@ export function useSeo(title: string, description: string, indexable = true) {
     const base = basePath(pathname);
     const url = absolute(localePath(lang, base));
     const other: Lang = lang === 'he' ? 'en' : 'he';
+    // The page's own preview image; pages without one (404s) use the logo image.
+    const head = indexable ? pageHead(lang, base) : undefined;
+    const image = head?.image ?? `${SITE_URL}${HOME_OG_IMAGE}`;
 
     document.title = title;
     upsertMeta('name', 'description', description);
@@ -54,7 +59,10 @@ export function useSeo(title: string, description: string, indexable = true) {
     upsertMeta('property', 'og:url', url);
     upsertMeta('property', 'og:locale', OG_LOCALE[lang]);
     upsertMeta('property', 'og:locale:alternate', OG_LOCALE[other]);
-    upsertMeta('property', 'og:image:alt', t.meta.ogImageAlt);
+    upsertMeta('property', 'og:image', image);
+    upsertMeta('property', 'og:image:secure_url', image);
+    upsertMeta('property', 'og:image:alt', head?.imageAlt ?? t.meta.ogImageAlt);
+    upsertMeta('name', 'twitter:image', image);
     upsertMeta('name', 'twitter:title', title);
     upsertMeta('name', 'twitter:description', description);
 
