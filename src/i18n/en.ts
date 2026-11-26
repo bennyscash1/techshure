@@ -205,7 +205,7 @@ export const en: Dict = {
     askHezki: 'Ask Hezki',
     offerKicker: 'No small print',
     offerTitle: 'What you get, and what it costs',
-    offerLead: "One clear, one-time price for the characterization and consulting session. What's written here is what you get.",
+    offerLead: "One clear price for the characterization and consulting session. What's written here is what you get.",
     detailsTitle: 'Everything you need to know, in one place',
     detailsLead: 'Choose a topic and read exactly what interests you.',
     tabsLabel: (name: string) => `About ${name}`,
