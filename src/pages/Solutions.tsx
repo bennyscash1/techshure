@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { Contact } from '../components/Contact';
-import { AiEdge, PriceBox, PriceNote, TechCard, Terms } from '../components/Blocks';
+import { AiEdge, PriceBox, PriceNote, PriceScaleNote, TechCard, Terms } from '../components/Blocks';
 import { BidiText } from '../components/BidiText';
 import { Icon } from '../components/Icon';
 import { RotatingWords, SplitWords, TiltCard, useSpotlight } from '../components/Motion';
@@ -81,6 +81,7 @@ export default function Solutions() {
                     <span>{s.priceNote}</span>
                   </p>
                 )}
+                {!s.price && <PriceScaleNote />}
                 <div className="custom-cta">
                   <Link to={lp(solutionPath(s.slug))} className="btn btn-primary">
                     {c.details} <Icon name="arrow" size={18} />

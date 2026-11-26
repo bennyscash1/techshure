@@ -1,8 +1,8 @@
 // Our technologies: one entry per solution. Drives the /solutions list and every /solutions/<slug> sub-page,
 // in both languages. Shared fields (slug, icon, image, prices, links) live here; the text lives in
 // ./solutions.he.ts and ./solutions.en.ts, typed so both languages cover every slug and every field.
-// Prices come from ./prices.ts (shared by both languages and the chat bot) and are shown on the /solutions list
-// in both languages; the sub-pages show the launch badge only.
+// Prices come from ./prices.ts (shared by both languages and the chat bot) and are shown, monthly only, on the
+// /solutions list and on the sub-pages (change request 31).
 import phoneImg from '../assets/phone.webp';
 import whatsappImg from '../assets/whatsapp.webp';
 import crmImg from '../assets/crm.webp';
@@ -37,14 +37,14 @@ export type Solution = {
   pitch: string;
   points: string[];
   allWeek?: boolean;
-  /** Launch price for the list page. Missing for the custom system (priced in a call) and the AI consulting (a fixed day, see offer). */
+  /** Monthly-only price. Missing for the custom system (priced in a call) and the AI consulting (a one-time session, see offer). */
   price?: Price;
   priceNote?: string;
   /** Small print on the sub-page about relevant add-ons (official WhatsApp, connecting an existing system). */
   addonNote?: string;
   /** Replaces the scope note under the features tab, for services that are not built from modules. */
   scopeNote?: string;
-  /** A fixed, transparent offer with "what is included / not included" (the AI consulting day only). */
+  /** A fixed, transparent offer with "what is included / not included" (the AI consulting session only). */
   offer?: DayOffer;
   /** Key benefits in the sub-page hero. */
   benefits: string[];
@@ -72,7 +72,7 @@ type SolutionBase = Pick<Solution, BaseKey>;
 export type SolutionText = Omit<Solution, BaseKey>;
 
 export type DayOffer = {
-  /** Shown as is, for example "1,000 ₪". */
+  /** Shown as is, for example "499 ₪". */
   price: string;
   priceLabel: string;
   title: string;

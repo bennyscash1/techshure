@@ -1,16 +1,17 @@
-// Launch prices in shekels: the single numeric source for both languages, on the site and in the chat bot
+// Prices in shekels: the single numeric source for both languages, on the site and in the chat bot
 // (api/_chat-prompt.ts, api/_chat-prompt-en.ts). Keep in sync with rebrand/business-model.md.
 // Free of React and browser code, so the api functions can import it.
+// Change request 31: products are monthly payments only, with no one-time setup fee.
 
-export type Price = { setup: number; monthly: number };
+export type Price = { monthly: number };
 
-/** Launch price of each product with a fixed price (setup once, then monthly). */
+/** Limited-time price of each product with a fixed price: a monthly payment only. */
 export const PRODUCT_PRICES = {
-  phone: { setup: 2500, monthly: 250 },
-  whatsapp: { setup: 2500, monthly: 250 },
-  crm: { setup: 2500, monthly: 250 },
-  /** Landing page, or email automation. */
-  landing: { setup: 1250, monthly: 125 },
+  phone: { monthly: 399 },
+  whatsapp: { monthly: 399 },
+  crm: { monthly: 399 },
+  /** Landing page, or email automation. No new price was given (change request 31): the existing monthly amount stays. */
+  landing: { monthly: 125 },
 } satisfies Record<string, Price>;
 
 /** The monthly amount quoted on the home page. */
@@ -25,17 +26,16 @@ export const OFFICIAL_WHATSAPP_FEE = 2000;
 /** The "refer a friend" credit. */
 export const REFERRAL_CREDIT = 250;
 
-/** The AI consulting day (a fixed price, not a launch price). */
-export const AI_DAY = 1000;
+/** The AI consulting: a one-time characterization and consulting session (a one-time fee, not monthly, not a launch price). */
+export const AI_SESSION = 499;
 
-/** Connecting systems: this share of the more expensive product, on the setup and the monthly payment. */
+/** Connecting systems: this share of the more expensive product's monthly payment. */
 export const CONNECT_RATE = 0.5;
 export const CONNECT_PERCENT = `${CONNECT_RATE * 100}%`;
 
-/** Example: phone answering + a connection to an existing CRM. */
+/** Example: phone answering + a connection to an existing CRM, a month (rounded to a whole shekel). */
 export const CONNECT_EXAMPLE: Price = {
-  setup: PRODUCT_PRICES.phone.setup * (1 + CONNECT_RATE),
-  monthly: PRODUCT_PRICES.phone.monthly * (1 + CONNECT_RATE),
+  monthly: Math.round(PRODUCT_PRICES.phone.monthly * (1 + CONNECT_RATE)),
 };
 
 /** The amount alone, with the en-US thousands separator: 3750 -> "3,750". */

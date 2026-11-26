@@ -34,7 +34,7 @@ export function SectionHead({ kicker, title, children, center }: { kicker?: stri
   );
 }
 
-/** Launch price box on the /solutions list. The same shekel amounts in both languages, formatted per language. */
+/** Price box (monthly payment only, change request 31) on the /solutions list. The same shekel amounts in both languages, formatted per language. */
 export function PriceBox({ price }: { price: Price }) {
   const { lang, t } = useLang();
   const b = t.blocks;
@@ -44,16 +44,19 @@ export function PriceBox({ price }: { price: Price }) {
       <span className="price-flag">{b.priceFlag}</span>
       <div className="price-rows">
         <div className="price-row">
-          <span className="price-label">{b.priceSetup}</span>
-          <span className="price-now"><CountUp value={price.setup} format={format} /></span>
-        </div>
-        <div className="price-row">
-          <span className="price-label">{b.priceMonthly}</span>
           <span className="price-now"><CountUp value={price.monthly} format={format} /></span>
+          <span className="price-label">{b.priceMonthly}</span>
         </div>
       </div>
+      <PriceScaleNote />
     </div>
   );
+}
+
+/** "The price depends on the product type; a large, complex system changes the price." Shown wherever a price is. */
+export function PriceScaleNote({ className = 'price-scale' }: { className?: string }) {
+  const { t } = useLang();
+  return <p className={className}>{t.blocks.priceScale}</p>;
 }
 
 export function PriceNote() {

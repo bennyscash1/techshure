@@ -28,6 +28,7 @@ const MODULES: Module[] = [
       'Up to 5 flows or menu options',
       'Up to 20 common questions and answers',
       "Leads forwarded to the business owner's email or WhatsApp",
+      'Connection to the CRM the business already has, and complete actions directly from WhatsApp',
     ],
   },
   {
@@ -65,9 +66,9 @@ const ADDONS: Addon[] = [
   {
     icon: 'sync',
     title: 'Connecting systems',
-    text: `An add-on of ${CONNECT_PERCENT} of the value of the more expensive product of the two, on both the setup and the monthly payment.`,
-    example: `Phone answering + a connection to an existing CRM = ${ils(CONNECT_EXAMPLE.setup)} setup, ${ils(CONNECT_EXAMPLE.monthly)} a month`,
-    note: 'Condition: the existing system has a documented API. Without a documented API, the price is set by the specification.',
+    text: `An add-on of ${CONNECT_PERCENT} of the monthly payment of the more expensive product of the two.`,
+    example: `Phone answering + a connection to an existing CRM = ${ils(CONNECT_EXAMPLE.monthly)} a month`,
+    note: 'Condition: the existing system has a documented API. Without a documented API, the price is set by the specification. With the WhatsApp AI Agent, connecting to the CRM you already have is part of the product.',
   },
   {
     icon: 'shield',
@@ -97,7 +98,7 @@ const TERMS: Term[] = [
   {
     icon: 'card',
     title: 'Payment',
-    text: 'The setup is paid in full in advance. Work does not start before payment.',
+    text: 'Monthly payments only, with no setup fee. Work starts after the first monthly payment.',
   },
   {
     icon: 'calendar',
@@ -107,7 +108,7 @@ const TERMS: Term[] = [
   {
     icon: 'file',
     title: 'Commitment',
-    text: 'A minimum of 12 months. If you leave early, the setup is not refunded.',
+    text: 'A minimum of 12 months.',
   },
   {
     icon: 'chip',
@@ -127,7 +128,7 @@ const TERMS: Term[] = [
   {
     icon: 'gift',
     title: 'Refer a friend',
-    text: `Once your friend has signed a contract and paid for the setup, you choose one: a landing page (hosting and usage costs are yours), a consulting hour, or a ${ils(REFERRAL_CREDIT)} credit.`,
+    text: `Once your friend has signed a contract and paid the first monthly payment, you choose one: a landing page (hosting and usage costs are yours), a consulting hour, or a ${ils(REFERRAL_CREDIT)} credit.`,
   },
 ];
 

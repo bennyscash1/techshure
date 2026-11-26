@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { Contact } from '../components/Contact';
-import { OfferBlock, SectionHead, TechCard } from '../components/Blocks';
+import { OfferBlock, PriceScaleNote, SectionHead, TechCard } from '../components/Blocks';
+import { money } from '../data/prices';
 import { BidiText } from '../components/BidiText';
 import { openChat } from '../components/ChatWidget';
 import { Icon } from '../components/Icon';
@@ -240,8 +241,16 @@ function SolutionView({ s }: { s: Solution }) {
                     <Icon name="coins" size={18} /> {c.offerBadge} <span dir="ltr">{s.offer.price}</span>
                   </a>
                 ) : (
-                  <span className="launch-badge"><Icon name="bell" size={18} /> {c.launchBadge}</span>
+                  <span className="launch-badge">
+                    <Icon name="bell" size={18} /> {c.launchBadge}
+                    {s.price && (
+                      <>
+                        : <span dir="ltr">{money(s.price.monthly, lang)}</span> {c.perMonth}
+                      </>
+                    )}
+                  </span>
                 )}
+                <PriceScaleNote className="sol-addon-note" />
                 {s.addonNote && (
                   <p className="sol-addon-note">
                     {s.addonNote} <Link to={lp('/modules#addons')}>{c.addonsLink}</Link>

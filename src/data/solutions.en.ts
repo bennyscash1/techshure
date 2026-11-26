@@ -1,28 +1,29 @@
 // English text of every solution. Same shape and slugs as ./solutions.he.ts (TypeScript enforces it).
 // Faithful to the Hebrew site and rebrand/business-model.md. Prices: the same shekel amounts as Hebrew, in the
-// same places (./prices.ts); on the sub-pages that is only the AI consulting day, on its own page.
+// same places (./prices.ts). Change request 31: monthly-only product prices, and a one-time AI consulting session.
 import type { DayOffer, SolutionSlug, SolutionText } from './solutions';
-import { AI_DAY, money } from './prices';
+import { AI_SESSION, money } from './prices';
 
-const DAY = money(AI_DAY, 'en');
+const SESSION = money(AI_SESSION, 'en');
 
-const AI_CONSULTING_DAY: DayOffer = {
-  price: DAY,
-  priceLabel: 'per consulting day, at your business',
-  title: 'An AI consulting day. One price, no small print.',
+const AI_CONSULTING_SESSION: DayOffer = {
+  price: SESSION,
+  priceLabel: 'a one-time fee, on Zoom or at your business',
+  title: 'A one-time AI characterization and consulting session. One price, no small print.',
   summary:
-    'We come to your business for a focused consulting day, from a few hours up to 6 hours. At the end of the day you receive a written recommendations document for implementation: what to implement, with which tools and in what order.',
+    'A focused characterization and consulting session, on Zoom or at your business, wherever suits you. One-on-one with you or one of your employees, or as a lecture for your team, depending on your type of business and its needs. You leave with clear recommendations: what to implement, with which tools and in what order.',
   included: [
-    'A consulting day at your business, from a few hours up to 6 hours',
+    'A one-time characterization and consulting session, on Zoom or at your business',
+    'One-on-one with you or one of your employees, or a lecture for your team',
     'Mapping the processes and tasks that take up most of your time',
     'Choosing the advanced AI tools that fit your business exactly',
-    'A written recommendations document for implementation, delivered at the end of the day',
+    'Clear recommendations for implementation: what, with which tools and in what order',
   ],
   excluded: [
     'Development time: actually building agents, automations or systems',
     'Subscriptions to the AI tools themselves, if any, paid directly to the provider',
   ],
-  note: 'Want us to develop and implement the recommendations for you? Development is available separately, if you wish, in a formal proposal after the consulting day.',
+  note: 'Want us to develop and implement the recommendations for you? Development is available separately, if you wish, in a formal proposal after the consulting session.',
 };
 
 const SHARED_STEPS_END = [
@@ -109,14 +110,15 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
     imageAlt: 'A robot next to a phone showing a WhatsApp chat',
     title: 'WhatsApp AI Agent',
     shortTitle: 'WhatsApp AI Agent',
-    tagline: 'An AI Agent built for your business, answering customers on WhatsApp and forwarding leads',
-    cardText: 'An AI Agent that knows your business answers the customer right away. When there is a real lead, it reaches you.',
-    pitch: "An AI Agent that knows your business answers the customer right away, using your business's own information. When there is a real lead, it reaches you.",
-    points: ["An AI Agent that answers with your business's own information", 'Information that lives with the agent and updates in real time', 'Every lead reaches you by email or WhatsApp'],
-    addonNote: 'The agent runs on an unofficial number. Official WhatsApp (Meta API) and connecting to an existing system are add-ons.',
+    tagline: 'An AI Agent built for your business, answering customers on WhatsApp and connecting to the CRM you already have',
+    cardText: 'An AI Agent that knows your business answers the customer right away, connects to the CRM you already have, and performs complete actions directly from WhatsApp.',
+    pitch: "An AI Agent that knows your business answers the customer right away, using your business's own information. It connects to the CRM you already have, and performs complete actions directly from WhatsApp. When there is a real lead, it reaches you.",
+    points: ["An AI Agent that answers with your business's own information", 'Connects to the CRM you already have and performs complete actions from WhatsApp', 'Every lead reaches you by email or WhatsApp'],
+    addonNote: 'The agent runs on an unofficial number. Official WhatsApp (Meta API) is an add-on.',
     benefits: [
       'An AI Agent built specifically for your business, answering in its name at any hour',
       "Answers from your business's dedicated information, updated in real time",
+      'Connects to the CRM you already have and performs complete actions directly from WhatsApp',
       'Automatic qualification: only real leads reach you',
       'Active 24/7, efficient and cost-effective, without you having to hold the phone',
     ],
@@ -129,7 +131,7 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
     overview: {
       intro: [
         "Your customers are already on WhatsApp, and they expect an answer now. The WhatsApp AI Agent is built specifically for your business: it replies right away, in your business name, using your business's dedicated information, and guides the customer through a clear, easy menu when that helps.",
-        'Your business information lives with the agent and updates in real time, so customers always get answers based on the latest information. When the customer is serious, the agent collects the important details and forwards you an organized lead, by email or on WhatsApp. It is efficient and cost-effective: you only get the inquiries worth your time, and the customer feels someone is there for them.',
+        'Your business information lives with the agent and updates in real time, so customers always get answers based on the latest information. When the customer is serious, the agent collects the important details and forwards you an organized lead, by email or on WhatsApp. The agent also connects to the CRM you already have, so it does not just answer: it performs complete actions directly from WhatsApp. It is efficient and cost-effective: you only get the inquiries worth your time, and the customer feels someone is there for them.',
       ],
       before: ['Dozens of messages waiting for a reply', 'The same question about hours, prices and location, again and again', 'Leads that get lost between messages', 'Customers who wait, then go to a competitor'],
       after: ['Every customer gets an answer within seconds', "The AI Agent answers on its own, from your business's information", 'An organized lead with all the details reaches you', 'You only reply when you are really needed'],
@@ -138,6 +140,7 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       { icon: 'list', title: 'A clear menu', text: 'Up to 5 flows or menu options in the standard scope, so the agent leads the customer to exactly what they need.' },
       { icon: 'chat', title: "Your business's dedicated information", text: 'Up to 20 questions and answers, in your own words, that live with the agent and update in real time.' },
       { icon: 'users', title: 'Lead qualification and forwarding', text: 'The agent collects the name, phone number and what the customer needs, and forwards you a ready lead.' },
+      { icon: 'db', title: 'Connects to the CRM you already have', text: 'The agent connects to the CRM your business already works with, and performs complete actions directly from WhatsApp, so you never type anything twice.' },
       { icon: 'mail', title: 'Alerts by email or WhatsApp', text: "Every lead arrives where it suits you: by email or to the business owner's WhatsApp." },
       { icon: 'clock', title: 'Always available', text: 'The agent is active 24/7, so even a late-night inquiry gets a response.' },
       { icon: 'shield', title: 'Official WhatsApp option', text: 'An official number through an authorized API, as an add-on, for businesses that want an official channel.' },
@@ -155,13 +158,14 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       { icon: 'book', who: 'Classes, courses and institutions', text: 'Up-to-date information about dates, registration and terms, and an organized inquiry form right inside the chat.' },
     ],
     integrations: [
-      { icon: 'db', title: 'Connection to a CRM / ERP system', text: 'Every lead automatically opens as a card in the system that runs your business, with all the details.', to: '/solutions/crm-erp' },
+      { icon: 'db', title: 'Connection to a CRM / ERP system', text: 'The agent connects to the CRM you already have, or to a system we build for you, and performs complete actions in it directly from WhatsApp.', to: '/solutions/crm-erp' },
       { icon: 'phone', title: 'Smart phone answering', text: "The customer called and you weren't available? They keep getting a response on WhatsApp too.", to: '/solutions/phone-answering' },
       { icon: 'layout', title: 'Landing page', text: 'A WhatsApp button on the landing page leads straight to the AI Agent.', to: '/solutions/landing-page' },
       { icon: 'grid', title: 'Module scope and add-ons', text: 'What is included in the standard scope, and what to know about official WhatsApp.', to: '/modules#whatsapp' },
     ],
     faq: [
       { q: "What's the difference between an AI Agent and a regular WhatsApp bot?", a: "A regular bot only follows a fixed menu. The AI Agent understands the customer's question and answers it in natural language, using the dedicated information we built for your business. The menu and flows are still there when they help the customer." },
+      { q: 'Does the agent work with the CRM I already have?', a: 'Yes. The agent connects to the CRM your business already works with, and it does not just answer customers: it performs complete actions directly from WhatsApp.' },
       { q: 'Does the agent work on my existing number?', a: 'In the standard scope the agent works on one unofficial number. In the scoping call we will decide together whether to use an existing number or a dedicated business number.' },
       { q: "What's the difference between regular WhatsApp and official WhatsApp?", a: 'Official WhatsApp works through an authorized API and suits businesses that want an official channel. It is an add-on, and the full details are on the modules page.' },
       { q: "What if a customer asks something the agent doesn't know?", a: "The agent answers only from your business's information. When it has no answer, it asks for the customer's details and forwards the inquiry to you, so no question is left without a response." },
@@ -171,7 +175,7 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
     ],
     service: 'WhatsApp bot',
     metaTitle: 'WhatsApp AI Agent for your business | Technology for your business | Tech-shure',
-    metaDescription: "A WhatsApp AI Agent built specifically for your business: it answers customers right away from your business's own information, updated in real time, and qualifies leads that reach you by email or WhatsApp. Active 24/7, efficient and cost-effective, maintained by Tech-shure.",
+    metaDescription: "A WhatsApp AI Agent built specifically for your business: it answers customers right away from your business's own information, connects to the CRM you already have, and performs complete actions directly from WhatsApp. Active 24/7, efficient and cost-effective, maintained by Tech-shure.",
   },
 
   'crm-erp': {
@@ -394,35 +398,35 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
     imageAlt: 'A smart robot waving hello',
     title: 'AI implementation for your business',
     shortTitle: 'AI for your business',
-    tagline: 'An AI consulting day at your business, and a written recommendations document for implementation',
-    cardText: 'A focused consulting day at your business: we map processes, choose tools, and you leave with a written recommendations document for implementation.',
+    tagline: 'A one-time AI characterization and consulting session, on Zoom or at your business',
+    cardText: 'A one-time characterization and consulting session: we map processes, choose tools, and you leave with clear recommendations for implementation.',
     pitch:
-      'For business owners with a head for technology who want to take their business into the future. We come to your business for a focused consulting day, map your processes, choose the most advanced AI tools together, and think outside the box: where AI agents and automations can do the work of superhuman employees, so your business runs faster, with fewer employees.',
+      'For business owners with a head for technology who want to take their business into the future. In a one-time characterization and consulting session, on Zoom or at your business, we map your processes, choose the most advanced AI tools together, and think outside the box: where AI agents and automations can do the work of superhuman employees, so your business runs faster, with fewer employees.',
     points: [
-      'A consulting day at your business, from a few hours up to 6 hours',
+      'A one-time characterization and consulting session, on Zoom or at your business',
+      'One-on-one with you or one of your employees, or as a lecture for your team',
       'Mapping processes and choosing the right tools for your business',
-      'A written recommendations document for implementation, at the end of the day',
       'Actual development and implementation available separately, if you wish',
     ],
-    priceNote: "A consulting day at a fixed, transparent price, with no small print. The price, and what's included, are on the full page.",
-    scopeNote: 'The consulting day includes the consulting itself and a written recommendations document for implementation. Development time is not included, and is available separately, if you wish.',
-    offer: AI_CONSULTING_DAY,
+    priceNote: "A one-time characterization and consulting session at a fixed, transparent price, with no small print. The price, and what's included, are on the full page.",
+    scopeNote: 'The characterization and consulting session includes the consulting itself and clear recommendations for implementation. Development time is not included, and is available separately, if you wish.',
+    offer: AI_CONSULTING_SESSION,
     benefits: [
-      'We come to your business, from a few hours up to 6 hours',
+      'On Zoom or at your business, wherever suits you',
+      'One-on-one or as a lecture, depending on your type of business and its needs',
       'We map where AI will save you the most time and money',
-      'Advanced tools chosen for your business, not for the trend',
-      'You leave with a written recommendations document: what to implement and in what order',
+      'You leave with clear recommendations: what to implement, with which tools and in what order',
     ],
     highlights: [
-      { icon: 'pin', value: 'At your business', label: 'From a few hours up to 6 hours' },
+      { icon: 'pin', value: 'On Zoom or on-site', label: 'Wherever suits you' },
+      { icon: 'users', value: 'One-on-one or a lecture', label: 'Depending on your business and needs' },
       { icon: 'route', value: 'Process mapping', label: 'Where AI saves the most' },
-      { icon: 'file', value: 'Recommendations document', label: 'Written for implementation, at the end of the day' },
-      { icon: 'coins', value: DAY, label: 'One price for the consulting day' },
+      { icon: 'coins', value: SESSION, label: 'A one-time fee for the session' },
     ],
     overview: {
       intro: [
         "Today's AI tools can already answer customers, summarize, write, sort, schedule and produce reports. The difference between a business that uses them and a business that uses them well is huge. We help you get to the right side.",
-        'This service is for business owners who understand technology and want to take their business into the future. We come to your business for a focused consulting day, from a few hours up to 6 hours: together we map your processes, choose the most advanced tools that fit you, and at the end of the day we hand you a written recommendations document for implementation. From there, you choose: implement it yourself using the document, or have us develop and implement it for you, separately.',
+        'This service is for business owners who understand technology and want to take their business into the future. In a one-time characterization and consulting session, on Zoom or at your business, one-on-one with you or one of your employees, or as a lecture for your team, depending on your type of business and its needs: together we map your processes, choose the most advanced tools that fit you, and you leave with clear recommendations for implementation. From there, you choose: implement them yourself, or have us develop and implement them for you, separately.',
       ],
       before: [
         'Repetitive tasks that take hours from you and your team',
@@ -433,23 +437,23 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       after: [
         'A clear picture of where AI saves you the most',
         'Tools chosen for your business, with a clear goal',
-        'A written recommendations document: what to implement, with which tools and in what order',
+        'Clear recommendations: what to implement, with which tools and in what order',
         'A clear path to a business that works like a business of the future',
       ],
     },
     features: [
-      { icon: 'pin', title: 'A consulting day at your business', text: 'We come to you, to see how your business really works. From a few hours up to 6 hours, depending on what your business needs.' },
+      { icon: 'pin', title: 'On Zoom or at your business', text: 'The characterization and consulting session takes place wherever suits you: on Zoom, or at your business.' },
+      { icon: 'users', title: 'One-on-one or a lecture', text: 'One-on-one with you or one of your employees, or as a lecture for your team. You choose based on your type of business and what it needs.' },
       { icon: 'route', title: 'Process mapping', text: "Together we go over your team's days and yours, and find where AI will save the most time and money." },
       { icon: 'chip', title: 'Choosing the advanced tools', text: 'From the leading AI tools on the market, we choose what fits your business exactly and what already works for you.' },
       { icon: 'bot', title: 'AI agents and automations', text: 'We define which agents and automations will do the work of superhuman employees for you: answering, summarizing, writing and scheduling.' },
       { icon: 'sparkle', title: 'Thinking outside the box', text: 'Not just doing what you already do faster, but rethinking how your business can work.' },
-      { icon: 'file', title: 'A written recommendations document for implementation', text: 'At the end of the day you receive an organized document: what to implement, with which tools, in what order, and what each step will save you.' },
     ],
     steps: [
-      { title: 'Introductory call', text: 'You tell us about your business, your team and what takes up most of your time, and we schedule the consulting day.' },
-      { title: 'Preparing for the consulting day', text: 'We prepare in advance: we study your field, and prepare a list of tools and ideas tailored to your business.' },
-      { title: 'A consulting day at your business', text: 'From a few hours up to 6 hours: we map processes, choose tools, and think together about where AI makes the biggest difference.' },
-      { title: 'A written recommendations document', text: 'At the end of the day you receive a written recommendations document for implementation: what to implement, with which tools and in what order.' },
+      { title: 'A short coordination', text: 'You tell us about your business and what takes up most of your time, and we choose together: Zoom or on-site, one-on-one or a lecture.' },
+      { title: 'Preparing for the session', text: 'We prepare in advance: we study your field, and prepare a list of tools and ideas tailored to your business.' },
+      { title: 'The characterization and consulting session', text: 'We map processes, choose tools, and think together about where AI makes the biggest difference.' },
+      { title: 'Recommendations for implementation', text: 'You leave with clear recommendations: what to implement, with which tools and in what order.' },
       { title: 'Implement, on your own or with us', text: 'Prefer to do it yourself? You have everything you need. Want us to develop and implement it for you? Development is available separately, in a formal proposal.' },
     ],
     useCases: [
@@ -465,16 +469,16 @@ export const SOLUTIONS_EN: Record<SolutionSlug, SolutionText> = {
       { icon: 'code', title: 'Custom system', text: 'Turns out you need a complete system? We build it, fully tailored.', to: '/solutions/custom-system' },
     ],
     faq: [
-      { q: 'How much does the consulting day cost?', a: `${DAY} for a consulting day at your business, from a few hours up to 6 hours. The price includes the consulting itself and a written recommendations document for implementation at the end of the day. No small print.` },
+      { q: 'How much does the characterization and consulting session cost?', a: `${SESSION}, a one-time fee. The price includes the characterization and consulting session itself and clear recommendations for implementation. No small print.` },
       { q: 'What is not included in the price?', a: 'Development time is not included: actually building agents, automations or systems. Development is available separately, if you wish, in a formal proposal. Subscriptions to the AI tools themselves, if any, are paid directly to the provider.' },
-      { q: 'Where does the consulting day take place?', a: 'At your business. That way we see how your business really works, and meet the people who do the work.' },
+      { q: 'Where does the session take place, and with whom?', a: 'Wherever suits you: on Zoom or at your business. One-on-one with you or one of your employees, or as a lecture for your team, depending on your type of business and its needs.' },
       { q: 'Who is this service for?', a: 'For business owners who understand technology, enjoy it, and want to take their business into the future: to work smarter, faster, and with fewer employees.' },
       { q: "What about privacy and the security of my business's information?", a: 'The recommendations include tools with suitable privacy and security settings, and define in advance which information goes into the tools and which does not. The decision about any information stays with you.' },
       { q: 'Which tools do you use?', a: "We're not locked into one provider. We choose from the most advanced AI tools on the market, based on what your business needs and what already works for you." },
-      { q: 'What happens after the consulting day?', a: 'You have a written recommendations document for implementation. You can implement it yourself using the document, or ask us to develop and implement it for you, separately. And if it turns out you need a complete system, we will build it.' },
+      { q: 'What happens after the consulting session?', a: 'You have clear recommendations for implementation. You can implement them yourself, or ask us to develop and implement them for you, separately. And if it turns out you need a complete system, we will build it.' },
     ],
     service: 'AI implementation for your business (business consulting)',
-    metaTitle: 'AI implementation for your business | Business consulting | Tech-shure',
-    metaDescription: `An AI consulting day at your business, from a few hours up to 6 hours, for ${DAY}: process mapping, choosing advanced tools and a written recommendations document for implementation. Development available separately.`,
+    metaTitle: 'AI characterization and consulting session | Business consulting | Tech-shure',
+    metaDescription: `A one-time AI characterization and consulting session for ${SESSION}, on Zoom or at your business: one-on-one or as a lecture, process mapping, choosing advanced tools and recommendations for implementation. Development available separately.`,
   },
 };

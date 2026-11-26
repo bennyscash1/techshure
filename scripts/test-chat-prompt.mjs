@@ -50,10 +50,10 @@ const shekels = (text, re) => [...text.matchAll(re)].map((x) => Number(x[1].repl
 const heAmounts = shekels(he, /(\d{1,3}(?:,\d{3})*)\s*₪/g);
 const enAmounts = shekels(en, /₪(\d{1,3}(?:,\d{3})*)/g);
 check(`English prompt quotes the same shekel amounts as Hebrew (${[...new Set(heAmounts)].join(', ')})`, heAmounts.length > 0 && JSON.stringify(heAmounts) === JSON.stringify(enAmounts));
-check('English prompt writes amounts as "₪2,500" (symbol first), never "2,500 ₪"', !/\d\s*₪/.test(en) && en.includes('setup ₪2,500, monthly ₪250'));
+check('English prompt writes amounts as "₪399" (symbol first), never "399 ₪"', !/\d\s*₪/.test(en) && en.includes('₪399 a month'));
 check('English prompt: no dollars', !/\$\s?\d|USD|dollar/i.test(en));
-check('English prompt: the AI day is ₪1,000 and not a launch price', en.includes('an AI consulting day for ₪1,000') && en.includes('Never call ₪1,000 a "launch price"'));
-check('English prompt: launch price rule', en.includes('These are launch prices.') && en.includes('Never quote a regular or future price'));
+check('English prompt: the AI session is ₪499, one-time and not a launch price', en.includes('consulting session for ₪499') && en.includes('Never call ₪499 a "launch price"'));
+check('English prompt: launch price rule', en.includes('These are limited-time launch prices.') && en.includes('Never quote a regular or future price'));
 check('English prompt: special pricing for several packages', /special pricing when (you )?choos(e|ing) several packages/i.test(en));
 check('English prompt: phone and WhatsApp in +972 format only', en.includes('Phone: +972-74-705-4942') && en.includes('WhatsApp: +972-52-656-5024') && !/\b0\d{1,2}-?\d{7}\b|\b0\d{1,2}-\d{3}-\d{4}\b/.test(en));
 check('English prompt: active 24/7', en.includes('active 24/7'));
@@ -61,7 +61,8 @@ check('English prompt: Shabbat only in the "never mention" rule', (en.match(/Sha
 check('English prompt: "cheap" only in the rule that forbids it', en.split('\n').filter((l) => /cheap/i.test(l)).every((l) => l.startsWith('- Never use the words')));
 check('English prompt links to the English pages', en.includes('/en/solutions/ai-consulting') && en.includes('/en/modules') && !/[^n]\/solutions\//.test(en.replace(/\/en\/solutions\//g, '')));
 check('English prompt uses the English address and hours', en.includes('9 Jabotinsky St., Bnei Brak') && en.includes('9:00 to 17:00'));
-check('Hebrew prompt still quotes the Hebrew launch prices', he.includes('הקמה 2,500 ₪, חודשי 250 ₪'));
+check('Hebrew prompt quotes the monthly-only prices', he.includes('399 ₪ לחודש') && !/הקמה \d/.test(he));
+check('Neither prompt quotes a setup amount', !/setup ₪\d/.test(en));
 
 // Leads: language of the "not given" word and of the transcript fallback.
 const msgs = [
