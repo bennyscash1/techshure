@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import heroLarge from '../assets/hero-order.webp';
-import heroSmall from '../assets/hero-order-mobile.webp';
 import { Contact } from '../components/Contact';
+import { HeroOrder } from '../components/HeroOrder';
 import { getSolutions, solutionPath } from '../data/solutions';
 import { useLang } from '../i18n';
 import { useSeo } from '../i18n/seo';
@@ -14,7 +13,7 @@ export default function Home() {
   useSeo(t.meta.homeTitle, t.meta.homeDescription);
   return (
     <>
-      {/* 1. Hero: the approved abstract image (a tangle that turns into order), no text or icons on it. */}
+      {/* 1. Hero: the Tech-shure robot turns tangled lines into 3 clean ones (HeroOrder), no text or icons on it. */}
       <section className="home-hero no-reveal">
         <div className="container home-hero-copy">
           <h1>{h.heroTitle}</h1>
@@ -22,15 +21,7 @@ export default function Home() {
           <Link to={{ hash: '#contact' }} className="btn btn-primary btn-lg">{h.talk}</Link>
         </div>
         <div className="container home-hero-media">
-          <img
-            src={heroLarge}
-            srcSet={`${heroSmall} 900w, ${heroLarge} 1920w`}
-            sizes="(max-width: 1180px) 100vw, 1180px"
-            width={1920}
-            height={1072}
-            alt=""
-            decoding="async"
-          />
+          <HeroOrder />
         </div>
       </section>
 

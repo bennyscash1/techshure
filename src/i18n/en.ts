@@ -66,6 +66,7 @@ export const en: Dict = {
     heroTitle: "Too many solutions. We'll put things in order for you.",
     heroLead: 'We get to know your business, choose only what will really work, and build it for you.',
     talk: "Let's talk",
+    heroArt: 'Tech-shure robot straightening lines',
     stepsTitle: 'How we work',
     steps: [
       { title: 'We get to know your business', text: 'We sit with you and hear how the business runs today. What gets stuck, what takes time, and what matters most to you.' },
