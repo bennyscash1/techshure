@@ -1,13 +1,13 @@
 // Hebrew UI strings (the default language). en.ts must have exactly the same shape (TypeScript enforces it).
 // Product content (solutions, modules, terms) lives in src/data/*.he.ts.
 import { CONTACT_TEXT } from '../data/site';
-import { HOME_MONTHLY, REFERRAL_CREDIT, money } from '../data/prices';
+import type { SolutionSlug } from '../data/solutions';
 
 export const he = {
   meta: {
     homeTitle: 'Tech-shure | טכנולוגיה. על בטוח.',
     homeDescription:
-      'כל הטכנולוגיה של העסק, במקום אחד: מענה טלפוני חכם, בוט וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. מערכות מלאות לכל עסק ובכל גודל, במנוי חודשי. שקט מלא.',
+      'יותר מדי פתרונות? אנחנו נעשה לך סדר. מבינים את העסק שלך, בוחרים רק את מה שבאמת יעבוד, ובונים את זה בשבילך: מענה טלפוני, וואטסאפ, מערכת CRM / ERP ומערכות בהתאמה אישית.',
     solutionsTitle: 'טכנולוגיות לעסק שלך | Tech-shure',
     solutionsDescription:
       'כל הטכנולוגיות לעסק שלך: מענה טלפוני חכם, בוט וואטסאפ, מערכת CRM / ERP לניהול העסק, דף נחיתה, מערכת מותאמת אישית והטמעת AI בעסק. מחיר השקה לזמן מוגבל.',
@@ -61,53 +61,26 @@ export const he = {
   },
 
   home: {
-    heroTitleA: 'כל הטכנולוגיה של העסק, במקום אחד.',
-    heroTitleB: 'על בטוח.',
-    heroTitleBStart: 7,
-    heroLead:
-      'אנחנו בונים לעסק שלך מעטפת כלים שלמה: מענה טלפוני, וואטסאפ, מערכת מלאה לניהול לקוחות ולניהול העסק (CRM / ERP) ודף נחיתה. הכל אצלנו, הכל מתוחזק, ואתה מקבל שקט מלא.',
-    talk: 'בואו נדבר',
-    toSolutions: 'טכנולוגיות לעסק שלך',
-    chips: { phone: 'מענה טלפוני', whatsapp: 'וואטסאפ', crm: 'CRM / ERP', landing: 'דף נחיתה' },
-    painKicker: 'מכירים את זה?',
-    painTitle: 'ספק לכל דבר. בלאגן בכל מקום.',
-    painLead: 'המערכות שהיו אמורות לעשות סדר, עושות בלאגן. כל אחד גובה בנפרד, ואף אחד לא רואה את התמונה המלאה.',
-    pains: [
-      { who: 'ספק לוואטסאפ', text: 'עוד חשבונית בכל חודש' },
-      { who: 'ספק לאתר', text: 'עוד מספר שצריך לרדוף אחריו' },
-      { who: 'ספק לטלפון', text: 'עוד מערכת שלא מדברת עם האחרות' },
+    heroTitle: 'יותר מדי פתרונות. אנחנו נעשה לך סדר.',
+    heroLead: 'מבינים את העסק שלך, בוחרים רק את מה שבאמת יעבוד, ובונים את זה בשבילך.',
+    talk: 'בוא נדבר',
+    stepsTitle: 'ככה אנחנו עובדים',
+    steps: [
+      { title: 'מכירים את העסק', text: 'יושבים איתך ושומעים איך העסק עובד היום. מה תוקע, מה לוקח זמן, ומה הכי חשוב לך.' },
+      { title: 'בוחרים או בונים', text: 'יש בשוק כלי שמתאים לך? נגיד לך. אין? נכתוב אחד חדש, לפי הדרך שבה אתה עובד.' },
+      { title: 'מטמיעים ומודדים', text: 'מעלים את זה לעבודה, מלמדים את הצוות, ובודקים איתך במספרים מה השתפר.' },
     ],
-    painBill: 'חשבון נפרד',
-    solutionKicker: 'הפתרון',
-    solutionTitle: 'מקום אחד שתופס הכל',
-    solutionLead: 'Tech-shure בונה, מחברת ומתחזקת את כל הכלים של העסק. מנוי חודשי אחד, אחריות אחת.',
-    promise: [
-      { title: 'כתובת אחת', text: 'יש שאלה, תקלה או שינוי? פונים אלינו. לא מחפשים מי אחראי על מה.' },
-      { title: 'מנוי חודשי קבוע', text: 'בלי דמי הקמה. רק תשלום חודשי ידוע מראש, בלי הפתעות.' },
-      { title: 'שקט מלא', text: 'תפעול, תקלות ותחזוקה עלינו. אתה מתעסק בעסק שלך.' },
-    ],
-    /** The big quote. With a number, it counts up to it before the rest of the line. */
-    quoteNumber: HOME_MONTHLY as number | null,
-    quoteBefore: '"',
-    quoteAfter: ' ₪ בחודש, ויש לך מערכת שמכסה אותך מכל הכיוונים."',
-    edgeTitle: 'פיתוח בעוצמה של AI. מהיר, יעיל ומשתלם.',
-    builtTitle: 'נבנה אישית בשבילך',
-    builtText: 'לא תבנית גנרית. קוד שנכתב במיוחד לעסק שלך, לפי איך שאתה עובד, ורץ על שרת מאובטח.',
-    builtTicks: ['קוד מותאם לעסק שלך', 'שרת מאובטח', 'מתחזקים ומשפרים לאורך הדרך'],
-    customKicker: 'פיתוח בהתאמה אישית',
-    customTitle: 'כל מערכת. כל פלטפורמה. בנויה בשבילך.',
-    customLead:
-      'אנחנו מפתחים כל מערכת שהעסק צריך, בהתאמה אישית מלאה, מתוך מודולים מוכנים, ולכל פלטפורמה. מענה טלפוני, וואטסאפ, מערכות CRM / ERP לניהול העסק, סליקה, דפי נחיתה ואוטומציית מיילים הם רק דוגמאות, לא הגבול. והמערכת פעילה 24/7.',
-    customToSolutions: 'לכל הטכנולוגיות לעסק שלך',
-    customToModules: 'למודולים ולתנאים',
-    referAlt: 'רובוט מנופף לשלום',
-    referKicker: 'חבר מביא חבר',
-    referTitle: 'ממליץ עלינו? מקבל מתנה.',
-    referLead: 'אחרי שהחבר שלך חתם על חוזה ושילם את התשלום החודשי הראשון, אתה בוחר אחת:',
-    referLanding: 'דף נחיתה לעסק שלך',
-    referLandingNote: '(אחסון ושימוש עליך)',
-    referHour: 'שעת ייעוץ',
-    referCredit: `זיכוי של ${money(REFERRAL_CREDIT)}`,
+    servicesTitle: 'מה אנחנו בונים',
+    /** One short line per solution, written for the home page only. The names come from the solution data. */
+    services: {
+      'phone-answering': 'לקוח שמתקשר מקבל מענה, 24/7.',
+      'whatsapp-bot': 'לקוח שכותב בוואטסאפ מקבל תשובה מיד, 24/7.',
+      'crm-erp': 'הלקוחות, ההזמנות והגבייה, מסודרים במקום אחד.',
+      'landing-page': 'עמוד אחד שמציג את העסק ומביא פניות.',
+      'custom-system': 'תוכנה שנבנית מאפס, רק בשביל העסק שלך.',
+      'ai-consulting': 'פגישה אחת שבה מבינים מה AI יכול לעשות אצלך.',
+    } satisfies Record<SolutionSlug, string>,
+    servicesMore: 'לכל השירותים והמחירים',
   },
 
   solutions: {

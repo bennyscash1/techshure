@@ -3,14 +3,14 @@
 // systems are always complete and tailored to the budget, no long dashes.
 // Prices (change request 26): the same shekel amounts as Hebrew, in the same places, from src/data/prices.ts.
 import { CONTACT_TEXT } from '../data/site';
-import { HOME_MONTHLY, REFERRAL_CREDIT, money } from '../data/prices';
+import type { SolutionSlug } from '../data/solutions';
 import type { Dict } from './he';
 
 export const en: Dict = {
   meta: {
     homeTitle: 'Tech-shure | Technology. For sure.',
     homeDescription:
-      'All your business technology, in one place: smart phone answering, a WhatsApp bot, a complete system to manage your customers and run your business (CRM / ERP), and a landing page. Complete systems for every business of every size, on a monthly subscription. Complete peace of mind.',
+      "Too many solutions? We'll put things in order for you. We get to know your business, choose only what will really work, and build it for you: phone answering, WhatsApp, a CRM / ERP system and custom systems.",
     solutionsTitle: 'Technology for your business | Tech-shure',
     solutionsDescription:
       'Technology for your business: smart phone answering, a WhatsApp bot, a CRM / ERP system to run your business, a landing page, a custom system and AI implementation for your business. Limited-time launch price.',
@@ -63,52 +63,25 @@ export const en: Dict = {
   },
 
   home: {
-    heroTitleA: 'All your business technology, in one place.',
-    heroTitleB: 'For sure.',
-    heroTitleBStart: 7,
-    heroLead:
-      'We build your business a complete set of tools: phone answering, WhatsApp, a complete system to manage your customers and run your business (CRM / ERP), and a landing page. Everything in one place, everything maintained, and you get complete peace of mind.',
+    heroTitle: "Too many solutions. We'll put things in order for you.",
+    heroLead: 'We get to know your business, choose only what will really work, and build it for you.',
     talk: "Let's talk",
-    toSolutions: 'Technology for your business',
-    chips: { phone: 'Phone answering', whatsapp: 'WhatsApp', crm: 'CRM / ERP', landing: 'Landing page' },
-    painKicker: 'Sound familiar?',
-    painTitle: 'A vendor for everything. A mess everywhere.',
-    painLead: 'The systems that were supposed to bring order create a mess instead. Each one bills separately, and no one sees the full picture.',
-    pains: [
-      { who: 'A WhatsApp vendor', text: 'Another invoice every month' },
-      { who: 'A website vendor', text: 'Another number to chase' },
-      { who: 'A phone vendor', text: 'Another system that does not talk to the others' },
+    stepsTitle: 'How we work',
+    steps: [
+      { title: 'We get to know your business', text: 'We sit with you and hear how the business runs today. What gets stuck, what takes time, and what matters most to you.' },
+      { title: 'We choose or we build', text: "Is there a tool out there that fits? We'll tell you. If not, we'll write a new one, around the way you work." },
+      { title: 'We put it to work and measure', text: 'We launch it, teach your team, and check the numbers with you to see what improved.' },
     ],
-    painBill: 'Separate bill',
-    solutionKicker: 'The solution',
-    solutionTitle: 'One place that handles it all',
-    solutionLead: 'Tech-shure builds, connects and maintains all of your business tools. One monthly subscription, one point of responsibility.',
-    promise: [
-      { title: 'One address', text: 'A question, an issue or a change? You come to us. No more figuring out who is responsible for what.' },
-      { title: 'A fixed monthly subscription', text: 'No setup fee. Just a monthly payment you know in advance, with no surprises.' },
-      { title: 'Complete peace of mind', text: 'Operation, support and maintenance are on us. You focus on your business.' },
-    ],
-    quoteNumber: HOME_MONTHLY,
-    quoteBefore: '"₪',
-    quoteAfter: ' a month, and you have a system that covers you from every direction."',
-    edgeTitle: 'Development powered by AI. Fast, efficient and cost-effective.',
-    builtTitle: 'Built personally for you',
-    builtText: 'Not a generic template. Code written specifically for your business, around the way you work, running on a secure server.',
-    builtTicks: ['Code tailored to your business', 'A secure server', 'Maintained and improved along the way'],
-    customKicker: 'Custom development',
-    customTitle: 'Any system. Any platform. Built for you.',
-    customLead:
-      'We develop any system your business needs, fully tailored, from ready-made modules, for any platform. Phone answering, WhatsApp, CRM / ERP systems to run your business, payments, landing pages and email automation are only examples, not the limit. And your system is active 24/7.',
-    customToSolutions: 'All technology for your business',
-    customToModules: 'Modules and terms',
-    referAlt: 'A robot waving hello',
-    referKicker: 'Refer a friend',
-    referTitle: 'Recommend us? Get a gift.',
-    referLead: 'Once your friend signs a contract and pays the first monthly payment, you choose one:',
-    referLanding: 'A landing page for your business',
-    referLandingNote: '(hosting and usage costs are yours)',
-    referHour: 'A consulting hour',
-    referCredit: `A ${money(REFERRAL_CREDIT, 'en')} credit`,
+    servicesTitle: 'What we build',
+    services: {
+      'phone-answering': 'A customer who calls gets an answer, 24/7.',
+      'whatsapp-bot': 'A customer who writes on WhatsApp gets a reply right away, 24/7.',
+      'crm-erp': 'Customers, orders and billing, organized in one place.',
+      'landing-page': 'One page that presents your business and brings in inquiries.',
+      'custom-system': 'Software built from scratch, just for your business.',
+      'ai-consulting': 'One meeting to find out what AI can do for you.',
+    } satisfies Record<SolutionSlug, string>,
+    servicesMore: 'All services and prices',
   },
 
   solutions: {
